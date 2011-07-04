@@ -3,15 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.SourceCodeWordCloud", "Gma.SourceCodeWordCloud\Gma.SourceCodeWordCloud.csproj", "{40404835-6DD7-45EA-B308-026083BF0E9F}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Gma.SourceCodeWordCloud.Setup", "Gma.SourceCodeWordCloud.Setup\Gma.SourceCodeWordCloud.Setup.vdproj", "{8A1C81B0-0E5E-45DC-8740-B09120BDD46D}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = Gma.SourceCodeWordCloud\\Gma.SourceCodeWordCloud.csproj
 		SccProjectName1 = Gma.SourceCodeWordCloud
 		SccLocalPath1 = Gma.SourceCodeWordCloud
+		SccProjectUniqueName2 = Gma.SourceCodeWordCloud.Setup\\Gma.SourceCodeWordCloud.Setup.vdproj
+		SccProjectName2 = Gma.SourceCodeWordCloud.Setup
+		SccLocalPath2 = Gma.SourceCodeWordCloud.Setup
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -22,6 +27,8 @@ Global
 		{40404835-6DD7-45EA-B308-026083BF0E9F}.Debug|x86.Build.0 = Debug|x86
 		{40404835-6DD7-45EA-B308-026083BF0E9F}.Release|x86.ActiveCfg = Release|x86
 		{40404835-6DD7-45EA-B308-026083BF0E9F}.Release|x86.Build.0 = Release|x86
+		{8A1C81B0-0E5E-45DC-8740-B09120BDD46D}.Debug|x86.ActiveCfg = Debug
+		{8A1C81B0-0E5E-45DC-8740-B09120BDD46D}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

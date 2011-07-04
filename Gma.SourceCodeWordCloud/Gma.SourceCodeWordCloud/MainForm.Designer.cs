@@ -64,7 +64,7 @@
             this.TreeMap.IsZoomable = false;
             this.TreeMap.LayoutAlgorithm = Microsoft.Research.CommunityTechnologies.Treemap.LayoutAlgorithm.TopWeightedSquarified;
             this.TreeMap.Location = new System.Drawing.Point(0, 28);
-            this.TreeMap.MaxColor = System.Drawing.Color.Yellow;
+            this.TreeMap.MaxColor = System.Drawing.Color.White;
             this.TreeMap.MaxColorMetric = 100F;
             this.TreeMap.MinColor = System.Drawing.Color.Red;
             this.TreeMap.MinColorMetric = -100F;
@@ -88,7 +88,7 @@
             this.FolderTree.Dock = System.Windows.Forms.DockStyle.Right;
             this.FolderTree.Location = new System.Drawing.Point(564, 28);
             this.FolderTree.Name = "FolderTree";
-            this.FolderTree.SelectedPath = "";
+            this.FolderTree.SelectedPath = "C:\\Program Files\\Microsoft Visual Studio 10.0\\Common7\\IDE";
             this.FolderTree.ShowAddressbar = true;
             this.FolderTree.ShowMyDocuments = false;
             this.FolderTree.ShowMyFavorites = false;
