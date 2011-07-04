@@ -3,13 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.SourceCodeWordCloud", "Gma.SourceCodeWordCloud\Gma.SourceCodeWordCloud.csproj", "{40404835-6DD7-45EA-B308-026083BF0E9F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{313EE0C9-E34F-4F30-A878-AC731BB3C09F}"
-	ProjectSection(SolutionItems) = preProject
-		lib\TreemapControl.dll = lib\TreemapControl.dll
-		lib\TreemapGenerator.DLL = lib\TreemapGenerator.DLL
-		lib\WindowsExplorer.dll = lib\WindowsExplorer.dll
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 2

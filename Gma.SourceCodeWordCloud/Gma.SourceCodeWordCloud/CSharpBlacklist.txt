@@ -1,9 +1,7 @@
 ﻿this
-Siemens
 of
 in
 var
-Automation
 to
 null
 the

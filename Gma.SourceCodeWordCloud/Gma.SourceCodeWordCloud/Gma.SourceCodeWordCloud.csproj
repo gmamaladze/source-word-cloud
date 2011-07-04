@@ -41,14 +41,17 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="TreemapControl">
-      <HintPath>C:\Program Files\Microsoft Research\Visualization Components\Treemap\Latest\Components\TreemapControl.dll</HintPath>
+    <Reference Include="TreemapControl, Version=1.0.1.38, Culture=neutral, PublicKeyToken=3f6121a52ebf7c82">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft\TreemapControl.dll</HintPath>
     </Reference>
-    <Reference Include="TreemapGenerator">
-      <HintPath>C:\Program Files\Microsoft Research\Visualization Components\Treemap\Latest\Components\TreemapGenerator.DLL</HintPath>
+    <Reference Include="TreemapGenerator, Version=1.0.1.38, Culture=neutral, PublicKeyToken=3f6121a52ebf7c82">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft\TreemapGenerator.DLL</HintPath>
     </Reference>
-    <Reference Include="WindowsExplorer">
-      <HintPath>..\lib\WindowsExplorer.dll</HintPath>
+    <Reference Include="WindowsExplorer, Version=2.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\ThirdParty\WindowsExplorer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
