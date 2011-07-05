@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CodeWordCloud
+namespace Gma.CodeCloud
 {
     public class WordCounter
     {
@@ -17,7 +17,7 @@ namespace CodeWordCloud
             IEnumerable<string> words = extractor.GetWords();
             foreach (string word in words)
             {
-                if (!m_Blacklist.IsListed(word))
+                if (!m_Blacklist.Countains(word))
                 {
                     registry.AddOccurance(word);
                 }

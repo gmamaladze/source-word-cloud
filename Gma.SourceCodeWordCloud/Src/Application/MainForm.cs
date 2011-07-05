@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using CodeWordCloud.CSharp;
+using Gma.CodeCloud.CSharp;
 
-namespace CodeWordCloud
+namespace Gma.CodeCloud
 {
     public partial class MainForm : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace CodeWordCloud
+﻿namespace Gma.CodeCloud
 {
     partial class MainForm
     {

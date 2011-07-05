@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:Gma.SourceCodeWordCloud.Setup"
+"ProjectName" = "8:Setup"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -16,13 +16,13 @@
         "Entry"
         {
         "MsmKey" = "8:_278E0DE8F78612D7EDFDAE0AE27AC24A"
-        "OwnerKey" = "8:_B97986FE223E45A6923ED1C281C0CFBC"
+        "OwnerKey" = "8:_D6EA1282374CFAD78505AE25C1D83733"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_278E0DE8F78612D7EDFDAE0AE27AC24A"
-        "OwnerKey" = "8:_D6EA1282374CFAD78505AE25C1D83733"
+        "OwnerKey" = "8:_B97986FE223E45A6923ED1C281C0CFBC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -46,12 +46,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D6EA1282374CFAD78505AE25C1D83733"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B97986FE223E45A6923ED1C281C0CFBC"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -59,6 +53,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A3FE77B16B296258D137FE2F72A8AAEF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D6EA1282374CFAD78505AE25C1D83733"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -85,6 +85,27 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -101,6 +122,27 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -280,7 +322,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CodeCloud"
         "ProductCode" = "8:{65D6C624-1596-4724-A6B3-BA1B84A7B7F0}"
-        "PackageCode" = "8:{BE2856D0-FB6D-427E-93EC-40F583BFAD5C}"
+        "PackageCode" = "8:{E5E890C5-62C2-41D7-96D3-AC1FC06E4FAB}"
         "UpgradeCode" = "8:{9A67A1CB-C642-46A9-8A15-84582B1D53FB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -801,7 +843,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B97986FE223E45A6923ED1C281C0CFBC"
             {
-            "SourcePath" = "8:..\\Gma.SourceCodeWordCloud\\obj\\x86\\Debug\\Gma.SourceCodeWordCloud.exe"
+            "SourcePath" = "8:..\\Src\\Application\\obj\\x86\\Debug\\Gma.CodeCloud.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_EFB8C174BBC145ED87DC2517D1C63035"

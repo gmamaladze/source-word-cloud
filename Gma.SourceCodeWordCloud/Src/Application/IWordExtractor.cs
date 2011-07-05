@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CodeWordCloud
+namespace Gma.CodeCloud
 {
     public interface IWordExtractor
     {

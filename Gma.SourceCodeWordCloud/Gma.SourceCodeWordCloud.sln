@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gma.SourceCodeWordCloud", "Gma.SourceCodeWordCloud\Gma.SourceCodeWordCloud.csproj", "{40404835-6DD7-45EA-B308-026083BF0E9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Src\Application\Application.csproj", "{40404835-6DD7-45EA-B308-026083BF0E9F}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Gma.SourceCodeWordCloud.Setup", "Gma.SourceCodeWordCloud.Setup\Gma.SourceCodeWordCloud.Setup.vdproj", "{8A1C81B0-0E5E-45DC-8740-B09120BDD46D}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{4151C119-F320-4587-BD07-92B39674001D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{76D9440F-AE38-4E07-BC7C-FCF6C7A715E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{AF2B5339-663D-42B8-AF21-E6FF3744F0E7}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -11,12 +17,14 @@ Global
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = Gma.SourceCodeWordCloud\\Gma.SourceCodeWordCloud.csproj
-		SccProjectName1 = Gma.SourceCodeWordCloud
-		SccLocalPath1 = Gma.SourceCodeWordCloud
-		SccProjectUniqueName2 = Gma.SourceCodeWordCloud.Setup\\Gma.SourceCodeWordCloud.Setup.vdproj
-		SccProjectName2 = Gma.SourceCodeWordCloud.Setup
-		SccLocalPath2 = Gma.SourceCodeWordCloud.Setup
+		SccProjectUniqueName1 = Src\\Application\\Application.csproj
+		SccProjectTopLevelParentUniqueName1 = Gma.SourceCodeWordCloud.sln
+		SccProjectName1 = Src/Application
+		SccLocalPath1 = Src\\Application
+		SccProjectUniqueName2 = Setup\\Setup.vdproj
+		SccProjectTopLevelParentUniqueName2 = Gma.SourceCodeWordCloud.sln
+		SccProjectName2 = Setup
+		SccLocalPath2 = Setup
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -27,10 +35,16 @@ Global
 		{40404835-6DD7-45EA-B308-026083BF0E9F}.Debug|x86.Build.0 = Debug|x86
 		{40404835-6DD7-45EA-B308-026083BF0E9F}.Release|x86.ActiveCfg = Release|x86
 		{40404835-6DD7-45EA-B308-026083BF0E9F}.Release|x86.Build.0 = Release|x86
-		{8A1C81B0-0E5E-45DC-8740-B09120BDD46D}.Debug|x86.ActiveCfg = Debug
-		{8A1C81B0-0E5E-45DC-8740-B09120BDD46D}.Release|x86.ActiveCfg = Release
+		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Debug|x86.ActiveCfg = Debug
+		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Debug|x86.Build.0 = Debug
+		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Release|x86.ActiveCfg = Release
+		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{40404835-6DD7-45EA-B308-026083BF0E9F} = {4151C119-F320-4587-BD07-92B39674001D}
+		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0} = {AF2B5339-663D-42B8-AF21-E6FF3744F0E7}
 	EndGlobalSection
 EndGlobal

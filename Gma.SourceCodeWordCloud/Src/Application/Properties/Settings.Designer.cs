@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gma.SourceCodeWordCloud.Properties {
+namespace Gma.CodeCloud.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

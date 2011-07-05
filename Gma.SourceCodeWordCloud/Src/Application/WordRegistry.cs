@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodeWordCloud
+namespace Gma.CodeCloud
 {
     internal class WordRegistry : Dictionary<string, int>, IWordRegistry
     {

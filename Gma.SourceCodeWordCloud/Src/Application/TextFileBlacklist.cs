@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace CodeWordCloud
+namespace Gma.CodeCloud
 {
     internal class TextFileBlacklist : IBlacklist
     {
@@ -29,7 +29,7 @@ namespace CodeWordCloud
             }
         }
 
-        public bool IsListed(string word)
+        public bool Countains(string word)
         {
             return m_BlacklistHasSet.Contains(word);
         }
