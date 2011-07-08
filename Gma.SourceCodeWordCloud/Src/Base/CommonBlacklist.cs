@@ -6,6 +6,8 @@ namespace Gma.CodeCloud.Base
 {
     public class CommonBlacklist : IBlacklist
     {
+        private readonly HashSet<string> m_ExcludedWordsHashSet;
+
         public CommonBlacklist() :  this(new string[] {})
         {
         }
@@ -40,24 +42,22 @@ namespace Gma.CodeCloud.Base
 
         public CommonBlacklist(IEnumerable<string> excludedWords, StringComparer comparer)
         {
-            m_ExcludedWordsHasSet = new HashSet<string>(excludedWords, comparer);   
+            m_ExcludedWordsHashSet = new HashSet<string>(excludedWords, comparer);   
         }
-
-        private readonly HashSet<string> m_ExcludedWordsHasSet;
 
         public bool Countains(string word)
         {
-            return m_ExcludedWordsHasSet.Contains(word);
+            return m_ExcludedWordsHashSet.Contains(word);
         }
 
         public void Add(string line)
         {
-            m_ExcludedWordsHasSet.Add(line);
+            m_ExcludedWordsHashSet.Add(line);
         }
 
         public int Count
         {
-            get { return m_ExcludedWordsHasSet.Count; }
+            get { return m_ExcludedWordsHashSet.Count; }
         }
     }
 }

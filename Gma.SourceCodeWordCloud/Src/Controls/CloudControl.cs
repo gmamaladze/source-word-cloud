@@ -30,7 +30,6 @@ namespace Gma.CodeCloud.Controls
 
         private int m_MaxFontSize;
         private int m_MinFontSize;
-        private int m_TopCount;
 
         public int MaxFontSize
         {

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base;
 using Gma.CodeCloud.Base.Languages.CSharp;
 using Gma.CodeCloud.Controls;
-using Microsoft.Research.CommunityTechnologies.Treemap;
 
 namespace Gma.CodeCloud
 {
