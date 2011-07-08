@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base.Geometry;
-using Gma.CodeCloud.Controls;
 
-namespace Gma.CodeCloud
+namespace Gma.CodeCloud.Controls
 {
     public class CloudControl : Panel, ICloudControl
     {
@@ -17,7 +15,7 @@ namespace Gma.CodeCloud
             MaxFontSize = 86;
             MinFontSize = 8;
             Clear();
-            //this.BorderStyle = BorderStyle.FixedSingle;
+            this.BorderStyle = BorderStyle.FixedSingle;
             this.ResizeRedraw = true;
             m_Palette = new[] { Brushes.DarkRed, Brushes.DarkBlue, Brushes.DarkGreen, Brushes.DarkGray, Brushes.DarkCyan, Brushes.DarkOrange, Brushes.DarkGoldenrod, Brushes.DarkKhaki };
         }
@@ -54,16 +52,6 @@ namespace Gma.CodeCloud
             }
         }
 
-        public int TopCount
-        {
-            get { return m_TopCount; }
-            set
-            {
-                m_TopCount = value;
-                Invalidate();
-            }
-        }
-
         public Brush[] Palette
         {
             get { return m_Palette; }
@@ -87,11 +75,9 @@ namespace Gma.CodeCloud
             int maxWordWeight = m_Words[0].Value;
             int minWordWeight = m_Words[m_Words.Length - 1].Value;
 
-            //Random randomizer = new Random(maxWordWeight);
-
             using (Graphics graphics = this.CreateGraphics())
             {
-                ILayout layout = new RandomLayout(new[] {new RectangleF(new PointF(0,0), this.Size)}, new BoxCutter(new Random()),  1, new PointF(this.Size.Width / 2, this.Size.Height / 2) );
+                ILayout layout = new RandomCentricLayout(this.Size);
                 int colorIndex = 0;
                 foreach (KeyValuePair<string, int> pair in m_Words)
                 {
@@ -99,22 +85,17 @@ namespace Gma.CodeCloud
 
                     Font font = new Font(this.Font.FontFamily, fontSize);
                     SizeF size = graphics.MeasureString(pair.Key, font);
-                    SizeF sizeWithPadding = size + new SizeF(8, 8);
+                    SizeF sizeWithPadding = size + new SizeF(4, 4);
                     RectangleF rectangle = layout.Add(sizeWithPadding);
                     if (rectangle == RectangleF.Empty)
                     {
                         break;
                     }
                     Brush brush = m_Palette[colorIndex % m_Palette.Length];
-                    graphics.DrawString(pair.Key, font, brush, rectangle.X + 4, rectangle.Y + 4);
+                    graphics.DrawString(pair.Key, font, brush, rectangle.X + 2, rectangle.Y + 2);
                     
                     colorIndex++;
                 }
-
-                //foreach (var rectangle in layout.EmptyBoxes)
-                //{
-                //    graphics.DrawRectangle(Pens.Blue, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-                //}
             }
         }
 

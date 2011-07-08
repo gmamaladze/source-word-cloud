@@ -29,7 +29,7 @@ namespace Base.Tests.Geometry
             
             RectangleF original = new RectangleF(0, 0, 10, 10);
             SizeF toCut = new SizeF(5, 5);
-            var result = new BoxCutter(null).CutFromCorner(original, toCut, 0);
+            var result = BoxCutter.CutFromCorner(original, toCut, 0);
             Assert.AreEqual(result.Middle, new RectangleF(new PointF(0,0), toCut));
             AssertBoxIsEmpty(result.EdgeBoxes[0]);
             AssertBoxIsEmpty(result.EdgeBoxes[1]);

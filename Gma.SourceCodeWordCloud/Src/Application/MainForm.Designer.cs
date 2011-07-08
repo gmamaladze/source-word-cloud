@@ -31,8 +31,8 @@
             System.Windows.Forms.Splitter Splitter;
             System.Windows.Forms.ToolStripLabel toolStripLabel1;
             System.Windows.Forms.ToolStripLabel toolStripLabel2;
-            System.Windows.Forms.ToolStripLabel toolStripLabel3;
             System.Windows.Forms.ToolStripLabel toolStripLabel5;
+            System.Windows.Forms.ToolStripLabel toolStripLabel3;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TreeMap = new Microsoft.Research.CommunityTechnologies.Treemap.TreemapControl();
             this.FolderTree = new WindowsExplorer.ExplorerTree();
@@ -43,18 +43,19 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripButtonEditBlacklist = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripComboBoxLayout = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripComboBoxFont = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripComboBoxMinFontSize = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripComboBoxMaxFontSize = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripComboBox3 = new System.Windows.Forms.ToolStripComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.toolStripWordCount = new System.Windows.Forms.ToolStripLabel();
             Splitter = new System.Windows.Forms.Splitter();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+            toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.MainToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -83,18 +84,17 @@
             toolStripLabel2.Size = new System.Drawing.Size(21, 25);
             toolStripLabel2.Text = "to:";
             // 
-            // toolStripLabel3
-            // 
-            toolStripLabel3.Name = "toolStripLabel3";
-            toolStripLabel3.Size = new System.Drawing.Size(52, 25);
-            toolStripLabel3.Text = "Show top";
-            toolStripLabel3.Visible = false;
-            // 
             // toolStripLabel5
             // 
             toolStripLabel5.Name = "toolStripLabel5";
             toolStripLabel5.Size = new System.Drawing.Size(33, 25);
             toolStripLabel5.Text = "Font:";
+            // 
+            // toolStripLabel3
+            // 
+            toolStripLabel3.Name = "toolStripLabel3";
+            toolStripLabel3.Size = new System.Drawing.Size(44, 25);
+            toolStripLabel3.Text = "Layout:";
             // 
             // TreeMap
             // 
@@ -151,6 +151,8 @@
             this.toolStripSeparator1,
             this.ToolStripButtonEditBlacklist,
             this.toolStripSeparator2,
+            toolStripLabel3,
+            this.toolStripComboBoxLayout,
             toolStripLabel5,
             this.toolStripComboBoxFont,
             toolStripLabel1,
@@ -159,8 +161,7 @@
             this.toolStripComboBoxMaxFontSize,
             this.toolStripLabel4,
             this.toolStripSeparator3,
-            toolStripLabel3,
-            this.toolStripComboBox3});
+            this.toolStripWordCount});
             this.MainToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.MainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.MainToolStrip.Name = "MainToolStrip";
@@ -213,6 +214,14 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 28);
+            // 
+            // toolStripComboBoxLayout
+            // 
+            this.toolStripComboBoxLayout.Items.AddRange(new object[] {
+            "First fit",
+            "Random centric"});
+            this.toolStripComboBoxLayout.Name = "toolStripComboBoxLayout";
+            this.toolStripComboBoxLayout.Size = new System.Drawing.Size(121, 28);
             // 
             // toolStripComboBoxFont
             // 
@@ -269,20 +278,6 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 28);
             // 
-            // toolStripComboBox3
-            // 
-            this.toolStripComboBox3.Items.AddRange(new object[] {
-            "10",
-            "20",
-            "50",
-            "100",
-            "300",
-            "500",
-            "1000"});
-            this.toolStripComboBox3.Name = "toolStripComboBox3";
-            this.toolStripComboBox3.Size = new System.Drawing.Size(75, 28);
-            this.toolStripComboBox3.Visible = false;
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -300,6 +295,12 @@
             this.splitContainer1.SplitterDistance = 746;
             this.splitContainer1.TabIndex = 6;
             // 
+            // toolStripWordCount
+            // 
+            this.toolStripWordCount.Name = "toolStripWordCount";
+            this.toolStripWordCount.Size = new System.Drawing.Size(11, 25);
+            this.toolStripWordCount.Text = "-";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,6 +312,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Source Code Word Colud Generator";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.MainToolStrip.ResumeLayout(false);
             this.MainToolStrip.PerformLayout();
@@ -340,7 +342,8 @@
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxMaxFontSize;
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox3;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxLayout;
+        private System.Windows.Forms.ToolStripLabel toolStripWordCount;
     }
 }
 

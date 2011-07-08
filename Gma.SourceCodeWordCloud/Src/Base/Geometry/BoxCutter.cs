@@ -1,27 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace Gma.CodeCloud.Base.Geometry
 {
-    public class BoxCutter
+    public static class BoxCutter
     {
-
-        private readonly Random m_Randomizer;
-
-        public BoxCutter(Random randomizer)
-        {
-            m_Randomizer = randomizer;
-        }
-
-        public CutResult CutFromRandomCorner(RectangleF original, SizeF toCut)
-        {
-            int edgeNumber = m_Randomizer.Next(0, 3);
-            return CutFromCorner(original, toCut, edgeNumber);
-        }
-
 
         //--------------------------
         //|     |       1          |
@@ -35,7 +18,7 @@ namespace Gma.CodeCloud.Base.Geometry
         //|      3                 |
         //--------------------------
 
-        public CutResult CutFromCorner(RectangleF original, SizeF toCut, int cornerNumber)
+        public static CutResult CutFromCorner(RectangleF original, SizeF toCut, int cornerNumber)
         {
             switch (cornerNumber)
             {

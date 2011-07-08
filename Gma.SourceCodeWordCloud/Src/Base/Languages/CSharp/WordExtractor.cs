@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Gma.CodeCloud.Base;
 
-namespace Gma.CodeCloud.CSharp
+namespace Gma.CodeCloud.Base.Languages.CSharp
 {
     public class WordExtractor : IWordExtractor
     {

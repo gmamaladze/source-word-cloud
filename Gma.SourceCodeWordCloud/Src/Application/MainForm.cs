@@ -6,8 +6,8 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base;
+using Gma.CodeCloud.Base.Languages.CSharp;
 using Gma.CodeCloud.Controls;
-using Gma.CodeCloud.CSharp;
 using Microsoft.Research.CommunityTechnologies.Treemap;
 
 namespace Gma.CodeCloud
@@ -40,7 +40,8 @@ namespace Gma.CodeCloud
             string path = FolderTree.SelectedPath;
             IProgressIndicator progressBarWrapper = new ProgressBarWrapper(ToolStripProgressBar);
             IWordRegistry wordRegistry = CountWords(path, progressBarWrapper);
-            FillMap(wordRegistry, m_CloudControl);
+            KeyValuePair<string, int>[] pairs = wordRegistry.GetSortedByOccurances();
+            ((ICloudControl) m_CloudControl).Show(pairs);
 
             IsRunning = false;
         }
@@ -70,13 +71,43 @@ namespace Gma.CodeCloud
             return counter.Count(extractor);
         }
 
-        private void FillMap(IWordRegistry wordCounter, ICloudControl cloudControl)
+        private void ToolStripButtonEditBlacklist_Click(object sender, EventArgs e)
         {
+            Process.Start("notepad.exe", s_CSharpBlacklistFileName);
+        }
 
-            KeyValuePair<string, int>[] pairs = wordCounter.GetSortedByOccurances();
-            //Array.Resize(ref pairs, Math.Min(100, pairs.Length));
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            foreach (var fontFamily in FontFamily.Families)
+            {
+                if (fontFamily.IsStyleAvailable(FontStyle.Regular))
+                {
+                    toolStripComboBoxFont.Items.Add(fontFamily.Name);
+                }
+            }
 
-            cloudControl.Show(pairs);
+            m_CloudControl.SuspendLayout();
+
+            toolStripComboBoxMinFontSize.SelectedItem = toolStripComboBoxMinFontSize.Items[0];
+            toolStripComboBoxMaxFontSize.SelectedItem = toolStripComboBoxMaxFontSize.Items[toolStripComboBoxMaxFontSize.Items.Count - 1];
+
+            toolStripComboBoxFont.SelectedItem = "Tahoma";
+            m_CloudControl.ResumeLayout();
+        }
+
+        private void toolStripComboBoxFont_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            m_CloudControl.Font = new Font(toolStripComboBoxFont.Text, 12, FontStyle.Regular);
+            int value;
+            if (int.TryParse(toolStripComboBoxMinFontSize.Text, out value))
+            {
+                m_CloudControl.MinFontSize = value;
+            }
+
+            if (int.TryParse(toolStripComboBoxMaxFontSize.Text, out value))
+            {
+                m_CloudControl.MaxFontSize = value;
+            }
         }
 
         private sealed class ProgressBarWrapper : IProgressIndicator
@@ -98,45 +129,6 @@ namespace Gma.CodeCloud
             {
                 m_ToolStripProgressBar.Increment(value);
                 Application.DoEvents();
-            }
-        }
-
-        private void ToolStripButtonEditBlacklist_Click(object sender, EventArgs e)
-        {
-            Process.Start("notepad.exe", s_CSharpBlacklistFileName);
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            foreach (var fontFamily in FontFamily.Families)
-            {
-                if (fontFamily.IsStyleAvailable(FontStyle.Regular))
-                {
-                    toolStripComboBoxFont.Items.Add(fontFamily.Name);
-                }
-            }
-
-            m_CloudControl.SuspendLayout();
-
-            toolStripComboBoxMinFontSize.SelectedItem = toolStripComboBoxMinFontSize.Items[0];
-            toolStripComboBoxMaxFontSize.SelectedItem = toolStripComboBoxMinFontSize.Items[toolStripComboBoxMinFontSize.Items.Count - 1];
-
-            toolStripComboBoxFont.Text = m_CloudControl.Font.FontFamily.Name;
-            m_CloudControl.ResumeLayout();
-        }
-
-        private void toolStripComboBoxFont_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            m_CloudControl.Font = new Font(toolStripComboBoxFont.Text, 12, FontStyle.Regular);
-            int value;
-            if (int.TryParse(toolStripComboBoxMinFontSize.Text, out value))
-            {
-                m_CloudControl.MinFontSize = value;
-            }
-
-            if (int.TryParse(toolStripComboBoxMaxFontSize.Text, out value))
-            {
-                m_CloudControl.MaxFontSize = value;
             }
         }
     }
