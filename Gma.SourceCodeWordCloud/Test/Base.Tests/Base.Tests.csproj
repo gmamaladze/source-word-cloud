@@ -66,7 +66,7 @@
     <Shadow Include="Test References\Gma.CodeCloud.Base.accessor" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Src\Base\Base.csproj">
+    <ProjectReference Include="..\..\Src\Base\Base.csproj">
       <Project>{90433045-C7A0-4163-8B05-6989FDAEE95E}</Project>
       <Name>Base</Name>
     </ProjectReference>
