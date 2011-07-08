@@ -53,7 +53,7 @@ namespace Gma.CodeCloud.CSharp
         {
             return
                 line.Contains("[TestFixture]") ||
-                line.Contains("Used version of Siemens.Automation.ObjectFrame.Generator") ||
+                line.Contains("Used version of") ||
                 line.Contains("Windows Form Designer generated code");
         }
 

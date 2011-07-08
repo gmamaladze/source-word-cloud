@@ -9,11 +9,21 @@ namespace Gma.CodeCloud
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            MainForm mainForm;
+            if (args != null && args.Length > 0 && !String.IsNullOrEmpty(args[0]))
+            {
+                mainForm = new MainForm(args[0]);
+            } 
+            else
+            {
+                mainForm = new MainForm();
+            }
+            Application.Run(mainForm);
         }
     }
 }

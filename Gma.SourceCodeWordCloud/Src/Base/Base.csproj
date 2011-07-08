@@ -37,14 +37,16 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonBlacklist.cs" />
+    <Compile Include="Geometry\CutResult.cs" />
+    <Compile Include="Geometry\BoxCutter.cs" />
+    <Compile Include="Geometry\ILayout.cs" />
+    <Compile Include="Geometry\Layout.cs" />
+    <Compile Include="Geometry\RandomLayout.cs" />
     <Compile Include="IBlacklist.cs" />
     <Compile Include="IProgressIndicator.cs" />
     <Compile Include="IWordExtractor.cs" />

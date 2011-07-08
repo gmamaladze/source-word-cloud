@@ -52,7 +52,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="IBlacklist.cs" />
+    <Compile Include="ICloudControl.cs" />
     <Compile Include="IProgressIndicator.cs" />
     <Compile Include="IWordRegistry.cs" />
     <Compile Include="IWordExtractor.cs" />
@@ -68,6 +72,9 @@
     <Compile Include="WordCounter.cs" />
     <Compile Include="WordRegistry.cs" />
     <Compile Include="CSharp\WordExtractor.cs" />
+    <EmbeddedResource Include="CloudControl.resx">
+      <DependentUpon>CloudControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

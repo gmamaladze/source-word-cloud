@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Src\Application\Application.csproj", "{40404835-6DD7-45EA-B308-026083BF0E9F}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{4151C119-F320-4587-BD07-92B39674001D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{76D9440F-AE38-4E07-BC7C-FCF6C7A715E1}"
@@ -24,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
 		SccLocalPath0 = .
@@ -32,17 +30,14 @@ Global
 		SccProjectTopLevelParentUniqueName1 = Gma.SourceCodeWordCloud.sln
 		SccProjectName1 = Src/Application
 		SccLocalPath1 = Src\\Application
-		SccProjectUniqueName2 = Setup\\Setup.vdproj
+		SccProjectUniqueName2 = Src\\Base\\Base.csproj
 		SccProjectTopLevelParentUniqueName2 = Gma.SourceCodeWordCloud.sln
-		SccProjectName2 = Setup
-		SccLocalPath2 = Setup
-		SccProjectUniqueName3 = Src\\Base\\Base.csproj
+		SccProjectName2 = Src/Base
+		SccLocalPath2 = Src\\Base
+		SccProjectUniqueName3 = Base.Tests\\Base.Tests.csproj
 		SccProjectTopLevelParentUniqueName3 = Gma.SourceCodeWordCloud.sln
-		SccProjectName3 = Src/Base
-		SccLocalPath3 = Src\\Base
-		SccProjectUniqueName4 = Base.Tests\\Base.Tests.csproj
-		SccProjectName4 = Base.Tests
-		SccLocalPath4 = Base.Tests
+		SccProjectName3 = Base.Tests
+		SccLocalPath3 = Base.Tests
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Gma.SourceCodeWordCloud.vsmdi
@@ -66,17 +61,6 @@ Global
 		{40404835-6DD7-45EA-B308-026083BF0E9F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{40404835-6DD7-45EA-B308-026083BF0E9F}.Release|x86.ActiveCfg = Release|x86
 		{40404835-6DD7-45EA-B308-026083BF0E9F}.Release|x86.Build.0 = Release|x86
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Debug|Any CPU.ActiveCfg = Debug
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Debug|Any CPU.Build.0 = Debug
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Debug|x86.ActiveCfg = Debug
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Debug|x86.Build.0 = Debug
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Release|Any CPU.ActiveCfg = Release
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Release|Any CPU.Build.0 = Release
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Release|Mixed Platforms.ActiveCfg = Release
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Release|Mixed Platforms.Build.0 = Release
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Release|x86.ActiveCfg = Release
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0}.Release|x86.Build.0 = Release
 		{90433045-C7A0-4163-8B05-6989FDAEE95E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90433045-C7A0-4163-8B05-6989FDAEE95E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90433045-C7A0-4163-8B05-6989FDAEE95E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -104,6 +88,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{40404835-6DD7-45EA-B308-026083BF0E9F} = {4151C119-F320-4587-BD07-92B39674001D}
 		{90433045-C7A0-4163-8B05-6989FDAEE95E} = {4151C119-F320-4587-BD07-92B39674001D}
-		{8DB0D74F-2B71-4FAE-A493-7DEB81013FF0} = {AF2B5339-663D-42B8-AF21-E6FF3744F0E7}
+		{BBCA38EE-D7C3-4EB2-BF38-03F070B67481} = {76D9440F-AE38-4E07-BC7C-FCF6C7A715E1}
 	EndGlobalSection
 EndGlobal
