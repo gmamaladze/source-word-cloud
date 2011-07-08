@@ -20,9 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Tests", "Test\Base.Tests\Base.Tests.csproj", "{BBCA38EE-D7C3-4EB2-BF38-03F070B67481}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "Src\Controls\Controls.csproj", "{34649D7D-04A9-4092-AD0B-F7022C123FD7}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
 		SccLocalPath0 = .
@@ -38,6 +40,10 @@ Global
 		SccProjectTopLevelParentUniqueName3 = Gma.SourceCodeWordCloud.sln
 		SccProjectName3 = Test/Base.Tests
 		SccLocalPath3 = Test\\Base.Tests
+		SccProjectUniqueName4 = Src\\Controls\\Controls.csproj
+		SccProjectTopLevelParentUniqueName4 = Gma.SourceCodeWordCloud.sln
+		SccProjectName4 = Src/Controls
+		SccLocalPath4 = Src\\Controls
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Gma.SourceCodeWordCloud.vsmdi
@@ -81,6 +87,16 @@ Global
 		{BBCA38EE-D7C3-4EB2-BF38-03F070B67481}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BBCA38EE-D7C3-4EB2-BF38-03F070B67481}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BBCA38EE-D7C3-4EB2-BF38-03F070B67481}.Release|x86.ActiveCfg = Release|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +104,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{40404835-6DD7-45EA-B308-026083BF0E9F} = {4151C119-F320-4587-BD07-92B39674001D}
 		{90433045-C7A0-4163-8B05-6989FDAEE95E} = {4151C119-F320-4587-BD07-92B39674001D}
+		{34649D7D-04A9-4092-AD0B-F7022C123FD7} = {4151C119-F320-4587-BD07-92B39674001D}
 		{BBCA38EE-D7C3-4EB2-BF38-03F070B67481} = {76D9440F-AE38-4E07-BC7C-FCF6C7A715E1}
 	EndGlobalSection
 EndGlobal

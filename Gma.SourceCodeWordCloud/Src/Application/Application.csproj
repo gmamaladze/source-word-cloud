@@ -52,11 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CloudControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="IBlacklist.cs" />
-    <Compile Include="ICloudControl.cs" />
     <Compile Include="IProgressIndicator.cs" />
     <Compile Include="IWordRegistry.cs" />
     <Compile Include="IWordExtractor.cs" />
@@ -72,9 +68,6 @@
     <Compile Include="WordCounter.cs" />
     <Compile Include="WordRegistry.cs" />
     <Compile Include="CSharp\WordExtractor.cs" />
-    <EmbeddedResource Include="CloudControl.resx">
-      <DependentUpon>CloudControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -107,6 +100,10 @@
     <ProjectReference Include="..\Base\Base.csproj">
       <Project>{90433045-C7A0-4163-8B05-6989FDAEE95E}</Project>
       <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Controls\Controls.csproj">
+      <Project>{34649D7D-04A9-4092-AD0B-F7022C123FD7}</Project>
+      <Name>Controls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

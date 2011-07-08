@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base.Geometry;
+using Gma.CodeCloud.Controls;
 
 namespace Gma.CodeCloud
 {
