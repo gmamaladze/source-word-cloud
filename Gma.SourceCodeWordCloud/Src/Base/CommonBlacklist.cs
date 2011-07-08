@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Gma.CodeCloud.Base
 {
-    internal class CommonBlacklist : IBlacklist
+    public class CommonBlacklist : IBlacklist
     {
         public CommonBlacklist() :  this(new string[] {})
         {

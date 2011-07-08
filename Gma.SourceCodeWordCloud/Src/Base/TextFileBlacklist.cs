@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Gma.CodeCloud.Base
 {
-    internal class TextFileBlacklist : CommonBlacklist
+    public class TextFileBlacklist : CommonBlacklist
     {
         public TextFileBlacklist(string fileName) : this(new FileInfo(fileName))
         {

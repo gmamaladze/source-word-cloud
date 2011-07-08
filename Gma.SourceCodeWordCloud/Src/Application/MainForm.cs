@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using Gma.CodeCloud.Base;
 using Gma.CodeCloud.Controls;
 using Gma.CodeCloud.CSharp;
 using Microsoft.Research.CommunityTechnologies.Treemap;
