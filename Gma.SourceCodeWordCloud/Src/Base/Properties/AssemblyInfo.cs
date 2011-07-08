@@ -14,8 +14,8 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: Guid("a6272b79-434d-4495-8443-6053ee4e27af")]
 
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.2")]
+[assembly: AssemblyFileVersion("1.0.0.2")]
 
 [assembly:InternalsVisibleTo("Gma.CodeCloude.Application.exe")]
 
