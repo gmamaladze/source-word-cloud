@@ -16,6 +16,7 @@ namespace Gma.CodeCloud
         private const string s_CSharpBlacklistFileName = "CSharpBlacklist.txt";
 
         private readonly CloudControl m_CloudControl = new CloudControl();
+        private decimal m_TotalWordCount;
 
         public MainForm(string initialPath) : this()
         {
@@ -27,8 +28,10 @@ namespace Gma.CodeCloud
         public MainForm()
         {
             InitializeComponent();
+
             m_CloudControl.Dock = DockStyle.Fill;
             this.splitContainer1.Panel1.Controls.Add(m_CloudControl);
+            m_CloudControl.Click += CloudControlClick;
 
             foreach (var layoutType in Enum.GetValues(typeof(LayoutType)))
             {
@@ -36,6 +39,35 @@ namespace Gma.CodeCloud
             }
             
             this.toolStripComboBoxLayout.SelectedItem = LayoutType.Spiral;
+
+            foreach (var fontFamily in FontFamily.Families)
+            {
+                if (fontFamily.IsStyleAvailable(FontStyle.Regular))
+                {
+                    toolStripComboBoxFont.Items.Add(fontFamily.Name);
+                }
+            }
+
+            toolStripComboBoxMinFontSize.SelectedItem = "8";
+            toolStripComboBoxMaxFontSize.SelectedItem = "72";
+            toolStripComboBoxFont.SelectedItem = "Tahoma";
+        }
+
+        private void CloudControlClick(object sender, EventArgs e)
+        {
+            LayoutItem itemUderMouse;
+            Point mousePositionRelativeToControl = m_CloudControl.PointToClient(new Point(MousePosition.X, MousePosition.Y));
+            if (!m_CloudControl.TryGetItemAtLocation(mousePositionRelativeToControl, out itemUderMouse))
+            {
+                return;
+            }
+
+            MessageBox.Show(
+                string.Format(
+                    "\n\r{0} - occurances\n\r{1}% - of total words", 
+                    itemUderMouse.Weight,
+                    Math.Round(itemUderMouse.Weight*100/m_TotalWordCount, 2)),
+               string.Format("Statistics for word [{0}]", itemUderMouse.Word));
         }
 
         private void ToolStripButtonGoClick(object sender, EventArgs e)
@@ -46,6 +78,8 @@ namespace Gma.CodeCloud
             IProgressIndicator progressBarWrapper = new ProgressBarWrapper(ToolStripProgressBar);
             IWordRegistry wordRegistry = CountWords(path, progressBarWrapper);
             KeyValuePair<string, int>[] pairs = wordRegistry.GetSortedByOccurances();
+            m_TotalWordCount = wordRegistry.TotalWords;
+
             m_CloudControl.WeightedWords = pairs;
 
             IsRunning = false;
@@ -76,28 +110,9 @@ namespace Gma.CodeCloud
             return counter.Count(extractor);
         }
 
-        private void ToolStripButtonEditBlacklist_Click(object sender, EventArgs e)
+        private void ToolStripButtonEditBlacklistClick(object sender, EventArgs e)
         {
             Process.Start("notepad.exe", s_CSharpBlacklistFileName);
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            foreach (var fontFamily in FontFamily.Families)
-            {
-                if (fontFamily.IsStyleAvailable(FontStyle.Regular))
-                {
-                    toolStripComboBoxFont.Items.Add(fontFamily.Name);
-                }
-            }
-
-            m_CloudControl.SuspendLayout();
-
-            toolStripComboBoxMinFontSize.SelectedItem = "6"; // toolStripComboBoxMinFontSize.Items[0];
-            toolStripComboBoxMaxFontSize.SelectedItem = "72"; //toolStripComboBoxMaxFontSize.Items[toolStripComboBoxMaxFontSize.Items.Count - 1];
-
-            toolStripComboBoxFont.SelectedItem = "Tahoma";
-            m_CloudControl.ResumeLayout();
         }
 
         private void toolStripComboBoxFont_SelectedIndexChanged(object sender, EventArgs e)
@@ -137,26 +152,6 @@ namespace Gma.CodeCloud
                 m_ToolStripProgressBar.Increment(value);
                 Application.DoEvents();
             }
-        }
-
-
-
-        private void toolTip_Popup(object sender, PopupEventArgs e)
-        {
-            CloudControl cloudControl = e.AssociatedControl as CloudControl;
-            if (cloudControl==null)
-            {
-                return;
-            }
-
-            LayoutItem itemUderMouse;
-            Point mousePositionRelativeToControl = new Point(MousePosition.X-cloudControl.Top, MousePosition.Y - cloudControl.Left);
-            if (!cloudControl.TryGetItemAtLocation(mousePositionRelativeToControl, out itemUderMouse))
-            {
-                return;
-            }
-
-            toolTip.SetToolTip(cloudControl, itemUderMouse.ToString());
         }
     }
 }

@@ -8,5 +8,6 @@ namespace Gma.CodeCloud.Base
         void AddOccurances(string word, int increment);
         KeyValuePair<string, int>[] GetSortedByOccurances();
         int Count { get; }
+        decimal TotalWords { get;}
     }
 }

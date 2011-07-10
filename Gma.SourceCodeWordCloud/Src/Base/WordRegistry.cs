@@ -14,7 +14,7 @@ namespace Gma.CodeCloud.Base
         public WordRegistry(int initalCapacity, StringComparer comparer) 
             : base(initalCapacity, comparer)
         {
-
+            TotalWords = 0;
         }
 
         public void AddOccurance(string word)
@@ -24,6 +24,7 @@ namespace Gma.CodeCloud.Base
 
         public void AddOccurances(string word, int increment)
         {
+            TotalWords++;
             int count = GetOccurances(word);
             count += increment;
             SetOccurances(word, count);
@@ -40,6 +41,11 @@ namespace Gma.CodeCloud.Base
             }
             Array.Sort(result, OccuranceComparer);
             return result;
+        }
+
+        public decimal TotalWords
+        {
+            get; private set;
         }
 
         private static int OccuranceComparer(KeyValuePair<string, int> entryLeft, KeyValuePair<string, int> entryRight)

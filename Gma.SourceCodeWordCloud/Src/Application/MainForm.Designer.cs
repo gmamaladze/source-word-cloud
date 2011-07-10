@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Splitter Splitter;
             System.Windows.Forms.ToolStripLabel toolStripLabel1;
             System.Windows.Forms.ToolStripLabel toolStripLabel2;
@@ -51,7 +50,6 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripWordCount = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             Splitter = new System.Windows.Forms.Splitter();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
@@ -59,7 +57,6 @@
             toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.MainToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -178,7 +175,7 @@
             this.ToolStripButtonEditBlacklist.Name = "ToolStripButtonEditBlacklist";
             this.ToolStripButtonEditBlacklist.Size = new System.Drawing.Size(69, 25);
             this.ToolStripButtonEditBlacklist.Text = "Edit Blacklist";
-            this.ToolStripButtonEditBlacklist.Click += new System.EventHandler(this.ToolStripButtonEditBlacklist_Click);
+            this.ToolStripButtonEditBlacklist.Click += new System.EventHandler(this.ToolStripButtonEditBlacklistClick);
             // 
             // toolStripSeparator2
             // 
@@ -259,20 +256,12 @@
             this.splitContainer1.Location = new System.Drawing.Point(0, 28);
             this.splitContainer1.Name = "splitContainer1";
             // 
-            // splitContainer1.Panel1
-            // 
-            // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.FolderTree);
             this.splitContainer1.Size = new System.Drawing.Size(1164, 491);
             this.splitContainer1.SplitterDistance = 746;
             this.splitContainer1.TabIndex = 6;
-            // 
-            // toolTip
-            // 
-            this.toolTip.ToolTipTitle = "Word statistics:";
-            this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
             // MainForm
             // 
@@ -286,10 +275,8 @@
             this.Name = "MainForm";
             this.Text = "Source Code Word Colud Generator";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.MainToolStrip.ResumeLayout(false);
             this.MainToolStrip.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -316,7 +303,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxLayout;
         private System.Windows.Forms.ToolStripLabel toolStripWordCount;
-        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 
