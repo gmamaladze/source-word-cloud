@@ -8,11 +8,16 @@ namespace Gma.CodeCloud.Base.Geometry
         {
             this.Rectangle = rectangle;
             Word = word;
-            Occurances = occurances;
+            Weight = occurances;
         }
 
         public RectangleF Rectangle { get; private set; }
         public string Word { get; private set; }
-        public int Occurances { get; private set; }
+        public int Weight { get; private set; }
+
+        public LayoutItem Clone()
+        {
+            return new LayoutItem(this.Rectangle, this.Word, this.Weight);
+        }
     }
 }

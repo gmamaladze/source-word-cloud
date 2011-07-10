@@ -40,7 +40,7 @@ namespace Gma.CodeCloud.Base.Geometry.DataStructures
 
         public bool HasContent(RectangleF area)
         {
-            return m_Root.Query(area).Count>0;
+            return m_Root.HasContent(area);
         } 
         
         public void ForEach(QuadTreeAction action)

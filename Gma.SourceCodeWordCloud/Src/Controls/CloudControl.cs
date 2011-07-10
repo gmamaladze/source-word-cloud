@@ -31,6 +31,44 @@ namespace Gma.CodeCloud.Controls
         }
 
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            if (m_Words == null || m_Words.Length == 0) { return; }
+            if (m_Layout == null) { return; }
+
+            int maxWordWeight = m_Words[0].Value;
+            int minWordWeight = m_Words[m_Words.Length - 1].Value;
+
+            IEnumerable<LayoutItem> wordsToRedraw = m_Layout.GetWordsInArea(e.ClipRectangle);
+            using (Graphics graphics = e.Graphics)
+            using (IGraphicEngine graphicEngine =
+                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight))
+            {
+                foreach (LayoutItem currentItem in wordsToRedraw)
+                {
+                    graphicEngine.Draw(currentItem);
+                }
+            }
+        }
+
+        private void BuildLayout()
+        {
+            if (m_Words == null || m_Words.Length == 0) { return; }
+
+            int maxWordWeight = m_Words[0].Value;
+            int minWordWeight = m_Words[m_Words.Length - 1].Value;
+
+            using (Graphics graphics = this.CreateGraphics())
+            {
+                IGraphicEngine graphicEngine =
+                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight);
+                m_Layout = LayoutFactory.CrateLayout(m_LayoutType, this.Size);
+                m_Layout.Arrange(m_Words, graphicEngine);
+            }
+        }
+
         public LayoutType LayoutType
         {
             get { return m_LayoutType; }
@@ -94,45 +132,6 @@ namespace Gma.CodeCloud.Controls
                 m_Palette = value;
                 BuildLayout();
                 Invalidate();
-            }
-        }
-
-        protected override void  OnPaint(PaintEventArgs e)
-        {
- 	        base.OnPaint(e);
-
-            if (m_Words == null || m_Words.Length == 0) { return; }
-            if (m_Layout==null) {return;}
-
-            int maxWordWeight = m_Words[0].Value;
-            int minWordWeight = m_Words[m_Words.Length - 1].Value;
-
-            IEnumerable<LayoutItem> wordsToRedraw = m_Layout.GetWordsInArea(e.ClipRectangle);
-            using (Graphics graphics = e.Graphics)
-            {
-                foreach (LayoutItem wordRectangle in wordsToRedraw)
-                {
-                    IGraphicEngine graphicEngine =
-                        new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight);
-
-                   graphicEngine.Draw(wordRectangle);
-                }
-            }
-        }
-
-        public void BuildLayout()
-        {
-            if (m_Words == null || m_Words.Length == 0) { return; }
-
-            int maxWordWeight = m_Words[0].Value;
-            int minWordWeight = m_Words[m_Words.Length - 1].Value;
-
-            using (Graphics graphics = this.CreateGraphics())
-            {
-                IGraphicEngine graphicEngine =
-                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight);
-                m_Layout = LayoutFactory.CrateLayout(m_LayoutType, this.Size);
-                m_Layout.Arrange(m_Words, graphicEngine);
             }
         }
 

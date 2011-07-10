@@ -35,7 +35,6 @@
             System.Windows.Forms.ToolStripLabel toolStripLabel5;
             System.Windows.Forms.ToolStripLabel toolStripLabel3;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.TreeMap = new Microsoft.Research.CommunityTechnologies.Treemap.TreemapControl();
             this.FolderTree = new WindowsExplorer.ExplorerTree();
             this.MainToolStrip = new System.Windows.Forms.ToolStrip();
             this.ToolStripButtonGo = new System.Windows.Forms.ToolStripButton();
@@ -97,38 +96,6 @@
             toolStripLabel3.Name = "toolStripLabel3";
             toolStripLabel3.Size = new System.Drawing.Size(44, 25);
             toolStripLabel3.Text = "Layout:";
-            // 
-            // TreeMap
-            // 
-            this.TreeMap.AllowDrag = false;
-            this.TreeMap.BorderColor = System.Drawing.SystemColors.WindowFrame;
-            this.TreeMap.DiscreteNegativeColors = 20;
-            this.TreeMap.DiscretePositiveColors = 20;
-            this.TreeMap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TreeMap.EmptySpaceLocation = Microsoft.Research.CommunityTechnologies.Treemap.EmptySpaceLocation.DeterminedByLayoutAlgorithm;
-            this.TreeMap.FontFamily = "Consolas";
-            this.TreeMap.FontSolidColor = System.Drawing.SystemColors.WindowText;
-            this.TreeMap.IsZoomable = false;
-            this.TreeMap.LayoutAlgorithm = Microsoft.Research.CommunityTechnologies.Treemap.LayoutAlgorithm.TopWeightedSquarified;
-            this.TreeMap.Location = new System.Drawing.Point(0, 0);
-            this.TreeMap.MaxColor = System.Drawing.Color.White;
-            this.TreeMap.MaxColorMetric = 100F;
-            this.TreeMap.MinColor = System.Drawing.Color.Red;
-            this.TreeMap.MinColorMetric = -100F;
-            this.TreeMap.Name = "TreeMap";
-            this.TreeMap.NodeColorAlgorithm = Microsoft.Research.CommunityTechnologies.Treemap.NodeColorAlgorithm.UseColorMetric;
-            this.TreeMap.NodeLevelsWithText = Microsoft.Research.CommunityTechnologies.Treemap.NodeLevelsWithText.All;
-            this.TreeMap.PaddingDecrementPerLevelPx = 1;
-            this.TreeMap.PaddingPx = 2;
-            this.TreeMap.PenWidthDecrementPerLevelPx = 1;
-            this.TreeMap.PenWidthPx = 1;
-            this.TreeMap.SelectedBackColor = System.Drawing.SystemColors.Highlight;
-            this.TreeMap.SelectedFontColor = System.Drawing.SystemColors.HighlightText;
-            this.TreeMap.ShowToolTips = true;
-            this.TreeMap.Size = new System.Drawing.Size(746, 491);
-            this.TreeMap.TabIndex = 0;
-            this.TreeMap.TextLocation = Microsoft.Research.CommunityTechnologies.Treemap.TextLocation.CenterCenter;
-            this.toolTip.SetToolTip(this.TreeMap, "Hello World");
             // 
             // FolderTree
             // 
@@ -294,7 +261,6 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.TreeMap);
             // 
             // splitContainer1.Panel2
             // 
@@ -334,7 +300,6 @@
 
         #endregion
 
-        private Microsoft.Research.CommunityTechnologies.Treemap.TreemapControl TreeMap;
         private WindowsExplorer.ExplorerTree FolderTree;
         private System.Windows.Forms.ToolStrip MainToolStrip;
         private System.Windows.Forms.ToolStripButton ToolStripButtonGo;

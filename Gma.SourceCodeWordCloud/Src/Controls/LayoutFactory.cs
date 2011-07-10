@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using Gma.CodeCloud.Base.Geometry;
 
 namespace Gma.CodeCloud.Controls

@@ -27,7 +27,6 @@ namespace Gma.CodeCloud
         public MainForm()
         {
             InitializeComponent();
-            this.splitContainer1.Panel1.Controls.Remove(TreeMap);
             m_CloudControl.Dock = DockStyle.Fill;
             this.splitContainer1.Panel1.Controls.Add(m_CloudControl);
 

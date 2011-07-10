@@ -37,8 +37,8 @@ namespace Gma.CodeCloud.Controls
 
         public void Draw(LayoutItem layoutItem)
         {
-            Font font = GetFont(layoutItem.Occurances);
-            Brush brush = GetNextBrushFromPalette(layoutItem.Occurances);
+            Font font = GetFont(layoutItem.Weight);
+            Brush brush = GetNextBrushFromPalette(layoutItem.Weight);
             m_Graphics.DrawString(layoutItem.Word, font, brush, layoutItem.Rectangle);
         }
 
