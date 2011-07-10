@@ -30,6 +30,13 @@ namespace Gma.CodeCloud
             this.splitContainer1.Panel1.Controls.Remove(TreeMap);
             m_CloudControl.Dock = DockStyle.Fill;
             this.splitContainer1.Panel1.Controls.Add(m_CloudControl);
+
+            foreach (var layoutType in Enum.GetValues(typeof(LayoutType)))
+            {
+                this.toolStripComboBoxLayout.Items.Add(layoutType);
+            }
+            
+            this.toolStripComboBoxLayout.SelectedItem = LayoutType.Spiral;
         }
 
         private void ToolStripButtonGoClick(object sender, EventArgs e)
@@ -40,7 +47,7 @@ namespace Gma.CodeCloud
             IProgressIndicator progressBarWrapper = new ProgressBarWrapper(ToolStripProgressBar);
             IWordRegistry wordRegistry = CountWords(path, progressBarWrapper);
             KeyValuePair<string, int>[] pairs = wordRegistry.GetSortedByOccurances();
-            ((ICloudControl) m_CloudControl).Show(pairs);
+            m_CloudControl.WeightedWords = pairs;
 
             IsRunning = false;
         }
@@ -107,6 +114,8 @@ namespace Gma.CodeCloud
             {
                 m_CloudControl.MaxFontSize = value;
             }
+
+            m_CloudControl.LayoutType = (LayoutType) toolStripComboBoxLayout.SelectedItem;
         }
 
         private sealed class ProgressBarWrapper : IProgressIndicator

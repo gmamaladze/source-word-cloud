@@ -42,13 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonBlacklist.cs" />
-    <Compile Include="Geometry\CutResult.cs" />
-    <Compile Include="Geometry\BoxCutter.cs" />
     <Compile Include="Geometry\IGraphicEgine.cs" />
     <Compile Include="Geometry\ILayout.cs" />
-    <Compile Include="Geometry\FirstFitLayout.cs" />
-    <Compile Include="Geometry\SpiralLayout.cs" />
+    <Compile Include="Geometry\TypewriterLayout.cs" />
+    <Compile Include="Geometry\BaseLayout.cs" />
     <Compile Include="Geometry\LayoutItem.cs" />
+    <Compile Include="Geometry\SpiralLayout.cs" />
     <Compile Include="IBlacklist.cs" />
     <Compile Include="IProgressIndicator.cs" />
     <Compile Include="IWordExtractor.cs" />

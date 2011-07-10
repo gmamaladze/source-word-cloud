@@ -128,6 +128,7 @@
             this.TreeMap.Size = new System.Drawing.Size(746, 491);
             this.TreeMap.TabIndex = 0;
             this.TreeMap.TextLocation = Microsoft.Research.CommunityTechnologies.Treemap.TextLocation.CenterCenter;
+            this.toolTip.SetToolTip(this.TreeMap, "Hello World");
             // 
             // FolderTree
             // 
@@ -219,11 +220,9 @@
             // 
             // toolStripComboBoxLayout
             // 
-            this.toolStripComboBoxLayout.Items.AddRange(new object[] {
-            "First fit",
-            "Random centric"});
             this.toolStripComboBoxLayout.Name = "toolStripComboBoxLayout";
             this.toolStripComboBoxLayout.Size = new System.Drawing.Size(121, 28);
+            this.toolStripComboBoxLayout.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxFont_SelectedIndexChanged);
             // 
             // toolStripComboBoxFont
             // 

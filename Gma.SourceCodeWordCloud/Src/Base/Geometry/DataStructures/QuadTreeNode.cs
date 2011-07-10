@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Diagnostics;
-using Gma.CodeCloud.Base.Geometry;
 
-namespace Gma.CodeCloud.Base.DataStructures
+namespace Gma.CodeCloud.Base.Geometry.DataStructures
 {
   public class QuadTreeNode<T> where T : LayoutItem
     {
@@ -171,10 +170,7 @@ namespace Gma.CodeCloud.Base.DataStructures
             return results;
         }
 
-        /// <summary>
-        /// Insert an item to this node
-        /// </summary>
-        /// <param name="item"></param>
+
         public void Insert(T item)
         {
             // if the item is not contained in this quad, there's a problem
@@ -217,9 +213,6 @@ namespace Gma.CodeCloud.Base.DataStructures
                 node.ForEach(action);
         }
 
-        /// <summary>
-        /// Internal method to create the subnodes (partitions space)
-        /// </summary>
         private void CreateSubNodes()
         {
             // the smallest subnode has an area 
@@ -234,6 +227,5 @@ namespace Gma.CodeCloud.Base.DataStructures
             m_Nodes.AddLast(new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left + halfWidth, m_Bounds.Top), new SizeF(halfWidth, halfHeight))));
             m_Nodes.AddLast(new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left + halfWidth, m_Bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight))));
         }
-
     }
 }

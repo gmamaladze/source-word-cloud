@@ -5,24 +5,48 @@ using Gma.CodeCloud.Base.Geometry;
 
 namespace Gma.CodeCloud.Controls
 {
-    public class CloudControl : Panel, ICloudControl
+    public class CloudControl : Panel
     {
         private KeyValuePair<string, int>[] m_Words;
         readonly Brush[] m_DefaultPalette = new[] { Brushes.DarkRed, Brushes.DarkBlue, Brushes.DarkGreen, Brushes.DarkGray, Brushes.DarkCyan, Brushes.DarkOrange, Brushes.DarkGoldenrod, Brushes.DarkKhaki };
         private Brush[] m_Palette;
+        private LayoutType m_LayoutType;
+
+        private int m_MaxFontSize;
+        private int m_MinFontSize;
+        private ILayout m_Layout;
+        private Color m_BackColor;
 
         public CloudControl()
         {
             MaxFontSize = 68;
             MinFontSize = 6;
-            Clear();
+           
             this.BorderStyle = BorderStyle.FixedSingle;
             this.ResizeRedraw = true;
             
             m_Palette = m_DefaultPalette;
             m_BackColor = Color.White;
+            m_LayoutType = LayoutType.Spiral;
         }
 
+
+        public LayoutType LayoutType
+        {
+            get { return m_LayoutType; }
+            set
+            {
+                if (value == m_LayoutType)
+                {
+                    return;
+                }
+
+                m_LayoutType = value;
+                BuildLayout();
+                Invalidate();
+            }
+        }
+ 
         public override Color BackColor
         {
             get
@@ -31,22 +55,14 @@ namespace Gma.CodeCloud.Controls
             }
             set
             {
+                if (m_BackColor == value)
+                {
+                    return;
+                }
                 m_BackColor = value;
+                Invalidate();
             }
         }
-
-        public void Clear()
-        {
-            using (Graphics graphics = this.CreateGraphics())
-            {
-                graphics.Clear(Color.White);
-            }
-        }
-
-        private int m_MaxFontSize;
-        private int m_MinFontSize;
-        private SpiralLayout m_Layout;
-        private Color m_BackColor;
 
         public int MaxFontSize
         {
@@ -54,7 +70,8 @@ namespace Gma.CodeCloud.Controls
             set
             {
                 m_MaxFontSize = value;
-//                Invalidate();
+                BuildLayout();
+                Invalidate();
             }
         }
 
@@ -64,7 +81,8 @@ namespace Gma.CodeCloud.Controls
             set
             {
                 m_MinFontSize = value;
-//                Invalidate();
+                BuildLayout();
+                Invalidate();
             }
         }
 
@@ -74,7 +92,8 @@ namespace Gma.CodeCloud.Controls
             set
             {
                 m_Palette = value;
-//                Invalidate();
+                BuildLayout();
+                Invalidate();
             }
         }
 
@@ -101,7 +120,7 @@ namespace Gma.CodeCloud.Controls
             }
         }
 
-        public void FullRedraw()
+        public void BuildLayout()
         {
             if (m_Words == null || m_Words.Length == 0) { return; }
 
@@ -112,15 +131,20 @@ namespace Gma.CodeCloud.Controls
             {
                 IGraphicEngine graphicEngine =
                     new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight);
-                m_Layout = new SpiralLayout(this.Size);
-                m_Layout.DrawWords(m_Words, graphicEngine);
+                m_Layout = LayoutFactory.CrateLayout(m_LayoutType, this.Size);
+                m_Layout.Arrange(m_Words, graphicEngine);
             }
         }
 
-        public void Show(KeyValuePair<string, int>[] words)
+        public KeyValuePair<string, int>[] WeightedWords
         {
-            m_Words = words;
-            FullRedraw();
+            get { return m_Words; }
+            set
+            {
+                m_Words = value;
+                BuildLayout();
+                Invalidate();
+            }
         }
 
         public IEnumerable<LayoutItem> GetItemsInArea(RectangleF area)

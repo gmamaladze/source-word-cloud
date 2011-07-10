@@ -5,6 +5,7 @@ namespace Gma.CodeCloud.Base.Geometry
 {
     public interface ILayout
     {
-        void DrawWords(KeyValuePair<string, int>[] words, IGraphicEngine graphicEngine);
+        void Arrange(KeyValuePair<string, int>[] words, IGraphicEngine graphicEngine);
+        IEnumerable<LayoutItem> GetWordsInArea(RectangleF area);
     }
 }
