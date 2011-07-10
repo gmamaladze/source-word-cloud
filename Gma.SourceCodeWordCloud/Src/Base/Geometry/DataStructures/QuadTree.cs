@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Collections.Generic;
+using Gma.CodeCloud.Base.Geometry;
 
 namespace Gma.CodeCloud.Base.DataStructures
 {
@@ -12,7 +13,7 @@ namespace Gma.CodeCloud.Base.DataStructures
     /// that is just big enough to hold it. Each quad has a bucket that 
     /// contain multiple items.
     /// </summary>
-    public class QuadTree<T> where T : IRectangleContent
+    public class QuadTree<T> where T : LayoutItem
     {
         /// <summary>
         /// The root QuadTreeNode
@@ -59,7 +60,7 @@ namespace Gma.CodeCloud.Base.DataStructures
         /// </summary>
         /// <param name="area"></param>
         /// <returns></returns>
-        public List<T> Query(RectangleF area)
+        public IEnumerable<T> Query(RectangleF area)
         {
             return m_Root.Query(area);
         }

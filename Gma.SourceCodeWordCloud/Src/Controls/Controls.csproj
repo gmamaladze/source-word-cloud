@@ -49,6 +49,7 @@
     <Compile Include="CloudControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GdiGraphicEngine.cs" />
     <Compile Include="ICloudControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeMapWrapper.cs" />

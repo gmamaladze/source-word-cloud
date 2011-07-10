@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Splitter Splitter;
             System.Windows.Forms.ToolStripLabel toolStripLabel1;
             System.Windows.Forms.ToolStripLabel toolStripLabel2;
@@ -49,8 +50,9 @@
             this.toolStripComboBoxMaxFontSize = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolStripWordCount = new System.Windows.Forms.ToolStripLabel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             Splitter = new System.Windows.Forms.Splitter();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
@@ -232,6 +234,7 @@
             // toolStripComboBoxMinFontSize
             // 
             this.toolStripComboBoxMinFontSize.Items.AddRange(new object[] {
+            "6",
             "8",
             "10",
             "12",
@@ -278,6 +281,12 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 28);
             // 
+            // toolStripWordCount
+            // 
+            this.toolStripWordCount.Name = "toolStripWordCount";
+            this.toolStripWordCount.Size = new System.Drawing.Size(11, 25);
+            this.toolStripWordCount.Text = "-";
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -295,11 +304,10 @@
             this.splitContainer1.SplitterDistance = 746;
             this.splitContainer1.TabIndex = 6;
             // 
-            // toolStripWordCount
+            // toolTip
             // 
-            this.toolStripWordCount.Name = "toolStripWordCount";
-            this.toolStripWordCount.Size = new System.Drawing.Size(11, 25);
-            this.toolStripWordCount.Text = "-";
+            this.toolTip.ToolTipTitle = "Word statistics:";
+            this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
             // MainForm
             // 
@@ -344,6 +352,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxLayout;
         private System.Windows.Forms.ToolStripLabel toolStripWordCount;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 

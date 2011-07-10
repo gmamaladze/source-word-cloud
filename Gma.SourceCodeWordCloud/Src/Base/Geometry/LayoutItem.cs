@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using Gma.CodeCloud.Base.DataStructures;
+﻿using System.Drawing;
 
 namespace Gma.CodeCloud.Base.Geometry
 {
-    public class WordRectangle : IRectangleContent
+    public class LayoutItem
     {
-        public WordRectangle(RectangleF rectangle, string word, int occurances)
+        public LayoutItem(RectangleF rectangle, string word, int occurances)
         {
             this.Rectangle = rectangle;
             Word = word;

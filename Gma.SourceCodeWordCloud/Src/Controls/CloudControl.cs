@@ -8,16 +8,31 @@ namespace Gma.CodeCloud.Controls
     public class CloudControl : Panel, ICloudControl
     {
         private KeyValuePair<string, int>[] m_Words;
+        readonly Brush[] m_DefaultPalette = new[] { Brushes.DarkRed, Brushes.DarkBlue, Brushes.DarkGreen, Brushes.DarkGray, Brushes.DarkCyan, Brushes.DarkOrange, Brushes.DarkGoldenrod, Brushes.DarkKhaki };
         private Brush[] m_Palette;
 
         public CloudControl()
         {
-            MaxFontSize = 86;
-            MinFontSize = 8;
+            MaxFontSize = 68;
+            MinFontSize = 6;
             Clear();
             this.BorderStyle = BorderStyle.FixedSingle;
             this.ResizeRedraw = true;
-            m_Palette = new[] { Brushes.DarkRed, Brushes.DarkBlue, Brushes.DarkGreen, Brushes.DarkGray, Brushes.DarkCyan, Brushes.DarkOrange, Brushes.DarkGoldenrod, Brushes.DarkKhaki };
+            
+            m_Palette = m_DefaultPalette;
+            m_BackColor = Color.White;
+        }
+
+        public override Color BackColor
+        {
+            get
+            {
+                return m_BackColor;
+            }
+            set
+            {
+                m_BackColor = value;
+            }
         }
 
         public void Clear()
@@ -30,6 +45,8 @@ namespace Gma.CodeCloud.Controls
 
         private int m_MaxFontSize;
         private int m_MinFontSize;
+        private SpiralLayout m_Layout;
+        private Color m_BackColor;
 
         public int MaxFontSize
         {
@@ -37,7 +54,7 @@ namespace Gma.CodeCloud.Controls
             set
             {
                 m_MaxFontSize = value;
-                Invalidate();
+//                Invalidate();
             }
         }
 
@@ -47,7 +64,7 @@ namespace Gma.CodeCloud.Controls
             set
             {
                 m_MinFontSize = value;
-                Invalidate();
+//                Invalidate();
             }
         }
 
@@ -57,7 +74,7 @@ namespace Gma.CodeCloud.Controls
             set
             {
                 m_Palette = value;
-                Invalidate();
+//                Invalidate();
             }
         }
 
@@ -65,43 +82,67 @@ namespace Gma.CodeCloud.Controls
         {
  	        base.OnPaint(e);
 
-            Clear();
-            if (m_Words==null || m_Words.Length==0)
+            if (m_Words == null || m_Words.Length == 0) { return; }
+            if (m_Layout==null) {return;}
+
+            int maxWordWeight = m_Words[0].Value;
+            int minWordWeight = m_Words[m_Words.Length - 1].Value;
+
+            IEnumerable<LayoutItem> wordsToRedraw = m_Layout.GetWordsInArea(e.ClipRectangle);
+            using (Graphics graphics = e.Graphics)
             {
-                return;
+                foreach (LayoutItem wordRectangle in wordsToRedraw)
+                {
+                    IGraphicEngine graphicEngine =
+                        new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight);
+
+                   graphicEngine.Draw(wordRectangle);
+                }
             }
+        }
+
+        public void FullRedraw()
+        {
+            if (m_Words == null || m_Words.Length == 0) { return; }
 
             int maxWordWeight = m_Words[0].Value;
             int minWordWeight = m_Words[m_Words.Length - 1].Value;
 
             using (Graphics graphics = this.CreateGraphics())
             {
-                ILayout layout = new RandomCentricLayout(this.Size);
-                int colorIndex = 0;
-                foreach (KeyValuePair<string, int> pair in m_Words)
-                {
-                    float fontSize = (float) (pair.Value - minWordWeight)/(maxWordWeight - minWordWeight)*(MaxFontSize - MinFontSize) + MinFontSize;
-
-                    Font font = new Font(this.Font.FontFamily, fontSize);
-                    SizeF size = graphics.MeasureString(pair.Key, font);
-                    SizeF sizeWithPadding = size + new SizeF(4, 4);
-                    RectangleF rectangle = layout.Add(sizeWithPadding);
-                    if (rectangle == RectangleF.Empty)
-                    {
-                        break;
-                    }
-                    Brush brush = m_Palette[colorIndex % m_Palette.Length];
-                    graphics.DrawString(pair.Key, font, brush, rectangle.X + 2, rectangle.Y + 2);
-                    
-                    colorIndex++;
-                }
+                IGraphicEngine graphicEngine =
+                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight);
+                m_Layout = new SpiralLayout(this.Size);
+                m_Layout.DrawWords(m_Words, graphicEngine);
             }
         }
 
         public void Show(KeyValuePair<string, int>[] words)
         {
             m_Words = words;
-            Invalidate();
+            FullRedraw();
+        }
+
+        public IEnumerable<LayoutItem> GetItemsInArea(RectangleF area)
+        {
+            if (m_Layout == null)
+            {
+                return new LayoutItem[] {};
+            }
+
+            return m_Layout.GetWordsInArea(area);
+        }
+
+        public bool TryGetItemAtLocation(Point location, out LayoutItem foundItem)
+        {
+            foundItem = null;
+            IEnumerable<LayoutItem> itemsInArea = GetItemsInArea(new RectangleF(location, new SizeF(0, 0)));
+            foreach (LayoutItem item in itemsInArea)
+            {
+                foundItem = item;
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Gma.CodeCloud.Base.Geometry
@@ -61,5 +62,9 @@ namespace Gma.CodeCloud.Base.Geometry
             return target.Size.Width >= size.Width && target.Size.Height >= size.Height;
         }
 
+        public void DrawWords(KeyValuePair<string, int>[] words, IGraphicEngine graphicEngine)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

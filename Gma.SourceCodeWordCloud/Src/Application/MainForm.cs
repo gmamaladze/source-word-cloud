@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base;
+using Gma.CodeCloud.Base.Geometry;
 using Gma.CodeCloud.Base.Languages.CSharp;
 using Gma.CodeCloud.Controls;
 
@@ -86,8 +87,8 @@ namespace Gma.CodeCloud
 
             m_CloudControl.SuspendLayout();
 
-            toolStripComboBoxMinFontSize.SelectedItem = toolStripComboBoxMinFontSize.Items[0];
-            toolStripComboBoxMaxFontSize.SelectedItem = toolStripComboBoxMaxFontSize.Items[toolStripComboBoxMaxFontSize.Items.Count - 1];
+            toolStripComboBoxMinFontSize.SelectedItem = "6"; // toolStripComboBoxMinFontSize.Items[0];
+            toolStripComboBoxMaxFontSize.SelectedItem = "72"; //toolStripComboBoxMaxFontSize.Items[toolStripComboBoxMaxFontSize.Items.Count - 1];
 
             toolStripComboBoxFont.SelectedItem = "Tahoma";
             m_CloudControl.ResumeLayout();
@@ -128,6 +129,26 @@ namespace Gma.CodeCloud
                 m_ToolStripProgressBar.Increment(value);
                 Application.DoEvents();
             }
+        }
+
+
+
+        private void toolTip_Popup(object sender, PopupEventArgs e)
+        {
+            CloudControl cloudControl = e.AssociatedControl as CloudControl;
+            if (cloudControl==null)
+            {
+                return;
+            }
+
+            LayoutItem itemUderMouse;
+            Point mousePositionRelativeToControl = new Point(MousePosition.X-cloudControl.Top, MousePosition.Y - cloudControl.Left);
+            if (!cloudControl.TryGetItemAtLocation(mousePositionRelativeToControl, out itemUderMouse))
+            {
+                return;
+            }
+
+            toolTip.SetToolTip(cloudControl, itemUderMouse.ToString());
         }
     }
 }

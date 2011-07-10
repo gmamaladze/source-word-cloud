@@ -1,53 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Diagnostics;
+using Gma.CodeCloud.Base.Geometry;
 
 namespace Gma.CodeCloud.Base.DataStructures
 {
-    /// <summary>
-    /// The QuadTreeNode
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class QuadTreeNode<T> where T : IRectangleContent
+  public class QuadTreeNode<T> where T : LayoutItem
     {
-        /// <summary>
-        /// Construct a quadtree node with the given bounds 
-        /// </summary>
-        /// <param name="bounds"></param>
         public QuadTreeNode(RectangleF bounds)
         {
             m_Bounds = bounds;
         }
 
-        /// <summary>
-        /// The area of this node
-        /// </summary>
-        RectangleF m_Bounds;
+        private RectangleF m_Bounds;
 
-        /// <summary>
-        /// The contents of this node.
-        /// Note that the contents have no limit: this is not the standard way to impement a QuadTree
-        /// </summary>
-        readonly List<T> m_Contents = new List<T>();
+        private readonly LinkedList<T> m_Contents = new LinkedList<T>();
 
-        /// <summary>
-        /// The child nodes of the QuadTree
-        /// </summary>
-        readonly List<QuadTreeNode<T>> m_Nodes = new List<QuadTreeNode<T>>(4);
+        private readonly LinkedList<QuadTreeNode<T>> m_Nodes = new LinkedList<QuadTreeNode<T>>();
 
-        /// <summary>
-        /// Is the node empty
-        /// </summary>
         public bool IsEmpty { get { return m_Bounds.IsEmpty || m_Nodes.Count == 0; } }
 
-        /// <summary>
-        /// Area of the quadtree node
-        /// </summary>
         public RectangleF Bounds { get { return m_Bounds; } }
 
-        /// <summary>
-        /// Total number of nodes in the this node and all SubNodes
-        /// </summary>
         public int Count
         {
             get
@@ -63,9 +37,6 @@ namespace Gma.CodeCloud.Base.DataStructures
             }
         }
 
-        /// <summary>
-        /// Return the contents of this node and all subnodes in the true below this one.
-        /// </summary>
         public List<T> SubTreeContents
         {
             get
@@ -80,7 +51,7 @@ namespace Gma.CodeCloud.Base.DataStructures
             }
         }
 
-        public List<T> Contents { get { return m_Contents; } }
+        public LinkedList<T> Contents { get { return m_Contents; } }
 
 
         public bool HasContent(RectangleF queryArea)
@@ -234,7 +205,7 @@ namespace Gma.CodeCloud.Base.DataStructures
             // 1) none of the subnodes completely contained the item. or
             // 2) we're at the smallest subnode size allowed 
             // add the item to this node's contents.
-            this.Contents.Add(item);
+            this.Contents.AddLast(item);
         }
 
         public void ForEach(QuadTree<T>.QuadTreeAction action)
@@ -258,10 +229,10 @@ namespace Gma.CodeCloud.Base.DataStructures
             float halfWidth = (m_Bounds.Width / 2f);
             float halfHeight = (m_Bounds.Height / 2f);
 
-            m_Nodes.Add(new QuadTreeNode<T>(new RectangleF(m_Bounds.Location, new SizeF(halfWidth, halfHeight))));
-            m_Nodes.Add(new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left, m_Bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight))));
-            m_Nodes.Add(new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left + halfWidth, m_Bounds.Top), new SizeF(halfWidth, halfHeight))));
-            m_Nodes.Add(new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left + halfWidth, m_Bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight))));
+            m_Nodes.AddLast(new QuadTreeNode<T>(new RectangleF(m_Bounds.Location, new SizeF(halfWidth, halfHeight))));
+            m_Nodes.AddLast(new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left, m_Bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight))));
+            m_Nodes.AddLast(new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left + halfWidth, m_Bounds.Top), new SizeF(halfWidth, halfHeight))));
+            m_Nodes.AddLast(new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left + halfWidth, m_Bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight))));
         }
 
     }
