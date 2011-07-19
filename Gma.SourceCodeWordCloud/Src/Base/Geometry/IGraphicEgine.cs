@@ -7,5 +7,6 @@ namespace Gma.CodeCloud.Base.Geometry
     {
         SizeF Measure(string text, int weight);
         void Draw(LayoutItem layoutItem);
+        void DrawEmphasized(LayoutItem layoutItem);
     }
 }

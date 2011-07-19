@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base.Geometry;
@@ -8,14 +9,15 @@ namespace Gma.CodeCloud.Controls
     public class CloudControl : Panel
     {
         private KeyValuePair<string, int>[] m_Words;
-        readonly Brush[] m_DefaultPalette = new[] { Brushes.DarkRed, Brushes.DarkBlue, Brushes.DarkGreen, Brushes.DarkGray, Brushes.DarkCyan, Brushes.DarkOrange, Brushes.DarkGoldenrod, Brushes.DarkKhaki };
-        private Brush[] m_Palette;
+        readonly Color[] m_DefaultPalette = new[] { Color.DarkRed, Color.DarkBlue, Color.DarkGreen, Color.DarkGray, Color.DarkCyan, Color.DarkOrange, Color.DarkGoldenrod, Color.DarkKhaki };
+        private Color[] m_Palette;
         private LayoutType m_LayoutType;
 
         private int m_MaxFontSize;
         private int m_MinFontSize;
         private ILayout m_Layout;
         private Color m_BackColor;
+        private LayoutItem m_ItemUderMouse;
 
         public CloudControl()
         {
@@ -48,7 +50,14 @@ namespace Gma.CodeCloud.Controls
             {
                 foreach (LayoutItem currentItem in wordsToRedraw)
                 {
-                    graphicEngine.Draw(currentItem);
+                    if (m_ItemUderMouse == currentItem)
+                    {
+                        graphicEngine.DrawEmphasized(currentItem);
+                    }
+                    else
+                    {
+                        graphicEngine.Draw(currentItem);                        
+                    }
                 }
             }
         }
@@ -84,7 +93,45 @@ namespace Gma.CodeCloud.Controls
                 Invalidate();
             }
         }
- 
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            LayoutItem nextItemUnderMouse;
+            Point mousePositionRelativeToControl = this.PointToClient(new Point(MousePosition.X, MousePosition.Y));
+            this.TryGetItemAtLocation(mousePositionRelativeToControl, out nextItemUnderMouse);
+            if (nextItemUnderMouse != m_ItemUderMouse)
+            {
+                if (nextItemUnderMouse != null)
+                {
+                    Rectangle newRectangleToInvalidate = RectangleGrow(nextItemUnderMouse.Rectangle, 6);
+                    this.Invalidate(newRectangleToInvalidate);
+                }
+                if (m_ItemUderMouse != null)
+                {
+                    Rectangle prevRectangleToInvalidate = RectangleGrow(m_ItemUderMouse.Rectangle, 6);
+                    this.Invalidate(prevRectangleToInvalidate);
+                }
+                m_ItemUderMouse = nextItemUnderMouse;
+            }
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnResize(EventArgs eventargs)
+        {
+            BuildLayout();
+            base.OnResize(eventargs);
+        }
+
+        private static Rectangle RectangleGrow(RectangleF original, int growByPixels)
+        {
+            return new Rectangle(
+                (int)(original.X - growByPixels),
+                (int)(original.Y - growByPixels),
+                (int)(original.Width + growByPixels + 1),
+                (int)(original.Height + growByPixels + 1));
+        }
+
+
         public override Color BackColor
         {
             get
@@ -124,7 +171,7 @@ namespace Gma.CodeCloud.Controls
             }
         }
 
-        public Brush[] Palette
+        public Color[] Palette
         {
             get { return m_Palette; }
             set
