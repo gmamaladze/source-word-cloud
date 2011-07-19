@@ -18,6 +18,7 @@ namespace Gma.CodeCloud.Controls
         private ILayout m_Layout;
         private Color m_BackColor;
         private LayoutItem m_ItemUderMouse;
+        private Timer m_ResizePostponeTimer;
 
         public CloudControl()
         {
@@ -25,13 +26,15 @@ namespace Gma.CodeCloud.Controls
             MinFontSize = 6;
            
             this.BorderStyle = BorderStyle.FixedSingle;
-            this.ResizeRedraw = true;
+            this.ResizeRedraw = false;
             
             m_Palette = m_DefaultPalette;
             m_BackColor = Color.White;
             m_LayoutType = LayoutType.Spiral;
+            m_ResizePostponeTimer = new Timer();
+            m_ResizePostponeTimer.Interval = 100;
+            m_ResizePostponeTimer.Tick += ResizePostponeTimer_Tick;
         }
-
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -118,9 +121,18 @@ namespace Gma.CodeCloud.Controls
 
         protected override void OnResize(EventArgs eventargs)
         {
-            BuildLayout();
+            m_ResizePostponeTimer.Enabled = false;
+            m_ResizePostponeTimer.Enabled = true;
             base.OnResize(eventargs);
         }
+
+        void ResizePostponeTimer_Tick(object sender, EventArgs e)
+        {
+            BuildLayout();
+            Invalidate();
+            m_ResizePostponeTimer.Enabled = false;
+        }
+
 
         private static Rectangle RectangleGrow(RectangleF original, int growByPixels)
         {
@@ -129,6 +141,11 @@ namespace Gma.CodeCloud.Controls
                 (int)(original.Y - growByPixels),
                 (int)(original.Width + growByPixels + 1),
                 (int)(original.Height + growByPixels + 1));
+        }
+
+        public LayoutItem ItemUnderMouse
+        {
+            get { return m_ItemUderMouse; }
         }
 
 
@@ -213,6 +230,18 @@ namespace Gma.CodeCloud.Controls
                 return true;
             }
             return false;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (m_ResizePostponeTimer!=null)
+            {
+                m_ResizePostponeTimer.Enabled = false;
+                m_ResizePostponeTimer.Tick -= ResizePostponeTimer_Tick;
+                m_ResizePostponeTimer.Dispose();
+                m_ResizePostponeTimer = null;
+            }
+            base.Dispose(disposing);
         }
     }
 }

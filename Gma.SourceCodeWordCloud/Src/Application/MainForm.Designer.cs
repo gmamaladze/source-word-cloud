@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Splitter Splitter;
             System.Windows.Forms.ToolStripLabel toolStripLabel1;
             System.Windows.Forms.ToolStripLabel toolStripLabel2;
@@ -50,6 +51,7 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripWordCount = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             Splitter = new System.Windows.Forms.Splitter();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
@@ -263,6 +265,16 @@
             this.splitContainer1.SplitterDistance = 746;
             this.splitContainer1.TabIndex = 6;
             // 
+            // toolTip
+            // 
+            this.toolTip.Active = false;
+            this.toolTip.AutomaticDelay = 2000;
+            this.toolTip.AutoPopDelay = 20000;
+            this.toolTip.InitialDelay = 2000;
+            this.toolTip.ReshowDelay = 1000;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Statistics:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,6 +315,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxLayout;
         private System.Windows.Forms.ToolStripLabel toolStripWordCount;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 

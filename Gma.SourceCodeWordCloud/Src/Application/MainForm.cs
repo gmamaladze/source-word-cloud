@@ -32,7 +32,8 @@ namespace Gma.CodeCloud
             m_CloudControl.Dock = DockStyle.Fill;
             this.splitContainer1.Panel1.Controls.Add(m_CloudControl);
             m_CloudControl.Click += CloudControlClick;
-
+            m_CloudControl.MouseMove += CloudControl_MouseMove;
+           
             foreach (var layoutType in Enum.GetValues(typeof(LayoutType)))
             {
                 this.toolStripComboBoxLayout.Items.Add(layoutType);
@@ -53,11 +54,29 @@ namespace Gma.CodeCloud
             toolStripComboBoxFont.SelectedItem = "Tahoma";
         }
 
+        private void CloudControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
+            if (itemUderMouse == null)
+            {
+                toolTip.SetToolTip(m_CloudControl, null);
+                return;
+            }
+
+            toolTip.SetToolTip(
+                m_CloudControl,
+                string.Format(
+                    "\n\r{0} - occurances\n\r{1}% - of total words",
+                    itemUderMouse.Weight,
+                    Math.Round(itemUderMouse.Weight * 100 / m_TotalWordCount, 2)));
+
+            toolTip.ToolTipTitle = string.Format("Statistics for word [{0}]", itemUderMouse.Word);
+        }
+
         private void CloudControlClick(object sender, EventArgs e)
         {
-            LayoutItem itemUderMouse;
-            Point mousePositionRelativeToControl = m_CloudControl.PointToClient(new Point(MousePosition.X, MousePosition.Y));
-            if (!m_CloudControl.TryGetItemAtLocation(mousePositionRelativeToControl, out itemUderMouse))
+            LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
+            if (itemUderMouse==null)
             {
                 return;
             }
