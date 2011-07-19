@@ -9,7 +9,7 @@ namespace Gma.CodeCloud.Controls
     public class CloudControl : Panel
     {
         private KeyValuePair<string, int>[] m_Words;
-        readonly Color[] m_DefaultPalette = new[] { Color.DarkRed, Color.DarkBlue, Color.DarkGreen, Color.DarkGray, Color.DarkCyan, Color.DarkOrange, Color.DarkGoldenrod, Color.DarkKhaki };
+        readonly Color[] m_DefaultPalette = new[] { Color.DarkRed, Color.DarkBlue, Color.DarkGreen, Color.Navy, Color.DarkCyan, Color.DarkOrange, Color.DarkGoldenrod, Color.DarkKhaki, Color.Blue, Color.Red, Color.Green };
         private Color[] m_Palette;
         private LayoutType m_LayoutType;
 

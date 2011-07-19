@@ -57,7 +57,8 @@ namespace Gma.CodeCloud.Controls
             //m_Graphics.DrawString(layoutItem.Word, font, brush, layoutItem.Rectangle);
             Point point = new Point((int)layoutItem.Rectangle.X, (int)layoutItem.Rectangle.Y);
             TextRenderer.DrawText(m_Graphics, layoutItem.Word, font, point, Color.LightGray);
-            point.Offset(-5, -5);
+            int offset = (int)(5 *font.Size / MaxFontSize)+1;
+            point.Offset(-offset, -offset);
             TextRenderer.DrawText(m_Graphics, layoutItem.Word, font, point, color);
         }
 
