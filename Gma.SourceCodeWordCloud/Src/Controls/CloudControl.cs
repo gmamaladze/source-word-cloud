@@ -17,8 +17,7 @@ namespace Gma.CodeCloud.Controls
         private int m_MinFontSize;
         private ILayout m_Layout;
         private Color m_BackColor;
-        private LayoutItem m_ItemUderMouse;
-        private Timer m_ResizePostponeTimer;
+        private Timer m_BuildLayoutPostponeTimer;
 
         public CloudControl()
         {
@@ -31,9 +30,9 @@ namespace Gma.CodeCloud.Controls
             m_Palette = m_DefaultPalette;
             m_BackColor = Color.White;
             m_LayoutType = LayoutType.Spiral;
-            m_ResizePostponeTimer = new Timer();
-            m_ResizePostponeTimer.Interval = 100;
-            m_ResizePostponeTimer.Tick += ResizePostponeTimer_Tick;
+            m_BuildLayoutPostponeTimer = new Timer();
+            m_BuildLayoutPostponeTimer.Interval = 100;
+            m_BuildLayoutPostponeTimer.Tick += ResizePostponeTimerTick;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -53,7 +52,7 @@ namespace Gma.CodeCloud.Controls
             {
                 foreach (LayoutItem currentItem in wordsToRedraw)
                 {
-                    if (m_ItemUderMouse == currentItem)
+                    if (ItemUnderMouse == currentItem)
                     {
                         graphicEngine.DrawEmphasized(currentItem);
                     }
@@ -65,7 +64,7 @@ namespace Gma.CodeCloud.Controls
             }
         }
 
-        private void BuildLayout()
+        public void BuildLayout()
         {
             if (m_Words == null || m_Words.Length == 0) { return; }
 
@@ -77,9 +76,64 @@ namespace Gma.CodeCloud.Controls
                 IGraphicEngine graphicEngine =
                     new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight);
                 m_Layout = LayoutFactory.CrateLayout(m_LayoutType, this.Size);
-                m_Layout.Arrange(m_Words, graphicEngine);
+                ItemsCount = m_Layout.Arrange(m_Words, graphicEngine);
             }
         }
+
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            LayoutItem nextItemUnderMouse;
+            Point mousePositionRelativeToControl = this.PointToClient(new Point(MousePosition.X, MousePosition.Y));
+            this.TryGetItemAtLocation(mousePositionRelativeToControl, out nextItemUnderMouse);
+            if (nextItemUnderMouse != ItemUnderMouse)
+            {
+                if (nextItemUnderMouse != null)
+                {
+                    Rectangle newRectangleToInvalidate = RectangleGrow(nextItemUnderMouse.Rectangle, 6);
+                    this.Invalidate(newRectangleToInvalidate);
+                }
+                if (ItemUnderMouse != null)
+                {
+                    Rectangle prevRectangleToInvalidate = RectangleGrow(ItemUnderMouse.Rectangle, 6);
+                    this.Invalidate(prevRectangleToInvalidate);
+                }
+                ItemUnderMouse = nextItemUnderMouse;
+            }
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnResize(EventArgs eventargs)
+        {
+            BuildLayoutAsync(100);
+            Invalidate();
+            base.OnResize(eventargs);
+        }
+
+        public void BuildLayoutAsync(int delay)
+        {
+            m_BuildLayoutPostponeTimer.Enabled = false;
+            m_BuildLayoutPostponeTimer.Interval = delay;
+            m_BuildLayoutPostponeTimer.Enabled = true;
+        }
+
+        private void ResizePostponeTimerTick(object sender, EventArgs e)
+        {
+            BuildLayout();
+            m_BuildLayoutPostponeTimer.Enabled = false;
+        }
+
+
+        private static Rectangle RectangleGrow(RectangleF original, int growByPixels)
+        {
+            return new Rectangle(
+                (int)(original.X - growByPixels),
+                (int)(original.Y - growByPixels),
+                (int)(original.Width + growByPixels + 1),
+                (int)(original.Height + growByPixels + 1));
+        }
+
+        public LayoutItem ItemUnderMouse { get; private set; }
 
         public LayoutType LayoutType
         {
@@ -96,58 +150,6 @@ namespace Gma.CodeCloud.Controls
                 Invalidate();
             }
         }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            LayoutItem nextItemUnderMouse;
-            Point mousePositionRelativeToControl = this.PointToClient(new Point(MousePosition.X, MousePosition.Y));
-            this.TryGetItemAtLocation(mousePositionRelativeToControl, out nextItemUnderMouse);
-            if (nextItemUnderMouse != m_ItemUderMouse)
-            {
-                if (nextItemUnderMouse != null)
-                {
-                    Rectangle newRectangleToInvalidate = RectangleGrow(nextItemUnderMouse.Rectangle, 6);
-                    this.Invalidate(newRectangleToInvalidate);
-                }
-                if (m_ItemUderMouse != null)
-                {
-                    Rectangle prevRectangleToInvalidate = RectangleGrow(m_ItemUderMouse.Rectangle, 6);
-                    this.Invalidate(prevRectangleToInvalidate);
-                }
-                m_ItemUderMouse = nextItemUnderMouse;
-            }
-            base.OnMouseMove(e);
-        }
-
-        protected override void OnResize(EventArgs eventargs)
-        {
-            m_ResizePostponeTimer.Enabled = false;
-            m_ResizePostponeTimer.Enabled = true;
-            base.OnResize(eventargs);
-        }
-
-        void ResizePostponeTimer_Tick(object sender, EventArgs e)
-        {
-            BuildLayout();
-            Invalidate();
-            m_ResizePostponeTimer.Enabled = false;
-        }
-
-
-        private static Rectangle RectangleGrow(RectangleF original, int growByPixels)
-        {
-            return new Rectangle(
-                (int)(original.X - growByPixels),
-                (int)(original.Y - growByPixels),
-                (int)(original.Width + growByPixels + 1),
-                (int)(original.Height + growByPixels + 1));
-        }
-
-        public LayoutItem ItemUnderMouse
-        {
-            get { return m_ItemUderMouse; }
-        }
-
 
         public override Color BackColor
         {
@@ -210,6 +212,8 @@ namespace Gma.CodeCloud.Controls
             }
         }
 
+        public int ItemsCount { get; private set; }
+
         public IEnumerable<LayoutItem> GetItemsInArea(RectangleF area)
         {
             if (m_Layout == null)
@@ -234,12 +238,12 @@ namespace Gma.CodeCloud.Controls
 
         protected override void Dispose(bool disposing)
         {
-            if (m_ResizePostponeTimer!=null)
+            if (m_BuildLayoutPostponeTimer!=null)
             {
-                m_ResizePostponeTimer.Enabled = false;
-                m_ResizePostponeTimer.Tick -= ResizePostponeTimer_Tick;
-                m_ResizePostponeTimer.Dispose();
-                m_ResizePostponeTimer = null;
+                m_BuildLayoutPostponeTimer.Enabled = false;
+                m_BuildLayoutPostponeTimer.Tick -= ResizePostponeTimerTick;
+                m_BuildLayoutPostponeTimer.Dispose();
+                m_BuildLayoutPostponeTimer = null;
             }
             base.Dispose(disposing);
         }

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonBlacklist.cs" />
+    <Compile Include="FileIO\FileIterator.cs" />
     <Compile Include="Geometry\IGraphicEgine.cs" />
     <Compile Include="Geometry\ILayout.cs" />
     <Compile Include="Geometry\TypewriterLayout.cs" />
@@ -52,7 +53,12 @@
     <Compile Include="IProgressIndicator.cs" />
     <Compile Include="IWordExtractor.cs" />
     <Compile Include="IWordRegistry.cs" />
-    <Compile Include="Languages\CSharp\WordExtractor.cs" />
+    <Compile Include="Languages\VbWordExtractor.cs" />
+    <Compile Include="Languages\JavaWordExtractor.cs" />
+    <Compile Include="Languages\CSharpWordExtractor.cs" />
+    <Compile Include="Languages\Languages.cs" />
+    <Compile Include="Languages\ByLanguageFactory.cs" />
+    <Compile Include="Languages\WordExtractorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Geometry\DataStructures\QuadTree.cs" />
     <Compile Include="Geometry\DataStructures\QuadTreeNode.cs" />

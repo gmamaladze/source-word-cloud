@@ -18,7 +18,7 @@ namespace Gma.CodeCloud.Base.Geometry
             Center = new PointF(Surface.X + size.Width / 2, Surface.Y + size.Height / 2);
         }
 
-        public void Arrange(KeyValuePair<string, int>[] words, IGraphicEngine graphicEngine)
+        public int Arrange(KeyValuePair<string, int>[] words, IGraphicEngine graphicEngine)
         {
             if (words == null)
             {
@@ -27,7 +27,7 @@ namespace Gma.CodeCloud.Base.Geometry
 
             if (words.Length == 0)
             {
-                return;
+                return 0;
             }
 
 
@@ -39,11 +39,12 @@ namespace Gma.CodeCloud.Base.Geometry
                 RectangleF freeRectangle;
                 if (!TryFindFreeRectangle(size, out freeRectangle))
                 {
-                    return;
+                    break;
                 }
                 LayoutItem item = new LayoutItem(freeRectangle, word, weight);
                 QuadTree.Insert(item);
             }
+            return QuadTree.Count;
         }
 
         public abstract bool TryFindFreeRectangle(SizeF size, out RectangleF foundRectangle);

@@ -41,6 +41,7 @@
             this.ToolStripButtonCancel = new System.Windows.Forms.ToolStripButton();
             this.ToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripComboBoxLanguage = new System.Windows.Forms.ToolStripComboBox();
             this.ToolStripButtonEditBlacklist = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripComboBoxLayout = new System.Windows.Forms.ToolStripComboBox();
@@ -49,7 +50,6 @@
             this.toolStripComboBoxMaxFontSize = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripWordCount = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             Splitter = new System.Windows.Forms.Splitter();
@@ -118,6 +118,7 @@
             this.ToolStripButtonCancel,
             this.ToolStripProgressBar,
             this.toolStripSeparator1,
+            this.toolStripComboBoxLanguage,
             this.ToolStripButtonEditBlacklist,
             this.toolStripSeparator2,
             toolStripLabel3,
@@ -129,8 +130,7 @@
             toolStripLabel2,
             this.toolStripComboBoxMaxFontSize,
             this.toolStripLabel4,
-            this.toolStripSeparator3,
-            this.toolStripWordCount});
+            this.toolStripSeparator3});
             this.MainToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.MainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.MainToolStrip.Name = "MainToolStrip";
@@ -169,6 +169,16 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
+            // toolStripComboBoxLanguage
+            // 
+            this.toolStripComboBoxLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBoxLanguage.Items.AddRange(new object[] {
+            "c#",
+            "Java",
+            "VB.NET"});
+            this.toolStripComboBoxLanguage.Name = "toolStripComboBoxLanguage";
+            this.toolStripComboBoxLanguage.Size = new System.Drawing.Size(75, 28);
+            // 
             // ToolStripButtonEditBlacklist
             // 
             this.ToolStripButtonEditBlacklist.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -186,18 +196,23 @@
             // 
             // toolStripComboBoxLayout
             // 
+            this.toolStripComboBoxLayout.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxLayout.Name = "toolStripComboBoxLayout";
             this.toolStripComboBoxLayout.Size = new System.Drawing.Size(121, 28);
-            this.toolStripComboBoxLayout.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxFont_SelectedIndexChanged);
+            this.toolStripComboBoxLayout.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBoxFontSelectedIndexChanged);
             // 
             // toolStripComboBoxFont
             // 
+            this.toolStripComboBoxFont.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBoxFont.DropDownWidth = 150;
             this.toolStripComboBoxFont.Name = "toolStripComboBoxFont";
             this.toolStripComboBoxFont.Size = new System.Drawing.Size(150, 28);
-            this.toolStripComboBoxFont.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxFont_SelectedIndexChanged);
+            this.toolStripComboBoxFont.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBoxFontSelectedIndexChanged);
             // 
             // toolStripComboBoxMinFontSize
             // 
+            this.toolStripComboBoxMinFontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBoxMinFontSize.DropDownWidth = 75;
             this.toolStripComboBoxMinFontSize.Items.AddRange(new object[] {
             "6",
             "8",
@@ -213,10 +228,11 @@
             "72"});
             this.toolStripComboBoxMinFontSize.Name = "toolStripComboBoxMinFontSize";
             this.toolStripComboBoxMinFontSize.Size = new System.Drawing.Size(75, 28);
-            this.toolStripComboBoxMinFontSize.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxFont_SelectedIndexChanged);
+            this.toolStripComboBoxMinFontSize.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBoxFontSelectedIndexChanged);
             // 
             // toolStripComboBoxMaxFontSize
             // 
+            this.toolStripComboBoxMaxFontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.toolStripComboBoxMaxFontSize.Items.AddRange(new object[] {
             "8",
             "10",
@@ -234,7 +250,7 @@
             "86"});
             this.toolStripComboBoxMaxFontSize.Name = "toolStripComboBoxMaxFontSize";
             this.toolStripComboBoxMaxFontSize.Size = new System.Drawing.Size(75, 28);
-            this.toolStripComboBoxMaxFontSize.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBoxFont_SelectedIndexChanged);
+            this.toolStripComboBoxMaxFontSize.SelectedIndexChanged += new System.EventHandler(this.ToolStripComboBoxFontSelectedIndexChanged);
             // 
             // toolStripLabel4
             // 
@@ -245,12 +261,6 @@
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 28);
-            // 
-            // toolStripWordCount
-            // 
-            this.toolStripWordCount.Name = "toolStripWordCount";
-            this.toolStripWordCount.Size = new System.Drawing.Size(11, 25);
-            this.toolStripWordCount.Text = "-";
             // 
             // splitContainer1
             // 
@@ -314,8 +324,8 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxLayout;
-        private System.Windows.Forms.ToolStripLabel toolStripWordCount;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxLanguage;
     }
 }
 

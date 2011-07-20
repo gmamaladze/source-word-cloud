@@ -1,33 +1,55 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Gma.CodeCloud.Base.Languages.CSharp
+namespace Gma.CodeCloud.Base.Languages
 {
-    public class WordExtractor : IWordExtractor
+    public abstract class WordExtractorBase : IWordExtractor
     {
+        private const string s_SinglelineCommentPrefix = @"//";
+        private const string s_MultilineCommentSuffix = @"*/";
+        private const string s_MultilineCommentPrefix = @"/*";
+        private bool m_IsCommentMode;
+
         private readonly IEnumerable<FileInfo> m_Files;
         private readonly IProgressIndicator m_ProgressIndicator;
 
-        public WordExtractor(ICollection<FileInfo> files, IProgressIndicator progressIndicator)
+        protected WordExtractorBase(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator)
         {
             m_Files = files;
             m_ProgressIndicator = progressIndicator;
-            m_ProgressIndicator.Maximum = files.Count;
         }
 
         public IEnumerable<string> GetWords()
         {
             foreach (FileInfo fileInfo in m_Files)
             {
-                StreamReader reader = fileInfo.OpenText();
-                IEnumerable<string> words = GetWords(reader);
-                foreach (string word in words)
+                m_ProgressIndicator.SetMessage(Shorten(fileInfo.FullName, 60));
+                using (StreamReader reader = fileInfo.OpenText())
                 {
-                    yield return word;
+                    IEnumerable<string> words = GetWords(reader);
+                    foreach (string word in words)
+                    {
+                        yield return word;
+                    }
+                    m_ProgressIndicator.Increment(1);
                 }
-                m_ProgressIndicator.Increment(1);
             }   
+        }
+
+        private static string Shorten(string fullFileName, int maxLength)
+        {
+            if (fullFileName.Length<=maxLength)
+            {
+                return fullFileName;
+            }
+
+            int partLength = maxLength/2 - 2;
+
+            return string.Concat(
+                fullFileName.Remove(partLength),
+                "...",
+                fullFileName.Substring(fullFileName.Length - partLength));
         }
 
         public IEnumerable<string> GetWords(StreamReader reader)
@@ -49,13 +71,7 @@ namespace Gma.CodeCloud.Base.Languages.CSharp
             }
         }
 
-        private static bool CanSkipFile(string line)
-        {
-            return
-                line.Contains("[TestFixture]") ||
-                line.Contains("Used version of") ||
-                line.Contains("Windows Form Designer generated code");
-        }
+        protected abstract bool CanSkipFile(string line);
 
         private IEnumerable<string> GetWordsInLine(string line)
         {
@@ -78,8 +94,7 @@ namespace Gma.CodeCloud.Base.Languages.CSharp
             }
         }
 
-
-        private string Normalize(string text)
+        protected string Normalize(string text)
         {
             string result = text.Trim();
             result = RemoveMultiLineComment(result);
@@ -90,15 +105,7 @@ namespace Gma.CodeCloud.Base.Languages.CSharp
             return result;
         }
 
-        private static string IgnoreRegionsAndUsings(string text)
-        {
-            if (text.StartsWith("using")) return string.Empty;
-            if (text.StartsWith("namespace")) return string.Empty;
-            if (text.StartsWith("#") & (text.Contains("region") || text.Contains("endregion"))) return string.Empty;
-            return text;
-        }
-
-        private static string RemoveLiterals(string text)
+        protected string RemoveLiterals(string text)
         {
             string result = text;
             int indexOfStart = result.IndexOf("\"");
@@ -115,11 +122,7 @@ namespace Gma.CodeCloud.Base.Languages.CSharp
             return result;
         }
 
-        private bool m_IsCommentMode;
-
-        private const string s_SinglelineCommentPrefix = @"//";
-        private const string s_MultilineCommentSuffix = @"*/";
-        private const string s_MultilineCommentPrefix = @"/*";
+        protected abstract string IgnoreRegionsAndUsings(string text);
 
         private string RemoveMultiLineComment(string text)
         {
@@ -154,9 +157,14 @@ namespace Gma.CodeCloud.Base.Languages.CSharp
             return text.Remove(indexOfStart, indexOfEnd - indexOfStart + 2);
         }
 
-        private static string RemoveSingleLineComment(string text)
+        protected virtual string SinglelineCommentPrefix
         {
-            int indexOfStart = text.IndexOf(s_SinglelineCommentPrefix);
+            get { return s_SinglelineCommentPrefix; }
+        }
+
+        protected string RemoveSingleLineComment(string text)
+        {
+            int indexOfStart = text.IndexOf(SinglelineCommentPrefix);
             if (indexOfStart < 0)
             {
                 return text;
