@@ -106,7 +106,6 @@ namespace Gma.CodeCloud.Controls
         protected override void OnResize(EventArgs eventargs)
         {
             BuildLayoutAsync(100);
-            Invalidate();
             base.OnResize(eventargs);
         }
 
@@ -121,6 +120,7 @@ namespace Gma.CodeCloud.Controls
         {
             BuildLayout();
             m_BuildLayoutPostponeTimer.Enabled = false;
+            Invalidate();
         }
 
 
