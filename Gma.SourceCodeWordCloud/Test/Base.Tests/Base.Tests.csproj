@@ -56,7 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonBlacklistTest.cs" />
-    <Compile Include="Geometry\RandomLayoutTests.cs" />
+    <Compile Include="Geometry\DataStructures\QuadTreeBasicTest.cs" />
+    <Compile Include="Geometry\DataStructures\ExhaustiveTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordCounterTest.cs" />
     <Compile Include="WordRegistryTest.cs" />
@@ -70,7 +71,11 @@
       <Name>Base</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="TestData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
