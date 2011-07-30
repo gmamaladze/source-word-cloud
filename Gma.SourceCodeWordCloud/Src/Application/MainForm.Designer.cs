@@ -104,7 +104,7 @@
             this.FolderTree.Name = "FolderTree";
             this.FolderTree.SelectedPath = "C:\\Program Files\\Microsoft Visual Studio 10.0\\Common7\\IDE";
             this.FolderTree.ShowAddressbar = true;
-            this.FolderTree.ShowMyDocuments = false;
+            this.FolderTree.ShowMyDocuments = true;
             this.FolderTree.ShowMyFavorites = false;
             this.FolderTree.ShowMyNetwork = false;
             this.FolderTree.ShowToolbar = false;
@@ -175,7 +175,9 @@
             this.toolStripComboBoxLanguage.Items.AddRange(new object[] {
             "c#",
             "Java",
-            "VB.NET"});
+            "VB.NET",
+            "English *.txt",
+            "Any *.txt"});
             this.toolStripComboBoxLanguage.Name = "toolStripComboBoxLanguage";
             this.toolStripComboBoxLanguage.Size = new System.Drawing.Size(75, 28);
             // 

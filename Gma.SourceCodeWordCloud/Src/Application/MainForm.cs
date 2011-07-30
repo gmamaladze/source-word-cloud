@@ -9,6 +9,10 @@ using Gma.CodeCloud.Base;
 using Gma.CodeCloud.Base.FileIO;
 using Gma.CodeCloud.Base.Geometry;
 using Gma.CodeCloud.Base.Languages;
+using Gma.CodeCloud.Base.TextAnalyses.Blacklist;
+using Gma.CodeCloud.Base.TextAnalyses.Extractors;
+using Gma.CodeCloud.Base.TextAnalyses.Processing;
+using Gma.CodeCloud.Base.TextAnalyses.Stemmers;
 using Gma.CodeCloud.Controls;
 
 namespace Gma.CodeCloud
@@ -28,6 +32,8 @@ namespace Gma.CodeCloud
         public MainForm()
         {
             InitializeComponent();
+
+            this.FolderTree.SelectedPath = Path.GetPathRoot(Directory.GetCurrentDirectory());
 
             m_CloudControl.Dock = DockStyle.Fill;
             this.splitContainer1.Panel1.Controls.Add(m_CloudControl);
@@ -74,7 +80,7 @@ namespace Gma.CodeCloud
                 m_CloudControl,
                 GetItemCaption(itemUderMouse));
 
-            toolTip.ToolTipTitle = string.Format("Statistics for word [{0}]", itemUderMouse.Word);
+            toolTip.ToolTipTitle = string.Format("Statistics for word [{0}]", itemUderMouse.Word.Text);
         }
 
         private string GetItemCaption(LayoutItem itemUderMouse)
@@ -85,9 +91,10 @@ namespace Gma.CodeCloud
             }
 
             return string.Format(
-                "\n\r{0} - occurances\n\r{1}% - of total words",
-                itemUderMouse.Weight,
-                Math.Round(itemUderMouse.Weight * 100 / m_TotalWordCount, 2));
+                "\n\r{0} - occurances\n\r{1}% - of total words\n\r-------------------------------------\n\r{2}",
+                itemUderMouse.Word.Occurrences,
+                Math.Round(itemUderMouse.Word.Occurrences * 100 / m_TotalWordCount, 2),
+                itemUderMouse.Word.GetCaption());
         }
 
         private void CloudControlClick(object sender, EventArgs e)
@@ -100,7 +107,9 @@ namespace Gma.CodeCloud
 
             MessageBox.Show(
                 GetItemCaption(itemUderMouse),
-               string.Format("Statistics for word [{0}]", itemUderMouse.Word));
+               string.Format("Statistics for word [{0}]", itemUderMouse.Word.Text),
+               MessageBoxButtons.OK,
+               MessageBoxIcon.Information);
         }
 
         private void ToolStripButtonGoClick(object sender, EventArgs e)
@@ -117,14 +126,22 @@ namespace Gma.CodeCloud
             IEnumerable<FileInfo> fileInfos = fileIterator.GetFiles(rootDirectoryInfo, ref count);
             ToolStripProgressBar.Style = ProgressBarStyle.Blocks;
             progressBarWrapper.Maximum = count;
-            IWordExtractor extractor = ByLanguageFactory.GetWordExtractor(language, fileInfos, progressBarWrapper);
-            IBlacklist blacklist = ByLanguageFactory.GetBlacklist(language);
-            WordCounter counter = new WordCounter(blacklist);
-            IWordRegistry wordRegistry = counter.Count(extractor);
-            KeyValuePair<string, int>[] pairs = wordRegistry.GetSortedByOccurances();
-            m_TotalWordCount = wordRegistry.TotalWords;
 
-            m_CloudControl.WeightedWords = pairs;
+            IBlacklist blacklist = ByLanguageFactory.GetBlacklist(language);
+            IEnumerable<string> terms = ByLanguageFactory.GetWordExtractor(language, fileInfos, progressBarWrapper);
+            IWordStemmer stemmer = ByLanguageFactory.GetStemmer(language);
+
+            var result =
+                terms
+                    .Filter(blacklist)
+                    .CountOccurences()
+                    .GroupByStem(stemmer)
+                    .SortByOccurences();
+
+
+
+            m_TotalWordCount = result.Sum(word => word.Occurrences);
+            m_CloudControl.WeightedWords = result.Cast<IWord>().ToArray();
 
             IsRunning = false;
         }
