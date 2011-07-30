@@ -64,7 +64,7 @@ namespace Base.Tests.Geometry.DataStructures
             var target = CreateQuadTree(surface);
 
             var itemRectangle = new RectangleF(pointX, pointY, 0, 0);
-            var item = new LayoutItem(itemRectangle, null, 0);
+            var item = new LayoutItem(itemRectangle, null);
             target.Insert(item);
 
             Assert.AreEqual(1, target.Count);
@@ -81,7 +81,7 @@ namespace Base.Tests.Geometry.DataStructures
             var target = CreateQuadTree(surface);
 
             var itemRectangle = new RectangleF(0, 0, 0, 0);
-            var item = new LayoutItem(itemRectangle, null, 0);
+            var item = new LayoutItem(itemRectangle, null);
             target.Insert(item);
 
             Assert.AreEqual(1, target.Count);
@@ -129,7 +129,7 @@ namespace Base.Tests.Geometry.DataStructures
             var target = CreateQuadTree(surface);
 
             var itemRectangle = new RectangleF(x, y, width, height);
-            var item = new LayoutItem(itemRectangle, null, 0);
+            var item = new LayoutItem(itemRectangle, null);
             target.Insert(item);
 
             Assert.AreEqual(1, target.Count);

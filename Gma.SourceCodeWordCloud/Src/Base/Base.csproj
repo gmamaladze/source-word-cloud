@@ -41,7 +41,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonBlacklist.cs" />
     <Compile Include="FileIO\FileIterator.cs" />
     <Compile Include="Geometry\IGraphicEgine.cs" />
     <Compile Include="Geometry\ILayout.cs" />
@@ -49,23 +48,35 @@
     <Compile Include="Geometry\BaseLayout.cs" />
     <Compile Include="Geometry\LayoutItem.cs" />
     <Compile Include="Geometry\SpiralLayout.cs" />
-    <Compile Include="IBlacklist.cs" />
-    <Compile Include="IProgressIndicator.cs" />
-    <Compile Include="IWordExtractor.cs" />
-    <Compile Include="IWordRegistry.cs" />
-    <Compile Include="Languages\VbWordExtractor.cs" />
-    <Compile Include="Languages\JavaWordExtractor.cs" />
-    <Compile Include="Languages\CSharpWordExtractor.cs" />
-    <Compile Include="Languages\Languages.cs" />
-    <Compile Include="Languages\ByLanguageFactory.cs" />
-    <Compile Include="Languages\WordExtractorBase.cs" />
+    <Compile Include="TextAnalyses\Extractors\TextExtractor.cs" />
+    <Compile Include="TextAnalyses\Extractors\Code\VbExtractor.cs" />
+    <Compile Include="TextAnalyses\Extractors\Code\JavaExtractor.cs" />
+    <Compile Include="TextAnalyses\Extractors\Code\CSharpExtractor.cs" />
+    <Compile Include="Languages.cs" />
+    <Compile Include="ByLanguageFactory.cs" />
+    <Compile Include="TextAnalyses\Extractors\Code\CodeExtractorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Geometry\DataStructures\QuadTree.cs" />
     <Compile Include="Geometry\DataStructures\QuadTreeNode.cs" />
-    <Compile Include="TextFileBlacklist.cs" />
-    <Compile Include="WordCounter.cs" />
-    <Compile Include="WordRegistry.cs" />
+    <Compile Include="TextAnalyses\Blacklist\CommonBlacklist.cs" />
+    <Compile Include="TextAnalyses\Blacklist\En\CommonWords.cs" />
+    <Compile Include="TextAnalyses\Blacklist\IBlacklist.cs" />
+    <Compile Include="TextAnalyses\Blacklist\NullBlacklist.cs" />
+    <Compile Include="TextAnalyses\Extractors\BaseExtractor.cs" />
+    <Compile Include="TextAnalyses\Extractors\SingleFileExtractor.cs" />
+    <Compile Include="IProgressIndicator.cs" />
+    <Compile Include="TextAnalyses\Extractors\StringExtractor.cs" />
+    <Compile Include="TextAnalyses\Extractors\UriExtractor.cs" />
+    <Compile Include="TextAnalyses\Processing\IWord.cs" />
+    <Compile Include="TextAnalyses\Processing\Word.cs" />
+    <Compile Include="TextAnalyses\Processing\WordExtensions.cs" />
+    <Compile Include="TextAnalyses\Processing\WordGroup.cs" />
+    <Compile Include="TextAnalyses\Stemmers\En\PorterStem.cs" />
+    <Compile Include="TextAnalyses\Stemmers\En\PorterStemmer.cs" />
+    <Compile Include="TextAnalyses\Stemmers\IWordStemmer.cs" />
+    <Compile Include="TextAnalyses\Stemmers\LowerCaseStemmer.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

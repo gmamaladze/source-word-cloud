@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Gma.CodeCloud.Base.TextAnalyses.Extractors;
 
 namespace Gma.CodeCloud.Base.FileIO
 {
@@ -49,9 +50,9 @@ namespace Gma.CodeCloud.Base.FileIO
 
         public IEnumerable<DirectoryInfo> GetDirectories(DirectoryInfo directory)
         {
-            return 
+            return
                 directory.GetDirectories()
-                    .Where(subDirectory => !m_ExcludeFoldersRegex.IsMatch(subDirectory.Name));
+                .Where(subDirectory => !m_ExcludeFoldersRegex.IsMatch(subDirectory.Name));
         }
     }
 }

@@ -43,23 +43,23 @@ namespace Gma.CodeCloud.Controls
 
         public void Draw(LayoutItem layoutItem)
         {
-            Font font = GetFont(layoutItem.Weight);
+            Font font = GetFont(layoutItem.Word.Occurrences);
             Color color = GetPresudoRandomColorFromPalette(layoutItem);
             //m_Graphics.DrawString(layoutItem.Word, font, brush, layoutItem.Rectangle);
             Point point = new Point((int)layoutItem.Rectangle.X, (int)layoutItem.Rectangle.Y);
-            TextRenderer.DrawText(m_Graphics, layoutItem.Word, font, point, color);
+            TextRenderer.DrawText(m_Graphics, layoutItem.Word.Text, font, point, color);
         }
 
         public void DrawEmphasized(LayoutItem layoutItem)
         {
-            Font font = GetFont(layoutItem.Weight);
+            Font font = GetFont(layoutItem.Word.Occurrences);
             Color color = GetPresudoRandomColorFromPalette(layoutItem);
             //m_Graphics.DrawString(layoutItem.Word, font, brush, layoutItem.Rectangle);
             Point point = new Point((int)layoutItem.Rectangle.X, (int)layoutItem.Rectangle.Y);
-            TextRenderer.DrawText(m_Graphics, layoutItem.Word, font, point, Color.LightGray);
+            TextRenderer.DrawText(m_Graphics, layoutItem.Word.Text, font, point, Color.LightGray);
             int offset = (int)(5 *font.Size / MaxFontSize)+1;
             point.Offset(-offset, -offset);
-            TextRenderer.DrawText(m_Graphics, layoutItem.Word, font, point, color);
+            TextRenderer.DrawText(m_Graphics, layoutItem.Word.Text, font, point, color);
         }
 
         private Font GetFont(int weight)
@@ -74,7 +74,7 @@ namespace Gma.CodeCloud.Controls
 
         private Color GetPresudoRandomColorFromPalette(LayoutItem layoutItem)
         {
-            Color color = Palette[layoutItem.Weight * layoutItem.Word.Length % Palette.Length];
+            Color color = Palette[layoutItem.Word.Occurrences * layoutItem.Word.Text.Length % Palette.Length];
             return color;
         }
 

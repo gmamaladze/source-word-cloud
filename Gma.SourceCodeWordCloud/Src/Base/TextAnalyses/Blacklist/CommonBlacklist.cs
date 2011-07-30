@@ -1,8 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Gma.CodeCloud.Base
+namespace Gma.CodeCloud.Base.TextAnalyses.Blacklist
 {
     public class CommonBlacklist : IBlacklist
     {
@@ -20,7 +21,10 @@ namespace Gma.CodeCloud.Base
 
         public static IBlacklist CreateFromTextFile(string fileName)
         {
-            return CreateFromStremReader(new FileInfo(fileName).OpenText());
+            return 
+                !File.Exists(fileName) 
+                    ? new NullBlacklist() 
+                    : CreateFromStremReader(new FileInfo(fileName).OpenText());
         }
 
         public static IBlacklist CreateFromStremReader(TextReader reader)
@@ -50,14 +54,29 @@ namespace Gma.CodeCloud.Base
             return m_ExcludedWordsHashSet.Contains(word);
         }
 
-        public void Add(string line)
+        public void Add(string word)
         {
-            m_ExcludedWordsHashSet.Add(line);
+            m_ExcludedWordsHashSet.Add(word);
         }
 
         public int Count
         {
             get { return m_ExcludedWordsHashSet.Count; }
+        }
+
+        public void UnionWith(IBlacklist other)
+        {
+            this.m_ExcludedWordsHashSet.UnionWith(other);
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return this.m_ExcludedWordsHashSet.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

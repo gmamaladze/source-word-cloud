@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using Gma.CodeCloud.Base.Geometry.DataStructures;
+using Gma.CodeCloud.Base.TextAnalyses.Processing;
 
 namespace Gma.CodeCloud.Base.Geometry
 {
@@ -18,30 +20,28 @@ namespace Gma.CodeCloud.Base.Geometry
             Center = new PointF(Surface.X + size.Width / 2, Surface.Y + size.Height / 2);
         }
 
-        public int Arrange(KeyValuePair<string, int>[] words, IGraphicEngine graphicEngine)
+        public int Arrange(IEnumerable<IWord> words, IGraphicEngine graphicEngine)
         {
             if (words == null)
             {
                 throw new ArgumentNullException("words");
             }
 
-            if (words.Length == 0)
+            if (words.First() == null)
             {
                 return 0;
             }
 
 
-            foreach (KeyValuePair<string, int> pair in words)
+            foreach (IWord word in words)
             {
-                string word = pair.Key;
-                int weight = pair.Value;
-                SizeF size = graphicEngine.Measure(word, weight);
+                SizeF size = graphicEngine.Measure(word.Text, word.Occurrences);
                 RectangleF freeRectangle;
                 if (!TryFindFreeRectangle(size, out freeRectangle))
                 {
                     break;
                 }
-                LayoutItem item = new LayoutItem(freeRectangle, word, weight);
+                LayoutItem item = new LayoutItem(freeRectangle, word);
                 QuadTree.Insert(item);
             }
             return QuadTree.Count;

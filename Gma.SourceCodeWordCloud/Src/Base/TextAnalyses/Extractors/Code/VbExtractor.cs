@@ -1,13 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Gma.CodeCloud.Base.Languages
+namespace Gma.CodeCloud.Base.TextAnalyses.Extractors.Code
 {
-    public class CSharpWordExtractor : WordExtractorBase
+    public class VbExtractor : CodeExtractorBase
     {
-        public CSharpWordExtractor(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator) 
+        private const string s_VbSinglelineCommentPrefix = "'";
+
+        public VbExtractor(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator) 
             : base(files, progressIndicator)
         {
+        }
+
+        protected override string SinglelineCommentPrefix
+        {
+            get { return s_VbSinglelineCommentPrefix; }
         }
 
         protected override bool CanSkipFile(string line)
@@ -22,8 +29,8 @@ namespace Gma.CodeCloud.Base.Languages
 
         protected override string IgnoreRegionsAndUsings(string text)
         {
-            if (text.StartsWith("using")) return string.Empty;
-            if (text.StartsWith("namespace")) return string.Empty;
+            if (text.StartsWith("Imports")) return string.Empty;
+            if (text.StartsWith("Namespace")) return string.Empty;
             if (text.StartsWith("#") & (text.Contains("region") || text.Contains("endregion"))) return string.Empty;
             return text;
         }

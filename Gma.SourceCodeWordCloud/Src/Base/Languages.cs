@@ -4,6 +4,8 @@
     {
         CSharp,
         Java,
-        VbNet
+        VbNet,
+        EnglishTxt,
+        AnyTxt
     }
 }

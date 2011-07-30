@@ -65,7 +65,7 @@ namespace Base.Tests.Geometry.DataStructures
             switch (methodName)
             {
                 case "Insert":
-                    quadTree.Insert(new LayoutItem(rectangle, null, 0));
+                    quadTree.Insert(new LayoutItem(rectangle, null));
                     return true;
 
                 case "HasContent":

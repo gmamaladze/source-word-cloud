@@ -1,10 +1,9 @@
-﻿namespace Gma.CodeCloud.Base
+﻿namespace Gma.CodeCloud.Base.TextAnalyses.Extractors
 {
     public interface IProgressIndicator
     {
         int Maximum { get; set; }
-        int Value { get; set; }
-        void SetMessage(string text);
         void Increment(int value);
+        void SetMessage(string text);
     }
 }

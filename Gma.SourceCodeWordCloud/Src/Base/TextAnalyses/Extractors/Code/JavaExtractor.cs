@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Gma.CodeCloud.Base.Languages
+namespace Gma.CodeCloud.Base.TextAnalyses.Extractors.Code
 {
-    public class JavaWordExtractor : WordExtractorBase
+    public class JavaExtractor : CodeExtractorBase
     {
-        public JavaWordExtractor(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator) 
+        public JavaExtractor(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator) 
             : base(files, progressIndicator)
         {
         }

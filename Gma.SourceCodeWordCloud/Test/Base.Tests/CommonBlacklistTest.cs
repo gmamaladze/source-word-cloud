@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using Gma.CodeCloud.Base;
+using Gma.CodeCloud.Base.TextAnalyses.Blacklist;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 

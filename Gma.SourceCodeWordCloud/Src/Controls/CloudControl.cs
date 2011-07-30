@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base.Geometry;
+using Gma.CodeCloud.Base.TextAnalyses.Processing;
 
 namespace Gma.CodeCloud.Controls
 {
     public class CloudControl : Panel
     {
-        private KeyValuePair<string, int>[] m_Words;
+        private IWord[] m_Words;
         readonly Color[] m_DefaultPalette = new[] { Color.DarkRed, Color.DarkBlue, Color.DarkGreen, Color.Navy, Color.DarkCyan, Color.DarkOrange, Color.DarkGoldenrod, Color.DarkKhaki, Color.Blue, Color.Red, Color.Green };
         private Color[] m_Palette;
         private LayoutType m_LayoutType;
@@ -18,9 +20,14 @@ namespace Gma.CodeCloud.Controls
         private ILayout m_Layout;
         private Color m_BackColor;
         private Timer m_BuildLayoutPostponeTimer;
+        private int m_MinWordWeight;
+        private int m_MaxWordWeight;
 
-        public CloudControl()
+        public CloudControl() 
         {
+            m_MinWordWeight = 0;
+            m_MaxWordWeight = 0;
+
             MaxFontSize = 68;
             MinFontSize = 6;
            
@@ -39,16 +46,13 @@ namespace Gma.CodeCloud.Controls
         {
             base.OnPaint(e);
 
-            if (m_Words == null || m_Words.Length == 0) { return; }
+            if (m_Words == null) { return; }
             if (m_Layout == null) { return; }
-
-            int maxWordWeight = m_Words[0].Value;
-            int minWordWeight = m_Words[m_Words.Length - 1].Value;
 
             IEnumerable<LayoutItem> wordsToRedraw = m_Layout.GetWordsInArea(e.ClipRectangle);
             using (Graphics graphics = e.Graphics)
             using (IGraphicEngine graphicEngine =
-                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight))
+                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, m_MinWordWeight, m_MaxWordWeight))
             {
                 foreach (LayoutItem currentItem in wordsToRedraw)
                 {
@@ -66,17 +70,14 @@ namespace Gma.CodeCloud.Controls
 
         public void BuildLayout()
         {
-            if (m_Words == null || m_Words.Length == 0) { return; }
-
-            int maxWordWeight = m_Words[0].Value;
-            int minWordWeight = m_Words[m_Words.Length - 1].Value;
+            if (m_Words == null) { return; }
 
             using (Graphics graphics = this.CreateGraphics())
             {
                 IGraphicEngine graphicEngine =
-                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, minWordWeight, maxWordWeight);
+                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, m_MinWordWeight, m_MaxWordWeight);
                 m_Layout = LayoutFactory.CrateLayout(m_LayoutType, this.Size);
-                ItemsCount = m_Layout.Arrange(m_Words, graphicEngine);
+                m_Layout.Arrange(this.m_Words, graphicEngine);
             }
         }
 
@@ -201,12 +202,25 @@ namespace Gma.CodeCloud.Controls
             }
         }
 
-        public KeyValuePair<string, int>[] WeightedWords
+        public IWord[] WeightedWords
         {
             get { return m_Words; }
             set
             {
                 m_Words = value;
+                if (value==null || value.Length==0) {return;}
+
+                IWord first = m_Words[0];
+                if (first!=null)
+                {
+                    m_MaxWordWeight = first.Occurrences;
+                    const int empiricNumberOfWordsThatFitInControl = 400;
+                    IWord lastVisible = m_Words.Length >= empiricNumberOfWordsThatFitInControl
+                                            ? m_Words[empiricNumberOfWordsThatFitInControl]
+                                            : m_Words[m_Words.Length - 1];
+                    m_MinWordWeight = lastVisible.Occurrences;
+                }
+
                 BuildLayout();
                 Invalidate();
             }

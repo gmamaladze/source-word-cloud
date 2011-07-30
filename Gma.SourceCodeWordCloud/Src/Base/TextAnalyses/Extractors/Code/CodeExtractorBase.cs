@@ -1,79 +1,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Gma.CodeCloud.Base.Languages;
 
-namespace Gma.CodeCloud.Base.Languages
+namespace Gma.CodeCloud.Base.TextAnalyses.Extractors.Code
 {
-    public abstract class WordExtractorBase : IWordExtractor
+    public abstract class CodeExtractorBase : TextExtractor
     {
         private const string s_SinglelineCommentPrefix = @"//";
         private const string s_MultilineCommentSuffix = @"*/";
         private const string s_MultilineCommentPrefix = @"/*";
         private bool m_IsCommentMode;
 
-        private readonly IEnumerable<FileInfo> m_Files;
-        private readonly IProgressIndicator m_ProgressIndicator;
-
-        protected WordExtractorBase(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator)
+        protected CodeExtractorBase(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator)
+            : base(files, progressIndicator)
         {
-            m_Files = files;
-            m_ProgressIndicator = progressIndicator;
+           
         }
 
-        public IEnumerable<string> GetWords()
-        {
-            foreach (FileInfo fileInfo in m_Files)
-            {
-                m_ProgressIndicator.SetMessage(Shorten(fileInfo.FullName, 60));
-                using (StreamReader reader = fileInfo.OpenText())
-                {
-                    IEnumerable<string> words = GetWords(reader);
-                    foreach (string word in words)
-                    {
-                        yield return word;
-                    }
-                    m_ProgressIndicator.Increment(1);
-                }
-            }   
-        }
-
-        private static string Shorten(string fullFileName, int maxLength)
-        {
-            if (fullFileName.Length<=maxLength)
-            {
-                return fullFileName;
-            }
-
-            int partLength = maxLength/2 - 2;
-
-            return string.Concat(
-                fullFileName.Remove(partLength),
-                "...",
-                fullFileName.Substring(fullFileName.Length - partLength));
-        }
-
-        public IEnumerable<string> GetWords(StreamReader reader)
-        {
-            string line = reader.ReadLine();
-            while (line != null)
-            {   
-                if (CanSkipFile(line))
-                {
-                    break;
-                }
-
-                IEnumerable<string> wordsInLine = GetWordsInLine(line);
-                foreach (string word in wordsInLine)
-                {
-                    yield return word;
-                }
-                line = reader.ReadLine();
-            }
-        }
-
-        protected abstract bool CanSkipFile(string line);
-
-        private IEnumerable<string> GetWordsInLine(string line)
+        protected override IEnumerable<string> GetWordsInLine(string line)
         {
             line = Normalize(line);
             StringBuilder word = new StringBuilder();
