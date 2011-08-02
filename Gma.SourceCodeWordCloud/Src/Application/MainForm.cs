@@ -21,6 +21,7 @@ namespace Gma.CodeCloud
     {
         private readonly CloudControl m_CloudControl = new CloudControl();
         private decimal m_TotalWordCount;
+        private int m_EstimatedCount;
 
         public MainForm(string initialPath) : this()
         {
@@ -117,15 +118,15 @@ namespace Gma.CodeCloud
             IsRunning = true;
 
             string path = FolderTree.SelectedPath;
-            IProgressIndicator progressBarWrapper = new ProgressBarWrapper(ToolStripProgressBar, SetCaptionText);
+            IProgressIndicator progressBarWrapper = new ProgressBarWrapper(ToolStripProgressBar, SetCaptionText, this);
             Language language = ByLanguageFactory.GetLanguageFromString(toolStripComboBoxLanguage.Text);
             DirectoryInfo rootDirectoryInfo = new DirectoryInfo(path);
             ToolStripProgressBar.Style = ProgressBarStyle.Marquee;
             FileIterator fileIterator = ByLanguageFactory.GetFileIterator(language, progressBarWrapper);
-            int count = 0;
-            IEnumerable<FileInfo> fileInfos = fileIterator.GetFiles(rootDirectoryInfo, ref count);
+            m_EstimatedCount = 0;
+            IEnumerable<FileInfo> fileInfos = fileIterator.GetFiles(rootDirectoryInfo, ref m_EstimatedCount);
             ToolStripProgressBar.Style = ProgressBarStyle.Blocks;
-            progressBarWrapper.Maximum = count;
+            progressBarWrapper.Maximum = m_EstimatedCount;
 
             IBlacklist blacklist = ByLanguageFactory.GetBlacklist(language);
             IEnumerable<string> terms = ByLanguageFactory.GetWordExtractor(language, fileInfos, progressBarWrapper);
@@ -194,11 +195,13 @@ namespace Gma.CodeCloud
         {
             private readonly ToolStripProgressBar m_ToolStripProgressBar;
             private readonly Action<string> m_SetMessage;
+            private readonly MainForm m_MainForm;
 
-            public ProgressBarWrapper(ToolStripProgressBar toolStripProgressBar, Action<string> setMessage )
+            public ProgressBarWrapper(ToolStripProgressBar toolStripProgressBar, Action<string> setMessage, MainForm mainForm)
             {
                 m_ToolStripProgressBar = toolStripProgressBar;
                 m_SetMessage = setMessage;
+                m_MainForm = mainForm;
                 toolStripProgressBar.Style = ProgressBarStyle.Blocks;
             }
 
@@ -224,7 +227,8 @@ namespace Gma.CodeCloud
             {
                 if (m_ToolStripProgressBar.Style == ProgressBarStyle.Blocks)
                 {
-                    m_ToolStripProgressBar.Increment(value);
+                    m_ToolStripProgressBar.Maximum = m_MainForm.m_EstimatedCount;
+                      m_ToolStripProgressBar.Increment(value);
                 }
                 Application.DoEvents();
             }

@@ -42,8 +42,8 @@ namespace Gma.CodeCloud.Base.TextAnalyses.Extractors.Code
         protected string Normalize(string text)
         {
             string result = text.Trim();
-            result = RemoveMultiLineComment(result);
             result = RemoveSingleLineComment(result);
+            result = RemoveMultiLineComment(result);
             result = RemoveLiterals(result);
             result = IgnoreRegionsAndUsings(result);
 
