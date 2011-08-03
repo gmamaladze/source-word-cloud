@@ -41,7 +41,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallbackExtensions.cs" />
     <Compile Include="FileIO\FileIterator.cs" />
+    <Compile Include="FileIO\PatternMatcher.cs" />
+    <Compile Include="FileIO\RegExBasedPatternMatcher.cs" />
     <Compile Include="Geometry\IGraphicEgine.cs" />
     <Compile Include="Geometry\ILayout.cs" />
     <Compile Include="Geometry\TypewriterLayout.cs" />

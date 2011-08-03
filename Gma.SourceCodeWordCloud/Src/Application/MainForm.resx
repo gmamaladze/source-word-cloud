@@ -139,28 +139,27 @@
   <data name="ToolStripButtonGo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAABKdJREFUSEuNVkko
-        tW0YPoaNrfrLQmJh4adkKVP+jXkeT2Yyz7MiUixkIyQlGwtjsjBv/ogSGcuUeThYIBzJx+G+//t6+o4+
-        ffJ/bz2d532e+76ue7ie5z0mmm+euro6WzMzsxhm/sfU1PTvt7e3v2Bubm5+TUTbJiYm/76/vw/U19ef
-        fIfz254A28jozcrKMlRXV1NFRQWXlJRwYWEhBmEuayR7DBvYwuePSMRJK0MP0Ly8PM7OzqbGxkbu6uri
-        vr4+bmlpIcwFkGRP2fwk08P3W5KqqqqS5OTk94KCApLIqKGhgaampmhhYYFWVlZobW2NVldXaWlpiebm
-        5mhiYkLZwBY+8AXGlyTl5eXasrIyFVVpaSnNz8+zTqfj7e1tenh44MfHRzUODg7UO9avrq7wzkNDQyQ+
-        yJYTEhLegfWJRNhtcnNz9RIJFxcX8+TkJF1fX7Ner+fj42N6eXlhg8GghpDS6+srn56eEghvbm54cXER
-        WSlfZAMsYH6QFBUV9ebk5FBKSgoNDw/T1tYWHR4e0tnZGV1cXFB3d7d6l4g/xuXlJYHs6OiIkA1IBgcH
-        FQawgKkIMjMzbZOSkgyJiYnU2dnJ4qjKgKhFggzQpqYmxlhfX1fv8MOvPCorkCDj/f19FsmSYDEwRXG2
-        GkmpMiMjg+Pj42ljY4NR35OTExLNMwAAVFtbq9KXYJR6YGMkgg0yQTklWx4fHyfBYmACGxlMCxs0rdSC
-        UpyfnxNKYCwJmp+enk5arZYiIyMpLS2NRkZGPpULQW1ubtLs7KzCAiawNWKsE0cVmaTK9/f3KiJEZiwF
-        tA6bgIAA9vHxIX9/fw4PD6fW1laVMQJBSe/u7hhBtre3K3shOdfExcX9iIqKoubmZtWovb09lcGvDRUb
-        CgwMJA8PD3JzcyNvb2/y8/Mj+OFkj42NKR/4AgNY2AO2IoiIiGAsivRURDD+NQNHR0e2srJiCwsLtrS0
-        JHt7e3Z1daWgoCDOz89nEKDZ8AVBT08PA1MRSCo6qetHiZAm5PkrgYuLC9vZ2SkSa2trAqGnp6dS11cl
-        amtrY2CKms410vFpSYcrKytpd3eXITc0DBI19sDd3Z2dnZ3ZwcGBnZycSPrA/f39H0FAEM/Pz8oXTRYs
-        BiawkUFlTEwMoWmQGO4a0bM6RMY+oN5eXl6q/jU1NbSzs/OpR7CFD3yBASxgAlsjE9vY2FiD1JOQGg4L
-        5Pb09KQOEUhkH+kiuv89aFAjegNMYKvTLJNeaQqFhobyzMyMatTt7S2DBNF1dHQo+RoPHn5RFgQAG1wV
-        UlblKxiEBgPz4y6SetlER0frg4ODKTU1lUZHR5XckAlSR0/QeKgLA3OsYQ82sIUPfIEBLGB+ulFlQYtT
-        KnpnGCIalAt1RfOgLigGWsccwLgaYDMwMABwhq/06h1YX34ThKAEJOhHSEgI46RC41AXTjnOCaLFHGpZ
-        Xl5WNmKr6g5fYHz7VfuZiR61hHqQMj5AaJ7oXg3MsYY92MBWgFGW7z+ZRmbUTxzQeENYWJiKDvePr68v
-        hrqLkKXs4cQaYPtbzf/kH4CkbisAlQI0LVHqZI5r5QfmWMMebL7D+g9fjBL0H35kvwAAAABJRU5ErkJg
-        gg==
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAABJtJREFUSEuNVkko
+        9W0Uv4aNrfrKQmJh4aVkKVO+jXmeI0LmebyKSKFkh6TszJ+FcaUkRCFlKPPsvVggXMnLdc/5zu/JFb2S
+        W0/3uf/nnN/vDL/z/K+Z5ptPXV2dvYWFRRwz/2tubv7r9fX1H5hbWlpeEdGWmZnZtNFo/K++vv7kO5y/
+        zgTYTlZ/enq6obq6miorK7m0tJSLioqwCHt5RnLGsIEtfH5EIk4JsvQAzc/P55ycHGpsbOSuri4eGBjg
+        lpYWwl4ASc6UzRuZHr7fklRVVZUmJiYaCwsLKTs7mwAyMTFBc3NztLi4SMvLy7S0tEQLCws0PT1NY2Nj
+        yga28IEvML4kqaioSCgvL1dRlZWV0fz8POt0Ol5fX6f7+3t+eHhQa3t7W/3G88vLSz44OOD+/n4SH2TL
+        8fHxRmB9IhF2u7y8PL1EwiUlJTw+Pk5XV1es1+t5b2+Pnp+f2WAwqHV8fEwvLy8AJhBeX1+zBIPslC+y
+        ARYw30mKi4v7c3NzKTU1lQYHB2ltbY12dnbo8PCQTk5OqLOzU/0+Ozt7X6enpwSy3d1dQjYg6evrUxjA
+        AqYiyMrKsk9JSTEkJycDiC8uLlQZELVIkAHa3NzMWEKsfsMP3/JRWYEEGe/v76vmCxYDUxRnr5GUtJmZ
+        mZyUlIRIGPUVQxLNMwAAVFtbq9KXYBQAbExEsEEmKOf5+TmPjo6SYDEwgY0MJoUNmlZqQSmOjo4IJTCV
+        BM3PyMighIQEio6OJtE+DQ0NfSoXglpdXaWpqSmFBUxga8RYJ44qMgHmu7s7FREiM5UCWodNUFAQ+/n5
+        UWBgIEdGRlJra6vKGIGgpLe3t4wg29vblb2Q/NaIdv/ExMRQU1OTatTm5qbK4GNDxYaCg4PJy8uLPDw8
+        yNfXlwICAgh+mOyRkRHlA19gAAtnwFYEUVFRjIdSFhURjD9m4OzszDY2NmxlZcXW1tbk6OjI7u7uFBIS
+        wgUFBQwCNBu+IOju7mZgKgJJRSd1fS8R0oQ8PxK4ubmxg4ODIrG1tSUQent7K3V9VaK2tjYGpqjpt0Y6
+        PinpsFarRYP5TW4EiZp64Onpya6uruzk5MQuLi4kfeCenp73ICCIp6cn5YsmCxYDE9jIQBsXF0doGiSG
+        u2Zra0sNkakPqLePj4+qf01NDW1sbHzqEWzhA19gAAuYwNbIxl7uD4PUk5AahgVye3x8VEMEEjlHujw7
+        O/ujQUNvgAlsNc2y6ZemUHh4OM/MzKhG3dzcMEgQXUdHh5KvafDwjbIgANjgqpArRfkKBqHBwHy/i6Re
+        drGxsfrQ0FBKS0uj4eFhJTdkgtQxRGg81IWFPZ7hDDawhQ98gQEsYH66UeVBAqZU9M4wRDQoF+qK5kFd
+        UAy0jj2AcTXApre3F+AMX+mVEVhfvhOEoBQk6EdYWBhjUqFxqAtTjjlBtNhDLSsrK8pGbNVMwBcY377V
+        3jLRo5ZQD1LGCwhXSUNDg1rY4xnOYANbAUZZvn9lmphRP3FA4w0REREqOtw//v7+WOouQpZyhok1wPav
+        mv/kH4Ckbi8AWgGalCh1sse18gd7PMMZbL7D+h+tPAqrdDPH9QAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="ToolStripButtonCancel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

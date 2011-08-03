@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 
 namespace Gma.CodeCloud.Base.TextAnalyses.Extractors.Code
 {
@@ -7,8 +6,8 @@ namespace Gma.CodeCloud.Base.TextAnalyses.Extractors.Code
     {
         private const string s_VbSinglelineCommentPrefix = "'";
 
-        public VbExtractor(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator) 
-            : base(files, progressIndicator)
+        public VbExtractor(string file) 
+            : base(file)
         {
         }
 

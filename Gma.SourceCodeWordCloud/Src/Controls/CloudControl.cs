@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base.Geometry;
 using Gma.CodeCloud.Base.TextAnalyses.Processing;
@@ -77,7 +76,7 @@ namespace Gma.CodeCloud.Controls
                 IGraphicEngine graphicEngine =
                     new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, m_MinWordWeight, m_MaxWordWeight);
                 m_Layout = LayoutFactory.CrateLayout(m_LayoutType, this.Size);
-                m_Layout.Arrange(this.m_Words, graphicEngine);
+                ItemsCount = m_Layout.Arrange(this.m_Words, graphicEngine);
             }
         }
 

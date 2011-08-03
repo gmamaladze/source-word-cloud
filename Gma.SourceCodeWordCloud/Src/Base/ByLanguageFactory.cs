@@ -14,22 +14,22 @@ namespace Gma.CodeCloud.Base
 {
     public static class ByLanguageFactory
     {
-        public static FileIterator GetFileIterator(Language language, IProgressIndicator progress)
+        public static FileIterator GetFileIterator(Language language)
         {
             switch (language)
             {
                 case Language.CSharp:
-                    return new FileIterator("*.cs", "*test*", progress);
+                    return new FileIterator("*.cs", "*test*");
 
                 case Language.Java:
-                    return new FileIterator("*.java", "*test*", progress);
+                    return new FileIterator("*.java", "*test*");
 
                 case Language.VbNet:
-                    return new FileIterator("*.vb", "*test*", progress);
+                    return new FileIterator("*.vb", "*test*");
 
                 case Language.EnglishTxt:
                 case Language.AnyTxt:
-                    return new FileIterator("*.txt", string.Empty, progress);
+                    return new FileIterator("*.txt", string.Empty);
 
 
                 default:
@@ -65,22 +65,22 @@ namespace Gma.CodeCloud.Base
             return 0;
         }
 
-        public static IEnumerable<string> GetWordExtractor(Language language, System.Collections.Generic.IEnumerable<System.IO.FileInfo> fileInfos, IProgressIndicator progress)
+        public static IEnumerable<string> GetWordExtractor(Language language, string  file)
         {
             switch (language)
             {
                 case Language.CSharp:
-                    return new CSharpExtractor(fileInfos, progress);
+                    return new CSharpExtractor(file);
 
                 case Language.Java:
-                    return new JavaExtractor(fileInfos, progress);
+                    return new JavaExtractor(file);
 
                 case Language.VbNet:
-                    return new VbExtractor(fileInfos, progress);
+                    return new VbExtractor(file);
 
                 case Language.EnglishTxt:
                 case Language.AnyTxt:
-                    return new TextExtractor(fileInfos, progress);
+                    return new TextExtractor(file);
 
                 default:
                     ThrowNotSupportedLanguageException(language);

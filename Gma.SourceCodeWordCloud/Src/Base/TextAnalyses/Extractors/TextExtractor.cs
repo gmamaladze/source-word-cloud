@@ -1,55 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using Gma.CodeCloud.Base.TextAnalyses.Extractors;
 
 namespace Gma.CodeCloud.Base.Languages
 {
     public class TextExtractor : BaseExtractor
     {
-        public TextExtractor(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator)
-            : base(progressIndicator)
+        private readonly string m_File;
+
+        public TextExtractor(string file)
+            : base()
         {
-            Files = files;
+            m_File = file;
         }
 
-        protected IEnumerable<FileInfo> Files { get; set; }
 
         public override IEnumerable<string> GetWords()
         {
-            foreach (FileInfo fileInfo in Files)
+            using (StreamReader reader = File.OpenText(m_File))
             {
-                ProgressIndicator.SetMessage(Shorten(fileInfo.FullName, 60));
-                using (StreamReader reader = fileInfo.OpenText())
+                IEnumerable<string> words = GetWords(reader);
+                foreach (string word in words)
                 {
-                    IEnumerable<string> words = GetWords(reader);
-                    foreach (string word in words)
-                    {
-                        yield return word;
-                    }
-                    OnFileProcessed();
+                    yield return word;
                 }
-            }   
-        }
-
-        private void OnFileProcessed()
-        {
-            ProgressIndicator.Increment(1);
-        }
-
-        protected static string Shorten(string fullFileName, int maxLength)
-        {
-            if (fullFileName.Length<=maxLength)
-            {
-                return fullFileName;
             }
-
-            int partLength = maxLength/2 - 2;
-
-            return string.Concat(
-                fullFileName.Remove(partLength),
-                "...",
-                fullFileName.Substring(fullFileName.Length - partLength));
         }
 
         public virtual IEnumerable<string> GetWords(StreamReader reader)
@@ -85,13 +62,10 @@ namespace Gma.CodeCloud.Base.Languages
                     if (word.Length > 1)
                     {
                         yield return word.ToString();
-                        OnWordPorcessed(word);
                     }
                     word.Clear();
                 }
-                OnCharPorcessed(ch);
             }
-            OnLinePorcessed(line);
         }
 
         protected virtual bool CanSkipFile(string line)

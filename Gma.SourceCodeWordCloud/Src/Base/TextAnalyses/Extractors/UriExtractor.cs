@@ -11,8 +11,8 @@ namespace Gma.CodeCloud.Base.TextAnalyses.Extractors
         private readonly Uri m_Uri;
         private bool m_IsScriptMode;
 
-        public UriExtractor(Uri uri, IProgressIndicator progressIndicator) 
-            : base(null, progressIndicator)
+        public UriExtractor(Uri uri) 
+            : base(null)
         {
             m_Uri = uri;
         }

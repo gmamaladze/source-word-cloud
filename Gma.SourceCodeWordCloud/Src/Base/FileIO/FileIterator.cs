@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Gma.CodeCloud.Base.TextAnalyses.Extractors;
 
 namespace Gma.CodeCloud.Base.FileIO
@@ -9,50 +8,34 @@ namespace Gma.CodeCloud.Base.FileIO
     public class FileIterator
     {
         private readonly string m_IncludeFilesPattern;
-        private readonly IProgressIndicator m_Progress;
-        private readonly Regex m_ExcludeFoldersRegex;
+        private readonly string m_ExcludeFoldersPattern;
 
-        public FileIterator(string includeFilesPattern, string excludeFoldersPattern, IProgressIndicator progress)
+        public FileIterator(string includeFilesPattern, string excludeFoldersPattern)
         {
             m_IncludeFilesPattern = includeFilesPattern;
-            m_Progress = progress;
-            m_ExcludeFoldersRegex = Mask2RegEx(excludeFoldersPattern);
-            m_Progress.Maximum = 100;
-            m_Progress.SetMessage("Estimating ...");
+            m_ExcludeFoldersPattern = excludeFoldersPattern;
         }
 
-        private static Regex Mask2RegEx(string excludeFoldersPattern)
-        {
-            return new Regex(
-                '^' +
-                excludeFoldersPattern
-                    .Replace(".", "[.]")
-                    .Replace("*", ".*")
-                    .Replace("?", ".")
-                + '$',
-                RegexOptions.IgnoreCase);
-        }
 
-        public IEnumerable<FileInfo> GetFiles(DirectoryInfo directory, ref int estimatedCount)
+        public IEnumerable<string> GetFiles(string path)
         {
-            m_Progress.Increment(0);
-            FileInfo[] files = directory.GetFiles(m_IncludeFilesPattern);
-            estimatedCount += files.Length;
-            IEnumerable<FileInfo> result = files;
-            IEnumerable<DirectoryInfo> subDirectories = GetDirectories(directory);
-            foreach (DirectoryInfo subDirectory in subDirectories)
+            string[] files = Directory.GetFiles(path, m_IncludeFilesPattern);
+
+            IEnumerable<string> result = files;
+            IEnumerable<string> subDirectories = GetDirectories(path);
+            foreach (string subDirectory in subDirectories)
             {
-                IEnumerable<FileInfo> subFiles = GetFiles(subDirectory, ref estimatedCount);
+                IEnumerable<string> subFiles = GetFiles(subDirectory);
                 result = result.Concat(subFiles);
             }
             return result;
         }
 
-        public IEnumerable<DirectoryInfo> GetDirectories(DirectoryInfo directory)
+        private IEnumerable<string> GetDirectories(string path)
         {
-            return
-                directory.GetDirectories()
-                .Where(subDirectory => !m_ExcludeFoldersRegex.IsMatch(subDirectory.Name));
+            return 
+                Directory.EnumerateDirectories(path)
+                .Where(subDirectory => !PatternMatcher.Matches(m_ExcludeFoldersPattern, subDirectory));
         }
     }
 }

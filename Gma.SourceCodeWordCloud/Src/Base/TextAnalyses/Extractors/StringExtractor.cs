@@ -7,21 +7,14 @@ namespace Gma.CodeCloud.Base.TextAnalyses.Extractors
         private readonly string m_Text;
 
         public StringExtractor(string text, IProgressIndicator progressIndicator)
-            : base(progressIndicator)
+            : base()
         {
             m_Text = text;
-            ProgressIndicator = progressIndicator;
-            ProgressIndicator.Maximum = m_Text.Length;
         }
 
         public override IEnumerable<string> GetWords()
         {
             return GetWordsInLine(m_Text);
-        }
-
-        protected override void OnCharPorcessed(char ch)
-        {
-            ProgressIndicator.Increment(1);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Gma.CodeCloud.Base.TextAnalyses.Extractors.Code
 {
     public class JavaExtractor : CodeExtractorBase
     {
-        public JavaExtractor(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator) 
-            : base(files, progressIndicator)
+        public JavaExtractor(string file) 
+            : base(file)
         {
         }
 

@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base;
 using Gma.CodeCloud.Base.FileIO;
 using Gma.CodeCloud.Base.Geometry;
 using Gma.CodeCloud.Base.Languages;
 using Gma.CodeCloud.Base.TextAnalyses.Blacklist;
-using Gma.CodeCloud.Base.TextAnalyses.Extractors;
 using Gma.CodeCloud.Base.TextAnalyses.Processing;
 using Gma.CodeCloud.Base.TextAnalyses.Stemmers;
 using Gma.CodeCloud.Controls;
@@ -21,7 +20,7 @@ namespace Gma.CodeCloud
     {
         private readonly CloudControl m_CloudControl = new CloudControl();
         private decimal m_TotalWordCount;
-        private int m_EstimatedCount;
+        private CancellationTokenSource m_CancellationTokenSourcec;
 
         public MainForm(string initialPath) : this()
         {
@@ -118,42 +117,50 @@ namespace Gma.CodeCloud
             IsRunning = true;
 
             string path = FolderTree.SelectedPath;
-            IProgressIndicator progressBarWrapper = new ProgressBarWrapper(ToolStripProgressBar, SetCaptionText, this);
             Language language = ByLanguageFactory.GetLanguageFromString(toolStripComboBoxLanguage.Text);
-            DirectoryInfo rootDirectoryInfo = new DirectoryInfo(path);
-            ToolStripProgressBar.Style = ProgressBarStyle.Marquee;
-            FileIterator fileIterator = ByLanguageFactory.GetFileIterator(language, progressBarWrapper);
-            m_EstimatedCount = 0;
-            IEnumerable<FileInfo> fileInfos = fileIterator.GetFiles(rootDirectoryInfo, ref m_EstimatedCount);
-            ToolStripProgressBar.Style = ProgressBarStyle.Blocks;
-            progressBarWrapper.Maximum = m_EstimatedCount;
+            FileIterator fileIterator = ByLanguageFactory.GetFileIterator(language);
 
             IBlacklist blacklist = ByLanguageFactory.GetBlacklist(language);
-            IEnumerable<string> terms = ByLanguageFactory.GetWordExtractor(language, fileInfos, progressBarWrapper);
             IWordStemmer stemmer = ByLanguageFactory.GetStemmer(language);
 
-            var result =
-                terms
+            IsRunning = true;
+            m_CloudControl.WeightedWords = new IWord[0];
+            using (m_CancellationTokenSourcec = new CancellationTokenSource())
+            try
+            {
+                var result = fileIterator
+                    .GetFiles(path)
+                    .AsParallel()
+                    .WithCancellation(m_CancellationTokenSourcec.Token)
+                    //.WithCallback(DoProgress)
+                    .SelectMany(file => ByLanguageFactory.GetWordExtractor(language, file))
                     .Filter(blacklist)
                     .CountOccurences()
                     .GroupByStem(stemmer)
-                    .SortByOccurences();
+                    .SortByOccurences()
+                    .AsEnumerable()
+                    .Cast<IWord>()
+                    .ToArray();
 
-
-
-            m_TotalWordCount = result.Sum(word => word.Occurrences);
-            m_CloudControl.WeightedWords = result.Cast<IWord>().ToArray();
-
+                m_CloudControl.WeightedWords = result;
+                m_TotalWordCount = result.Sum(word => word.Occurrences);
+            } 
+            catch (OperationCanceledException)
+            {
+                
+            }
             IsRunning = false;
         }
 
-        private void SetCaptionText(string text)
+
+        public void SetCaptionText(string text)
         {
             this.Text = string.Concat("Source Code Word Colud Generator :: " + text);
         }
 
         private void ToolStripButtonCancelClick(object sender, EventArgs e)
         {
+            m_CancellationTokenSourcec.Cancel(false);
             IsRunning = false;
         }
 
@@ -164,6 +171,9 @@ namespace Gma.CodeCloud
                 ToolStripButtonCancel.Enabled = value;
                 ToolStripButtonGo.Enabled = !value;
                 ToolStripProgressBar.Value = 0;
+                ToolStripProgressBar.Style = value ? ProgressBarStyle.Continuous : ProgressBarStyle.Blocks;
+                SetCaptionText(value ? "Working ..." : string.Empty);
+                Application.DoEvents();
             }
         }
 
@@ -191,47 +201,19 @@ namespace Gma.CodeCloud
             m_CloudControl.LayoutType = (LayoutType) toolStripComboBoxLayout.SelectedItem;
         }
 
-        private sealed class ProgressBarWrapper : IProgressIndicator
+        private static string ShortenFileName(string fullFileName, int maxLength)
         {
-            private readonly ToolStripProgressBar m_ToolStripProgressBar;
-            private readonly Action<string> m_SetMessage;
-            private readonly MainForm m_MainForm;
-
-            public ProgressBarWrapper(ToolStripProgressBar toolStripProgressBar, Action<string> setMessage, MainForm mainForm)
+            if (fullFileName.Length <= maxLength)
             {
-                m_ToolStripProgressBar = toolStripProgressBar;
-                m_SetMessage = setMessage;
-                m_MainForm = mainForm;
-                toolStripProgressBar.Style = ProgressBarStyle.Blocks;
+                return fullFileName;
             }
 
-            public int Maximum
-            {
-                get { return m_ToolStripProgressBar.Maximum; }
-                set { m_ToolStripProgressBar.Maximum = value; }
-            }
+            int partLength = maxLength / 2 - 2;
 
-            public int Value
-            {
-                get { return m_ToolStripProgressBar.Value; }
-                set { m_ToolStripProgressBar.Value = value; }
-            }
-
-            public void SetMessage(string text)
-            {
-                m_SetMessage.Invoke(text);
-                Application.DoEvents();
-            }
-
-            public void Increment(int value)
-            {
-                if (m_ToolStripProgressBar.Style == ProgressBarStyle.Blocks)
-                {
-                    m_ToolStripProgressBar.Maximum = m_MainForm.m_EstimatedCount;
-                      m_ToolStripProgressBar.Increment(value);
-                }
-                Application.DoEvents();
-            }
+            return string.Concat(
+                fullFileName.Remove(partLength),
+                "...",
+                fullFileName.Substring(fullFileName.Length - partLength));
         }
     }
 }

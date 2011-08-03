@@ -6,12 +6,9 @@ namespace Gma.CodeCloud.Base.TextAnalyses.Extractors
 {
     public abstract class BaseExtractor : IEnumerable<string>
     {
-        protected BaseExtractor(IProgressIndicator progressIndicator)
+        protected BaseExtractor()
         {
-            ProgressIndicator = progressIndicator;
         }
-
-        protected IProgressIndicator ProgressIndicator { get; set; }
 
         protected virtual IEnumerable<string> GetWordsInLine(string line)
         {
@@ -27,18 +24,11 @@ namespace Gma.CodeCloud.Base.TextAnalyses.Extractors
                     if (word.Length > 1)
                     {
                         yield return word.ToString();
-                        OnWordPorcessed(word);
                     }
                     word.Clear();
                 }
-                OnCharPorcessed(ch);
             }
-            OnLinePorcessed(line);
         }
-
-        protected virtual void OnCharPorcessed(char ch) { }
-        protected virtual void OnWordPorcessed(StringBuilder word) { }
-        protected virtual void OnLinePorcessed(string line) { }
 
         public IEnumerator<string> GetEnumerator()
         {

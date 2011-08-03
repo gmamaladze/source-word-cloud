@@ -12,8 +12,8 @@ namespace Gma.CodeCloud.Base.TextAnalyses.Extractors.Code
         private const string s_MultilineCommentPrefix = @"/*";
         private bool m_IsCommentMode;
 
-        protected CodeExtractorBase(IEnumerable<FileInfo> files, IProgressIndicator progressIndicator)
-            : base(files, progressIndicator)
+        protected CodeExtractorBase(string file)
+            : base(file)
         {
            
         }

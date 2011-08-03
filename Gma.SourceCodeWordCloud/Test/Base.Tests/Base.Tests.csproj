@@ -58,6 +58,7 @@
     <Compile Include="CommonBlacklistTest.cs" />
     <Compile Include="Geometry\DataStructures\QuadTreeBasicTest.cs" />
     <Compile Include="Geometry\DataStructures\ExhaustiveTest.cs" />
+    <Compile Include="PatternMatcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordCounterTest.cs" />
     <Compile Include="WordRegistryTest.cs" />
