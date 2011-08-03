@@ -9,7 +9,7 @@ namespace Gma.CodeCloud.Controls
 {
     public class CloudControl : Panel
     {
-        private IWord[] m_Words;
+        private List<IWord> m_Words;
         readonly Color[] m_DefaultPalette = new[] { Color.DarkRed, Color.DarkBlue, Color.DarkGreen, Color.Navy, Color.DarkCyan, Color.DarkOrange, Color.DarkGoldenrod, Color.DarkKhaki, Color.Blue, Color.Red, Color.Green };
         private Color[] m_Palette;
         private LayoutType m_LayoutType;
@@ -70,6 +70,17 @@ namespace Gma.CodeCloud.Controls
         public void BuildLayout()
         {
             if (m_Words == null) { return; }
+
+            IWord first = m_Words[0];
+            if (first != null)
+            {
+                m_MaxWordWeight = first.Occurrences;
+                const int empiricNumberOfWordsThatFitInControl = 400;
+                IWord lastVisible = m_Words.Count >= empiricNumberOfWordsThatFitInControl
+                                        ? m_Words[empiricNumberOfWordsThatFitInControl]
+                                        : m_Words[m_Words.Count - 1];
+                m_MinWordWeight = lastVisible.Occurrences;
+            }
 
             using (Graphics graphics = this.CreateGraphics())
             {
@@ -201,24 +212,13 @@ namespace Gma.CodeCloud.Controls
             }
         }
 
-        public IWord[] WeightedWords
+        public List<IWord> WeightedWords
         {
             get { return m_Words; }
             set
             {
                 m_Words = value;
-                if (value==null || value.Length==0) {return;}
-
-                IWord first = m_Words[0];
-                if (first!=null)
-                {
-                    m_MaxWordWeight = first.Occurrences;
-                    const int empiricNumberOfWordsThatFitInControl = 400;
-                    IWord lastVisible = m_Words.Length >= empiricNumberOfWordsThatFitInControl
-                                            ? m_Words[empiricNumberOfWordsThatFitInControl]
-                                            : m_Words[m_Words.Length - 1];
-                    m_MinWordWeight = lastVisible.Occurrences;
-                }
+                if (value==null || value.Count==0) {return;}
 
                 BuildLayout();
                 Invalidate();

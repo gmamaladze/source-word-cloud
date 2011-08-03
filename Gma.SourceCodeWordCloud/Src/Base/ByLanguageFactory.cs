@@ -27,6 +27,9 @@ namespace Gma.CodeCloud.Base
                 case Language.VbNet:
                     return new FileIterator("*.vb", "*test*");
 
+                case Language.Cpp:
+                    return new FileIterator(new[] {"*.cpp", "*.h"}, "*test*");
+
                 case Language.EnglishTxt:
                 case Language.AnyTxt:
                     return new FileIterator("*.txt", string.Empty);
@@ -51,6 +54,9 @@ namespace Gma.CodeCloud.Base
 
                 case "VB.NET":
                     return Language.VbNet;
+
+                case "C++":
+                    return Language.Cpp;
 
                 case "English *.txt":
                     return Language.EnglishTxt;
@@ -78,6 +84,9 @@ namespace Gma.CodeCloud.Base
                 case Language.VbNet:
                     return new VbExtractor(file);
 
+                case Language.Cpp:
+                    return new CppExtractor(file);
+
                 case Language.EnglishTxt:
                 case Language.AnyTxt:
                     return new TextExtractor(file);
@@ -93,6 +102,7 @@ namespace Gma.CodeCloud.Base
         private const string s_JavaBlacklistFileName = "JavaBlacklist.txt";
         private const string s_VbNetBlacklistFileName = "VBNetBlacklist.txt";
         private const string s_CustomBlacklistFileName = "CustomBlacklist.txt";
+        private const string s_CppBlacklistFileName = "CppBlacklist.txt";
 
         public static IBlacklist GetBlacklist(Language language)
         {
@@ -121,6 +131,10 @@ namespace Gma.CodeCloud.Base
 
                 case Language.VbNet:
                     result = s_VbNetBlacklistFileName;
+                    break;
+
+                case Language.Cpp:
+                    result = s_CppBlacklistFileName;
                     break;
 
                 case Language.EnglishTxt:
@@ -154,6 +168,7 @@ namespace Gma.CodeCloud.Base
             {
                 case Language.CSharp:
                 case Language.Java:
+                case Language.Cpp:
                 case Language.VbNet:
                 case Language.AnyTxt:
                     return new LowerCaseStemmer();

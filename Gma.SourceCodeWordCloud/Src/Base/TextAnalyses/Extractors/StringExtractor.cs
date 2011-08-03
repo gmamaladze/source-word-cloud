@@ -6,7 +6,7 @@ namespace Gma.CodeCloud.Base.TextAnalyses.Extractors
     {
         private readonly string m_Text;
 
-        public StringExtractor(string text, IProgressIndicator progressIndicator)
+        public StringExtractor(string text)
             : base()
         {
             m_Text = text;

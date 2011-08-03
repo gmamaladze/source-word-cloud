@@ -52,6 +52,9 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.hideMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideAndBlackListMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             Splitter = new System.Windows.Forms.Splitter();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
@@ -61,6 +64,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // Splitter
@@ -175,6 +179,7 @@
             this.toolStripComboBoxLanguage.Items.AddRange(new object[] {
             "c#",
             "Java",
+            "C++",
             "VB.NET",
             "English *.txt",
             "Any *.txt"});
@@ -287,6 +292,28 @@
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip.ToolTipTitle = "Statistics:";
             // 
+            // contextMenu
+            // 
+            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hideMenuItem,
+            this.hideAndBlackListMenuItem});
+            this.contextMenu.Name = "contextMenu";
+            this.contextMenu.Size = new System.Drawing.Size(194, 70);
+            // 
+            // hideMenuItem
+            // 
+            this.hideMenuItem.Name = "hideMenuItem";
+            this.hideMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.hideMenuItem.Text = "Hide this word";
+            this.hideMenuItem.Click += new System.EventHandler(this.HideMenuItemClick);
+            // 
+            // hideAndBlackListMenuItem
+            // 
+            this.hideAndBlackListMenuItem.Name = "hideAndBlackListMenuItem";
+            this.hideAndBlackListMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.hideAndBlackListMenuItem.Text = "Hide and add to black list";
+            this.hideAndBlackListMenuItem.Click += new System.EventHandler(HideAndBlackListMenuItemClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -304,6 +331,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -328,6 +356,9 @@
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxLayout;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxLanguage;
+        private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.Windows.Forms.ToolStripMenuItem hideMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideAndBlackListMenuItem;
     }
 }
 

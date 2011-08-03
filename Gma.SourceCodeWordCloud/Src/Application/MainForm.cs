@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base;
 using Gma.CodeCloud.Base.FileIO;
 using Gma.CodeCloud.Base.Geometry;
-using Gma.CodeCloud.Base.Languages;
 using Gma.CodeCloud.Base.TextAnalyses.Blacklist;
 using Gma.CodeCloud.Base.TextAnalyses.Processing;
 using Gma.CodeCloud.Base.TextAnalyses.Stemmers;
@@ -37,7 +38,7 @@ namespace Gma.CodeCloud
 
             m_CloudControl.Dock = DockStyle.Fill;
             this.splitContainer1.Panel1.Controls.Add(m_CloudControl);
-            m_CloudControl.Click += CloudControlClick;
+            m_CloudControl.MouseClick  += CloudControlClick;
             m_CloudControl.MouseMove += CloudControlMouseMove;
             m_CloudControl.Paint += CloudControlPaint;
            
@@ -61,6 +62,7 @@ namespace Gma.CodeCloud
             toolStripComboBoxFont.SelectedItem = "Tahoma";
             toolStripComboBoxLanguage.SelectedItem = "c#";
         }
+
 
         private void CloudControlPaint(object sender, PaintEventArgs e)
         {
@@ -97,8 +99,18 @@ namespace Gma.CodeCloud
                 itemUderMouse.Word.GetCaption());
         }
 
-        private void CloudControlClick(object sender, EventArgs e)
+        private void CloudControlClick(object sender, MouseEventArgs e)
         {
+            if (e.Button!=MouseButtons.Left)
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    contextMenu.Show(e.Location);
+                }
+                return;
+            }
+
+ 
             LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
             if (itemUderMouse==null)
             {
@@ -124,7 +136,7 @@ namespace Gma.CodeCloud
             IWordStemmer stemmer = ByLanguageFactory.GetStemmer(language);
 
             IsRunning = true;
-            m_CloudControl.WeightedWords = new IWord[0];
+            m_CloudControl.WeightedWords = new List<IWord>();
             using (m_CancellationTokenSourcec = new CancellationTokenSource())
             try
             {
@@ -140,7 +152,7 @@ namespace Gma.CodeCloud
                     .SortByOccurences()
                     .AsEnumerable()
                     .Cast<IWord>()
-                    .ToArray();
+                    .ToList();
 
                 m_CloudControl.WeightedWords = result;
                 m_TotalWordCount = result.Sum(word => word.Occurrences);
@@ -214,6 +226,46 @@ namespace Gma.CodeCloud
                 fullFileName.Remove(partLength),
                 "...",
                 fullFileName.Substring(fullFileName.Length - partLength));
+        }
+
+
+        private void HideMenuItemClick(object sender, EventArgs e)
+        {
+            IWord word = GetWordUderMouse();
+            RemoveFromControl(word);
+        }
+
+        private void HideAndBlackListMenuItemClick(object sender, EventArgs e)
+        {
+            IWord word = GetWordUderMouse();
+            RemoveFromControl(word);
+            AddToBlacklist(word.Text);
+        }
+
+        private void RemoveFromControl(IWord word)
+        {
+            m_CloudControl.WeightedWords.Remove(word);
+            m_CloudControl.BuildLayout();
+            m_CloudControl.Invalidate();
+        }
+
+        private IWord GetWordUderMouse()
+        {
+            LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
+            return itemUderMouse == null 
+                ? new Word(string.Empty, 0) 
+                : itemUderMouse.Word;
+        }
+
+        private void AddToBlacklist(string term)
+        {
+            Language language = ByLanguageFactory.GetLanguageFromString(toolStripComboBoxLanguage.Text);
+            string fileName = ByLanguageFactory.GetBlacklistFileName(language);
+            using(StreamWriter writer = new StreamWriter(fileName, true, Encoding.UTF8))
+            {
+                writer.WriteLine();
+                writer.Write(term);
+            } 
         }
     }
 }

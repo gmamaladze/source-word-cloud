@@ -45,12 +45,14 @@
     <Compile Include="FileIO\FileIterator.cs" />
     <Compile Include="FileIO\PatternMatcher.cs" />
     <Compile Include="FileIO\RegExBasedPatternMatcher.cs" />
+    <Compile Include="Geometry\FibonacciLayout.cs" />
     <Compile Include="Geometry\IGraphicEgine.cs" />
     <Compile Include="Geometry\ILayout.cs" />
     <Compile Include="Geometry\TypewriterLayout.cs" />
     <Compile Include="Geometry\BaseLayout.cs" />
     <Compile Include="Geometry\LayoutItem.cs" />
     <Compile Include="Geometry\SpiralLayout.cs" />
+    <Compile Include="TextAnalyses\Extractors\Code\CppExtractor.cs" />
     <Compile Include="TextAnalyses\Extractors\TextExtractor.cs" />
     <Compile Include="TextAnalyses\Extractors\Code\VbExtractor.cs" />
     <Compile Include="TextAnalyses\Extractors\Code\JavaExtractor.cs" />
@@ -67,7 +69,6 @@
     <Compile Include="TextAnalyses\Blacklist\NullBlacklist.cs" />
     <Compile Include="TextAnalyses\Extractors\BaseExtractor.cs" />
     <Compile Include="TextAnalyses\Extractors\SingleFileExtractor.cs" />
-    <Compile Include="IProgressIndicator.cs" />
     <Compile Include="TextAnalyses\Extractors\StringExtractor.cs" />
     <Compile Include="TextAnalyses\Extractors\UriExtractor.cs" />
     <Compile Include="TextAnalyses\Processing\IWord.cs" />
