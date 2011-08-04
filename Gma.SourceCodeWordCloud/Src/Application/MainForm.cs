@@ -333,6 +333,7 @@ namespace Gma.CodeCloud
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = @"PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp";
+            saveFileDialog.FileName = Path.GetFileName(FolderTree.SelectedPath);
             saveFileDialog.DefaultExt = "png";
 
             if (saveFileDialog.ShowDialog()!=DialogResult.OK)
