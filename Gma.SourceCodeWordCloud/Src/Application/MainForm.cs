@@ -207,7 +207,7 @@ namespace Gma.CodeCloud
         private void DoProgress(string fileName)
         {
             m_ProgressValue++;
-            if (DateTime.UtcNow.Ticks - m_LastTicks < 10000)
+            if (DateTime.UtcNow.Ticks - m_LastTicks < TimeSpan.TicksPerSecond / 30 ) //30 frames per second
             {
                 return;
             }
