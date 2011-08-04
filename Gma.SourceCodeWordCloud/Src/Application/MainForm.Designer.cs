@@ -55,6 +55,7 @@
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.hideMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideAndBlackListMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButtonSave = new System.Windows.Forms.ToolStripButton();
             Splitter = new System.Windows.Forms.Splitter();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
@@ -121,6 +122,7 @@
             this.ToolStripButtonGo,
             this.ToolStripButtonCancel,
             this.ToolStripProgressBar,
+            this.toolStripButtonSave,
             this.toolStripSeparator1,
             this.toolStripComboBoxLanguage,
             this.ToolStripButtonEditBlacklist,
@@ -312,7 +314,16 @@
             this.hideAndBlackListMenuItem.Name = "hideAndBlackListMenuItem";
             this.hideAndBlackListMenuItem.Size = new System.Drawing.Size(193, 22);
             this.hideAndBlackListMenuItem.Text = "Hide and add to black list";
-            this.hideAndBlackListMenuItem.Click += new System.EventHandler(HideAndBlackListMenuItemClick);
+            this.hideAndBlackListMenuItem.Click += new System.EventHandler(this.HideAndBlackListMenuItemClick);
+            // 
+            // toolStripButtonSave
+            // 
+            this.toolStripButtonSave.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSave.Image")));
+            this.toolStripButtonSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSave.Name = "toolStripButtonSave";
+            this.toolStripButtonSave.Size = new System.Drawing.Size(72, 25);
+            this.toolStripButtonSave.Text = "Snapshot";
+            this.toolStripButtonSave.Click += new System.EventHandler(this.ToolStripButtonSaveClick);
             // 
             // MainForm
             // 
@@ -359,6 +370,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenu;
         private System.Windows.Forms.ToolStripMenuItem hideMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideAndBlackListMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSave;
     }
 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -325,6 +326,28 @@ namespace Gma.CodeCloud
             {
                 writer.WriteLine();
                 writer.Write(term);
+            }
+        }
+
+        private void ToolStripButtonSaveClick(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = @"PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp";
+            saveFileDialog.DefaultExt = "png";
+
+            if (saveFileDialog.ShowDialog()!=DialogResult.OK)
+            {
+                return;
+            }
+
+            using(Bitmap bitmap = new Bitmap(m_CloudControl.Size.Width, m_CloudControl.Size.Height))
+            {
+                m_CloudControl.DrawToBitmap(bitmap, new Rectangle(new Point(0, 0), bitmap.Size));
+                bitmap.Save(
+                    saveFileDialog.FileName, 
+                    saveFileDialog.FileName.EndsWith("png") 
+                        ? ImageFormat.Png 
+                        : ImageFormat.Bmp);
             }
         }
     }
