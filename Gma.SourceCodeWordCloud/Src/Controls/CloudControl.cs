@@ -69,8 +69,21 @@ namespace Gma.CodeCloud.Controls
 
         public void BuildLayout()
         {
-            if (m_Words == null) { return; }
+            m_Layout = LayoutFactory.CrateLayout(m_LayoutType, this.Size);
+            if (m_Words == null || m_Words.Count==0) { return; }
 
+            CaclulateMinMaxWordWeights();
+
+            using (Graphics graphics = this.CreateGraphics())
+            {
+                IGraphicEngine graphicEngine =
+                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, m_MinWordWeight, m_MaxWordWeight);
+                ItemsCount = m_Layout.Arrange(this.m_Words, graphicEngine);
+            }
+        }
+
+        private void CaclulateMinMaxWordWeights()
+        {
             IWord first = m_Words[0];
             if (first != null)
             {
@@ -80,14 +93,6 @@ namespace Gma.CodeCloud.Controls
                                         ? m_Words[empiricNumberOfWordsThatFitInControl]
                                         : m_Words[m_Words.Count - 1];
                 m_MinWordWeight = lastVisible.Occurrences;
-            }
-
-            using (Graphics graphics = this.CreateGraphics())
-            {
-                IGraphicEngine graphicEngine =
-                    new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, m_MinWordWeight, m_MaxWordWeight);
-                m_Layout = LayoutFactory.CrateLayout(m_LayoutType, this.Size);
-                ItemsCount = m_Layout.Arrange(this.m_Words, graphicEngine);
             }
         }
 
@@ -212,17 +217,17 @@ namespace Gma.CodeCloud.Controls
             }
         }
 
+        public void SetWeightedWords(List<IWord> words)
+        {
+            m_Words = words;
+            BuildLayout();
+            Invalidate();
+        }
+
         public List<IWord> WeightedWords
         {
             get { return m_Words; }
-            set
-            {
-                m_Words = value;
-                if (value==null || value.Count==0) {return;}
-
-                BuildLayout();
-                Invalidate();
-            }
+            set { SetWeightedWords(value); }
         }
 
         public int ItemsCount { get; private set; }

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base;
 using Gma.CodeCloud.Base.FileIO;
@@ -21,9 +22,12 @@ namespace Gma.CodeCloud
     {
         private readonly CloudControl m_CloudControl = new CloudControl();
         private decimal m_TotalWordCount;
-        private CancellationTokenSource m_CancellationTokenSourcec;
+        private CancellationTokenSource m_CancelSource;
+        private long m_LastTicks;
+        private int m_ProgressValue;
 
-        public MainForm(string initialPath) : this()
+        public MainForm(string initialPath)
+            : this()
         {
             this.FolderTree.SelectedPath = initialPath;
             this.ToolStripButtonGoClick(null, null);
@@ -38,15 +42,15 @@ namespace Gma.CodeCloud
 
             m_CloudControl.Dock = DockStyle.Fill;
             this.splitContainer1.Panel1.Controls.Add(m_CloudControl);
-            m_CloudControl.MouseClick  += CloudControlClick;
+            m_CloudControl.MouseClick += CloudControlClick;
             m_CloudControl.MouseMove += CloudControlMouseMove;
             m_CloudControl.Paint += CloudControlPaint;
-           
+
             foreach (var layoutType in Enum.GetValues(typeof(LayoutType)))
             {
                 this.toolStripComboBoxLayout.Items.Add(layoutType);
             }
-            
+
             this.toolStripComboBoxLayout.SelectedItem = LayoutType.Spiral;
 
             foreach (var fontFamily in FontFamily.Families)
@@ -87,7 +91,7 @@ namespace Gma.CodeCloud
 
         private string GetItemCaption(LayoutItem itemUderMouse)
         {
-            if (m_TotalWordCount==0 || itemUderMouse==null)
+            if (m_TotalWordCount == 0 || itemUderMouse == null)
             {
                 return null;
             }
@@ -101,7 +105,7 @@ namespace Gma.CodeCloud
 
         private void CloudControlClick(object sender, MouseEventArgs e)
         {
-            if (e.Button!=MouseButtons.Left)
+            if (e.Button != MouseButtons.Left)
             {
                 if (e.Button == MouseButtons.Right)
                 {
@@ -110,9 +114,9 @@ namespace Gma.CodeCloud
                 return;
             }
 
- 
+
             LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
-            if (itemUderMouse==null)
+            if (itemUderMouse == null)
             {
                 return;
             }
@@ -135,45 +139,99 @@ namespace Gma.CodeCloud
             IBlacklist blacklist = ByLanguageFactory.GetBlacklist(language);
             IWordStemmer stemmer = ByLanguageFactory.GetStemmer(language);
 
-            IsRunning = true;
-            m_CloudControl.WeightedWords = new List<IWord>();
-            using (m_CancellationTokenSourcec = new CancellationTokenSource())
-            try
-            {
-                var result = fileIterator
-                    .GetFiles(path)
-                    .AsParallel()
-                    .WithCancellation(m_CancellationTokenSourcec.Token)
-                    //.WithCallback(DoProgress)
-                    .SelectMany(file => ByLanguageFactory.GetWordExtractor(language, file))
-                    .Filter(blacklist)
-                    .CountOccurences()
-                    .GroupByStem(stemmer)
-                    .SortByOccurences()
-                    .AsEnumerable()
-                    .Cast<IWord>()
-                    .ToList();
+            SetCaptionText("Estimating ...");
 
-                m_CloudControl.WeightedWords = result;
-                m_TotalWordCount = result.Sum(word => word.Occurrences);
-            } 
-            catch (OperationCanceledException)
-            {
-                
-            }
-            IsRunning = false;
+            string[] files = fileIterator
+                .GetFiles(path)
+                .ToArray();
+
+            ToolStripProgressBar.Maximum = files.Length;
+
+            m_CloudControl.WeightedWords = new List<IWord>();
+
+            //Note do not dispose m_CancelSource it will be disposed by task 
+            //TODO need to find correct way to work with CancelationToken
+            m_CancelSource = new CancellationTokenSource();
+                Task.Factory
+                    .StartNew(
+                        () => GetWordsParallely(files, language, blacklist, stemmer), m_CancelSource.Token)
+                    .ContinueWith(
+                        ApplyResults);
         }
 
+        private List<IWord> GetWordsParallely(IEnumerable<string> files, Language language, IBlacklist blacklist, IWordStemmer stemmer)
+        {
+            return files
+                .AsParallel()
+                //.WithDegreeOfParallelism(0x8)
+                .WithCancellation(m_CancelSource.Token)
+                .WithCallback(DoProgress)
+                .SelectMany(file => ByLanguageFactory.GetWordExtractor(language, file))
+                .Filter(blacklist)
+                .CountOccurences()
+                .GroupByStem(stemmer)
+                .SortByOccurences()
+                .AsEnumerable()
+                .Cast<IWord>()
+                .ToList();
+        }
+
+        private void ApplyResults(Task<List<IWord>> task)
+        {
+            this.Invoke(
+                new Action(
+                    () =>
+                        {
+                            if (task.IsCanceled)
+                            {
+                                SetCaptionThreadsafe("Canceled");
+                                m_CloudControl.WeightedWords = new List<IWord>();
+                            }
+                            else
+                            {
+                                if (task.IsFaulted && task.Exception != null)
+                                {
+                                    throw task.Exception;
+                                }
+
+                                SetCaptionThreadsafe("Finished");
+                                m_CloudControl.WeightedWords = task.Result;    
+                            }
+
+                            m_TotalWordCount = m_CloudControl.WeightedWords.Sum(word => word.Occurrences);
+                            this.IsRunning = false;
+                        }));
+        }
+
+        private void DoProgress(string fileName)
+        {
+            m_ProgressValue++;
+            if (DateTime.UtcNow.Ticks - m_LastTicks < 10000)
+            {
+                return;
+            }
+            SetCaptionThreadsafe(ShortenFileName(fileName, 60));
+            m_LastTicks = DateTime.UtcNow.Ticks;
+        }
+
+        public void SetCaptionThreadsafe(string fileName)
+        {
+            Action<string> setCaption = SetCaptionText;
+            this.Invoke(setCaption, fileName);
+        }
 
         public void SetCaptionText(string text)
         {
+            ToolStripProgressBar.Value = m_ProgressValue;
             this.Text = string.Concat("Source Code Word Colud Generator :: " + text);
         }
 
         private void ToolStripButtonCancelClick(object sender, EventArgs e)
         {
-            m_CancellationTokenSourcec.Cancel(false);
-            IsRunning = false;
+            if (m_CancelSource != null)
+            {
+                m_CancelSource.Cancel(true);
+            }
         }
 
         private bool IsRunning
@@ -182,9 +240,11 @@ namespace Gma.CodeCloud
             {
                 ToolStripButtonCancel.Enabled = value;
                 ToolStripButtonGo.Enabled = !value;
-                ToolStripProgressBar.Value = 0;
-                ToolStripProgressBar.Style = value ? ProgressBarStyle.Continuous : ProgressBarStyle.Blocks;
-                SetCaptionText(value ? "Working ..." : string.Empty);
+                if (!value)
+                {
+                    ToolStripProgressBar.Value = 0;
+                    m_ProgressValue = 0;
+                }
                 Application.DoEvents();
             }
         }
@@ -210,7 +270,7 @@ namespace Gma.CodeCloud
                 m_CloudControl.MaxFontSize = value;
             }
 
-            m_CloudControl.LayoutType = (LayoutType) toolStripComboBoxLayout.SelectedItem;
+            m_CloudControl.LayoutType = (LayoutType)toolStripComboBoxLayout.SelectedItem;
         }
 
         private static string ShortenFileName(string fullFileName, int maxLength)
@@ -252,8 +312,8 @@ namespace Gma.CodeCloud
         private IWord GetWordUderMouse()
         {
             LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
-            return itemUderMouse == null 
-                ? new Word(string.Empty, 0) 
+            return itemUderMouse == null
+                ? new Word(string.Empty, 0)
                 : itemUderMouse.Word;
         }
 
@@ -261,11 +321,11 @@ namespace Gma.CodeCloud
         {
             Language language = ByLanguageFactory.GetLanguageFromString(toolStripComboBoxLanguage.Text);
             string fileName = ByLanguageFactory.GetBlacklistFileName(language);
-            using(StreamWriter writer = new StreamWriter(fileName, true, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(fileName, true, Encoding.UTF8))
             {
                 writer.WriteLine();
                 writer.Write(term);
-            } 
+            }
         }
     }
 }
