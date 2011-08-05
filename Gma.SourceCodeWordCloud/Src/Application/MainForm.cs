@@ -110,7 +110,7 @@ namespace Gma.CodeCloud
             {
                 if (e.Button == MouseButtons.Right)
                 {
-                    contextMenu.Show(e.Location);
+                    contextMenu.Show(this, e.Location);
                 }
                 return;
             }
@@ -149,7 +149,7 @@ namespace Gma.CodeCloud
             ToolStripProgressBar.Maximum = files.Length;
 
             m_CloudControl.WeightedWords = new List<IWord>();
-
+          
             //Note do not dispose m_CancelSource it will be disposed by task 
             //TODO need to find correct way to work with CancelationToken
             m_CancelSource = new CancellationTokenSource();

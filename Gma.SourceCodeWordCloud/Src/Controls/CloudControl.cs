@@ -70,6 +70,7 @@ namespace Gma.CodeCloud.Controls
         public void BuildLayout()
         {
             m_Layout = LayoutFactory.CrateLayout(m_LayoutType, this.Size);
+            ItemsCount = 0;
             if (m_Words == null || m_Words.Count==0) { return; }
 
             CaclulateMinMaxWordWeights();
