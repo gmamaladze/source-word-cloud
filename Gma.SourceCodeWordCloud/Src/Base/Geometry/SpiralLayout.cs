@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Drawing;
+using Gma.CodeCloud.Base.Portability;
 
 namespace Gma.CodeCloud.Base.Geometry
 {
     public class SpiralLayout : BaseLayout
     {
-        public SpiralLayout(SizeF size)
+        public SpiralLayout(Size size)
             : base(size)
         {
         }
 
-        public override bool TryFindFreeRectangle(SizeF size, out RectangleF foundRectangle)
+        public override bool TryFindFreeRectangle(Size size, out Rectangle foundRectangle)
         {
-            foundRectangle = RectangleF.Empty;
+            foundRectangle = Rectangle.Empty;
             double alpha = GetPseudoRandomStartAngle(size);
             const double stepAlpha = Math.PI / 60;
 
@@ -24,7 +24,7 @@ namespace Gma.CodeCloud.Base.Geometry
             {
                 double dX = pointIndex / pointsOnSpital * Math.Sin(alpha) * Center.X;
                 double dY = pointIndex / pointsOnSpital * Math.Cos(alpha) * Center.Y;
-                foundRectangle = new RectangleF((float)(Center.X + dX) - size.Width / 2, (float)(Center.Y + dY) - size.Height / 2, size.Width, size.Height);
+                foundRectangle = new Rectangle(Center.X + dX - size.Width / 2, Center.Y + dY - size.Height / 2, size.Width, size.Height);
 
                 alpha += stepAlpha;
                 if (!IsInsideSurface(foundRectangle))
@@ -41,7 +41,7 @@ namespace Gma.CodeCloud.Base.Geometry
             return false;
         }
 
-        private static float GetPseudoRandomStartAngle(SizeF size)
+        private static double GetPseudoRandomStartAngle(Size size)
         {
             return size.Height*size.Width;
         }

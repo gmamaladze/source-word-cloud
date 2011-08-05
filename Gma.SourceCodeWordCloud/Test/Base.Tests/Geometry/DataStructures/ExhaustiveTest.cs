@@ -1,7 +1,7 @@
 ﻿using System.Data;
-using System.Drawing;
 using Gma.CodeCloud.Base.Geometry;
 using Gma.CodeCloud.Base.Geometry.DataStructures;
+using Gma.CodeCloud.Base.Portability;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Base.Tests.Geometry.DataStructures
@@ -15,7 +15,7 @@ namespace Base.Tests.Geometry.DataStructures
         [ClassInitialize]
         public static void SetUp(TestContext testContext)
         {
-            QuadTree = new QuadTree<LayoutItem>(new RectangleF(new PointF(0, 0), new SizeF(2000, 2000)));
+            QuadTree = new QuadTree<LayoutItem>(new Rectangle(new Point(0, 0), new Size(2000, 2000)));
         }
 
         [ClassCleanup]
@@ -54,13 +54,13 @@ namespace Base.Tests.Geometry.DataStructures
             bool result;
             Assert.IsTrue(bool.TryParse(dataRow[5].ToString(), out result));
 
-            RectangleF rectangle = new RectangleF(x, y, width, height);
+            Rectangle rectangle = new Rectangle(x, y, width, height);
 
             Assert.AreEqual(result, InvokeMethod(methodName, rectangle, quadTree));
         }
 
 
-        public bool InvokeMethod(string methodName, RectangleF rectangle, QuadTree<LayoutItem> quadTree)
+        public bool InvokeMethod(string methodName, Rectangle rectangle, QuadTree<LayoutItem> quadTree)
         {
             switch (methodName)
             {

@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
+using Gma.CodeCloud.Base.Portability;
 using System.Linq;
 
 #endregion
@@ -12,11 +12,11 @@ namespace Gma.CodeCloud.Base.Geometry.DataStructures
     public class QuadTreeNode<T> where T : LayoutItem
     {
         private readonly Stack<T> m_Contents = new Stack<T>();
-        private RectangleF m_Bounds;
+        private Rectangle m_Bounds;
 
         private QuadTreeNode<T>[] m_Nodes = new QuadTreeNode<T>[0];
 
-        public QuadTreeNode(RectangleF bounds)
+        public QuadTreeNode(Rectangle bounds)
         {
             m_Bounds = bounds;
         }
@@ -26,7 +26,7 @@ namespace Gma.CodeCloud.Base.Geometry.DataStructures
             get { return m_Bounds.IsEmpty || m_Nodes.Length == 0; }
         }
 
-        public RectangleF Bounds
+        public Rectangle Bounds
         {
             get { return m_Bounds; }
         }
@@ -66,7 +66,7 @@ namespace Gma.CodeCloud.Base.Geometry.DataStructures
         }
 
 
-        public bool HasContent(RectangleF queryArea)
+        public bool HasContent(Rectangle queryArea)
         {
             IEnumerable<T> queryResult = Query(queryArea);
             return IsEmptyEnumerable(queryResult);
@@ -85,7 +85,7 @@ namespace Gma.CodeCloud.Base.Geometry.DataStructures
         /// </summary>
         /// <param name = "queryArea">
         ///   <returns></returns></param>
-        public IEnumerable<T> Query(RectangleF queryArea)
+        public IEnumerable<T> Query(Rectangle queryArea)
         {
             // this quad contains items that are not entirely contained by
             // it's four sub-quads. Iterate through the items in this quad 
@@ -192,15 +192,15 @@ namespace Gma.CodeCloud.Base.Geometry.DataStructures
             if ((m_Bounds.Height*m_Bounds.Width) <= 10)
                 return;
 
-            float halfWidth = (m_Bounds.Width/2f);
-            float halfHeight = (m_Bounds.Height/2f);
+            double halfWidth = (m_Bounds.Width/2f);
+            double halfHeight = (m_Bounds.Height/2f);
 
             m_Nodes = new QuadTreeNode<T>[4];
-            m_Nodes[0] = (new QuadTreeNode<T>(new RectangleF(m_Bounds.Location, new SizeF(halfWidth, halfHeight))));
-            m_Nodes[1] = (new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left, m_Bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight))));
-            m_Nodes[2] = (new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left + halfWidth, m_Bounds.Top), new SizeF(halfWidth, halfHeight))));
+            m_Nodes[0] = (new QuadTreeNode<T>(new Rectangle(m_Bounds.Location, new Size(halfWidth, halfHeight))));
+            m_Nodes[1] = (new QuadTreeNode<T>(new Rectangle(new Point(m_Bounds.Left, m_Bounds.Top + halfHeight), new Size(halfWidth, halfHeight))));
+            m_Nodes[2] = (new QuadTreeNode<T>(new Rectangle(new Point(m_Bounds.Left + halfWidth, m_Bounds.Top), new Size(halfWidth, halfHeight))));
             m_Nodes[3] =
-                (new QuadTreeNode<T>(new RectangleF(new PointF(m_Bounds.Left + halfWidth, m_Bounds.Top + halfHeight), new SizeF(halfWidth, halfHeight))));
+                (new QuadTreeNode<T>(new Rectangle(new Point(m_Bounds.Left + halfWidth, m_Bounds.Top + halfHeight), new Size(halfWidth, halfHeight))));
         }
     }
 }

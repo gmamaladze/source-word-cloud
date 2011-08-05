@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.Collections.Generic;
-using System.Drawing;
+using Gma.CodeCloud.Base.Portability;
 
 #endregion
 
@@ -24,10 +24,10 @@ namespace Gma.CodeCloud.Base.Geometry.DataStructures
 
         #endregion
 
-        private readonly RectangleF m_Rectangle;
+        private readonly Rectangle m_Rectangle;
         private readonly QuadTreeNode<T> m_Root;
 
-        public QuadTree(RectangleF rectangle)
+        public QuadTree(Rectangle rectangle)
         {
             m_Rectangle = rectangle;
             m_Root = new QuadTreeNode<T>(m_Rectangle);
@@ -45,12 +45,12 @@ namespace Gma.CodeCloud.Base.Geometry.DataStructures
             m_Root.Insert(item);
         }
 
-        public IEnumerable<T> Query(RectangleF area)
+        public IEnumerable<T> Query(Rectangle area)
         {
             return m_Root.Query(area);
         }
 
-        public bool HasContent(RectangleF area)
+        public bool HasContent(Rectangle area)
         {
             bool result = m_Root.HasContent(area);
             return result;

@@ -47,20 +47,10 @@ namespace Gma.CodeCloud
             m_CloudControl.MouseMove += CloudControlMouseMove;
             m_CloudControl.Paint += CloudControlPaint;
 
-            foreach (var layoutType in Enum.GetValues(typeof(LayoutType)))
-            {
-                this.toolStripComboBoxLayout.Items.Add(layoutType);
-            }
-
+            this.toolStripComboBoxLayout.Items.AddRange(GetAvailableLayouts());
             this.toolStripComboBoxLayout.SelectedItem = LayoutType.Spiral;
 
-            foreach (var fontFamily in FontFamily.Families)
-            {
-                if (fontFamily.IsStyleAvailable(FontStyle.Regular))
-                {
-                    toolStripComboBoxFont.Items.Add(fontFamily.Name);
-                }
-            }
+            toolStripComboBoxFont.Items.AddRange(GetNamesWitRegularStyle());
 
             toolStripComboBoxMinFontSize.SelectedItem = "8";
             toolStripComboBoxMaxFontSize.SelectedItem = "72";
@@ -68,26 +58,18 @@ namespace Gma.CodeCloud
             toolStripComboBoxLanguage.SelectedItem = "c#";
         }
 
-
-        private void CloudControlPaint(object sender, PaintEventArgs e)
+        private static object[] GetAvailableLayouts()
         {
-            SetCaptionText(string.Format("Showing {0} words of {1}", m_CloudControl.ItemsCount, m_TotalWordCount));
+            return Enum.GetValues(typeof(LayoutType)).Cast<object>().ToArray();
         }
 
-        private void CloudControlMouseMove(object sender, MouseEventArgs e)
+        private static object[] GetNamesWitRegularStyle()
         {
-            LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
-            if (itemUderMouse == null)
-            {
-                toolTip.SetToolTip(m_CloudControl, null);
-                return;
-            }
-
-            toolTip.SetToolTip(
-                m_CloudControl,
-                GetItemCaption(itemUderMouse));
-
-            toolTip.ToolTipTitle = string.Format("Statistics for word [{0}]", itemUderMouse.Word.Text);
+            return FontFamily.Families
+                .Where(fontFamily => fontFamily.IsStyleAvailable(FontStyle.Regular))
+                .Select(fontFamily => fontFamily.Name)
+                .Cast<object>()
+                .ToArray();
         }
 
         private string GetItemCaption(LayoutItem itemUderMouse)
@@ -114,7 +96,6 @@ namespace Gma.CodeCloud
                 }
                 return;
             }
-
 
             LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
             if (itemUderMouse == null)
@@ -152,6 +133,7 @@ namespace Gma.CodeCloud
           
             //Note do not dispose m_CancelSource it will be disposed by task 
             //TODO need to find correct way to work with CancelationToken
+            //http://stackoverflow.com/questions/6960520/when-to-dispose-cancellationtokensource
             m_CancelSource = new CancellationTokenSource();
                 Task.Factory
                     .StartNew(
@@ -159,6 +141,28 @@ namespace Gma.CodeCloud
                     .ContinueWith(
                         ApplyResults);
         }
+
+        private void CloudControlPaint(object sender, PaintEventArgs e)
+        {
+            SetCaptionText(string.Format("Showing {0} words of {1}", m_CloudControl.ItemsCount, m_TotalWordCount));
+        }
+
+        private void CloudControlMouseMove(object sender, MouseEventArgs e)
+        {
+            LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
+            if (itemUderMouse == null)
+            {
+                toolTip.SetToolTip(m_CloudControl, null);
+                return;
+            }
+
+            toolTip.SetToolTip(
+                m_CloudControl,
+                GetItemCaption(itemUderMouse));
+
+            toolTip.ToolTipTitle = string.Format("Statistics for word [{0}]", itemUderMouse.Word.Text);
+        }
+
 
         private List<IWord> GetWordsParallely(IEnumerable<string> files, Language language, IBlacklist blacklist, IWordStemmer stemmer)
         {
@@ -292,13 +296,13 @@ namespace Gma.CodeCloud
 
         private void HideMenuItemClick(object sender, EventArgs e)
         {
-            IWord word = GetWordUderMouse();
+            IWord word = GetWordUnderMouse();
             RemoveFromControl(word);
         }
 
         private void HideAndBlackListMenuItemClick(object sender, EventArgs e)
         {
-            IWord word = GetWordUderMouse();
+            IWord word = GetWordUnderMouse();
             RemoveFromControl(word);
             AddToBlacklist(word.Text);
         }
@@ -310,15 +314,7 @@ namespace Gma.CodeCloud
             m_CloudControl.Invalidate();
         }
 
-        private IWord GetWordUderMouse()
-        {
-            LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
-            return itemUderMouse == null
-                ? new Word(string.Empty, 0)
-                : itemUderMouse.Word;
-        }
-
-        private void AddToBlacklist(string term)
+       private void AddToBlacklist(string term)
         {
             Language language = ByLanguageFactory.GetLanguageFromString(toolStripComboBoxLanguage.Text);
             string fileName = ByLanguageFactory.GetBlacklistFileName(language);
@@ -328,6 +324,14 @@ namespace Gma.CodeCloud
                 writer.Write(term);
             }
         }
+
+       private IWord GetWordUnderMouse()
+       {
+           LayoutItem itemUderMouse = this.m_CloudControl.ItemUnderMouse;
+           return itemUderMouse == null
+               ? new Word(string.Empty, 0)
+               : itemUderMouse.Word;
+       }
 
         private void ToolStripButtonSaveClick(object sender, EventArgs e)
         {

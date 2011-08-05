@@ -1,12 +1,12 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
+using PortableSize = Gma.CodeCloud.Base.Portability.Size;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base.Geometry;
 
 namespace Gma.CodeCloud.Controls
 {
-    public class GdiGraphicEngine : IGraphicEngine, IDisposable
+    public class GdiGraphicEngine : IGraphicEngine
     {
         private readonly Graphics m_Graphics;
 
@@ -34,11 +34,11 @@ namespace Gma.CodeCloud.Controls
             m_Graphics.SmoothingMode = SmoothingMode.AntiAlias;
         }
 
-        public SizeF Measure(string text, int weight)
+        public PortableSize Measure(string text, int weight)
         {
             Font font = GetFont(weight);
             //return m_Graphics.MeasureString(text, font);
-            return TextRenderer.MeasureText(m_Graphics, text, font);
+            return TextRenderer.MeasureText(m_Graphics, text, font).ToPortable();
         }
 
         public void Draw(LayoutItem layoutItem)

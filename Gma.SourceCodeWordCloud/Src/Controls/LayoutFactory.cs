@@ -11,10 +11,10 @@ namespace Gma.CodeCloud.Controls
             switch (layoutType)
             {
                 case LayoutType.Typewriter:
-                    return new TypewriterLayout(size);
+                    return new TypewriterLayout(size.ToPortable());
 
                 case LayoutType.Spiral:
-                    return new SpiralLayout(size);
+                    return new SpiralLayout(size.ToPortable());
             
                 default:
                     throw new ArgumentException(string.Format("No constructor specified to create a layout instance for {0}.", layoutType), "layoutType");

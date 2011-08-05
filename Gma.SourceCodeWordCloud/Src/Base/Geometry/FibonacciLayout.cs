@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Drawing;
+using Gma.CodeCloud.Base.Portability;
 
 namespace Gma.CodeCloud.Base.Geometry
 {
     public class FibonacciLayout : BaseLayout
     {
-        public FibonacciLayout(SizeF size)
+        public FibonacciLayout(Size size)
             : base(size)
         {
         }
 
-        public override bool TryFindFreeRectangle(SizeF size, out RectangleF foundRectangle)
+        public override bool TryFindFreeRectangle(Size size, out Rectangle foundRectangle)
         {
             throw new NotImplementedException(); 
         }

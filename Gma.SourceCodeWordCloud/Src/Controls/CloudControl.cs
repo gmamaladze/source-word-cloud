@@ -48,7 +48,7 @@ namespace Gma.CodeCloud.Controls
             if (m_Words == null) { return; }
             if (m_Layout == null) { return; }
 
-            IEnumerable<LayoutItem> wordsToRedraw = m_Layout.GetWordsInArea(e.ClipRectangle);
+            IEnumerable<LayoutItem> wordsToRedraw = m_Layout.GetWordsInArea(e.ClipRectangle.ToPortable());
             using (Graphics graphics = e.Graphics)
             using (IGraphicEngine graphicEngine =
                     new GdiGraphicEngine(graphics, this.Font.FontFamily, FontStyle.Regular, m_Palette, MinFontSize, MaxFontSize, m_MinWordWeight, m_MaxWordWeight))
@@ -107,12 +107,12 @@ namespace Gma.CodeCloud.Controls
             {
                 if (nextItemUnderMouse != null)
                 {
-                    Rectangle newRectangleToInvalidate = RectangleGrow(nextItemUnderMouse.Rectangle, 6);
+                    Rectangle newRectangleToInvalidate = RectangleGrow(nextItemUnderMouse.Rectangle.ToDrawing(), 6);
                     this.Invalidate(newRectangleToInvalidate);
                 }
                 if (ItemUnderMouse != null)
                 {
-                    Rectangle prevRectangleToInvalidate = RectangleGrow(ItemUnderMouse.Rectangle, 6);
+                    Rectangle prevRectangleToInvalidate = RectangleGrow(ItemUnderMouse.Rectangle.ToDrawing(), 6);
                     this.Invalidate(prevRectangleToInvalidate);
                 }
                 ItemUnderMouse = nextItemUnderMouse;
@@ -141,13 +141,13 @@ namespace Gma.CodeCloud.Controls
         }
 
 
-        private static Rectangle RectangleGrow(RectangleF original, int growByPixels)
+        private static Rectangle RectangleGrow(Rectangle original, int growByPixels)
         {
             return new Rectangle(
-                (int)(original.X - growByPixels),
-                (int)(original.Y - growByPixels),
-                (int)(original.Width + growByPixels + 1),
-                (int)(original.Height + growByPixels + 1));
+                (original.X - growByPixels),
+                (original.Y - growByPixels),
+                (original.Width + growByPixels + 1),
+                (original.Height + growByPixels + 1));
         }
 
         public LayoutItem ItemUnderMouse { get; private set; }
@@ -240,7 +240,7 @@ namespace Gma.CodeCloud.Controls
                 return new LayoutItem[] {};
             }
 
-            return m_Layout.GetWordsInArea(area);
+            return m_Layout.GetWordsInArea(area.ToPortable());
         }
 
         public bool TryGetItemAtLocation(Point location, out LayoutItem foundItem)

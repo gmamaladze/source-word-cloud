@@ -46,6 +46,7 @@
     <Compile Include="GdiGraphicEngine.cs" />
     <Compile Include="LayoutFactory.cs" />
     <Compile Include="LayoutType.cs" />
+    <Compile Include="PortabilityExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
