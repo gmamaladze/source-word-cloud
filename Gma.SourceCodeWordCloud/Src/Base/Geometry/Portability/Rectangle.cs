@@ -5,7 +5,7 @@ using System.Globalization;
 
 #endregion
 
-namespace Gma.CodeCloud.Base.Portability
+namespace Gma.CodeCloud.Base.Geometry.Portability
 {
     public struct Rectangle
     {
@@ -136,10 +136,7 @@ namespace Gma.CodeCloud.Base.Portability
 
         public override int GetHashCode()
         {
-            return
-                (int)
-                (((((uint) X) ^ ((((uint) Y) << 13) | (((uint) Y) >> 0x13))) ^ ((((uint) Width) << 0x1a) | (((uint) Width) >> 6))) ^
-                 ((((uint) Height) << 7) | (((uint) Height) >> 0x19)));
+            return X.GetHashCode()>>13 + Y.GetHashCode()>>10 + Width.GetHashCode()>>3 + Height.GetHashCode()>>4;
         }
 
         public void Inflate(double x, double y)

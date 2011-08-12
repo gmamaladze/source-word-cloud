@@ -1,6 +1,6 @@
 ﻿using Gma.CodeCloud.Base.Geometry;
 using Gma.CodeCloud.Base.Geometry.DataStructures;
-using Gma.CodeCloud.Base.Portability;
+using Gma.CodeCloud.Base.Geometry.Portability;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Base.Tests.Geometry.DataStructures

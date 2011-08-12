@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
-using PortableRectangle=Gma.CodeCloud.Base.Portability.Rectangle;
-using PortableSize = Gma.CodeCloud.Base.Portability.Size;
+using PortableRectangle=Gma.CodeCloud.Base.Geometry.Portability.Rectangle;
+using PortableSize = Gma.CodeCloud.Base.Geometry.Portability.Size;
 
 namespace Gma.CodeCloud.Controls
 {

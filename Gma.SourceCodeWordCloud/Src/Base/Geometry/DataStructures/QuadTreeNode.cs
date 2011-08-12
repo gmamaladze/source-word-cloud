@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using Gma.CodeCloud.Base.Portability;
+using Gma.CodeCloud.Base.Geometry.Portability;
 using System.Linq;
 
 #endregion

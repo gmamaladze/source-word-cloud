@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using PortableSize = Gma.CodeCloud.Base.Portability.Size;
+using PortableSize = Gma.CodeCloud.Base.Geometry.Portability.Size;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Gma.CodeCloud.Base.Geometry;

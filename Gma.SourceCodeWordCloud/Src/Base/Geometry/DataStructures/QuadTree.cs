@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.Collections.Generic;
-using Gma.CodeCloud.Base.Portability;
+using Gma.CodeCloud.Base.Geometry.Portability;
 
 #endregion
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using Gma.CodeCloud.Base.Portability;
+using Gma.CodeCloud.Base.Geometry.Portability;
 
 namespace Gma.CodeCloud.Base.Geometry
 {

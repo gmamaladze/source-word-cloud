@@ -50,9 +50,9 @@
     <Compile Include="Geometry\BaseLayout.cs" />
     <Compile Include="Geometry\LayoutItem.cs" />
     <Compile Include="Geometry\SpiralLayout.cs" />
-    <Compile Include="Portability\Point.cs" />
-    <Compile Include="Portability\Rectangle.cs" />
-    <Compile Include="Portability\Size.cs" />
+    <Compile Include="Geometry\Portability\Point.cs" />
+    <Compile Include="Geometry\Portability\Rectangle.cs" />
+    <Compile Include="Geometry\Portability\Size.cs" />
     <Compile Include="TextAnalyses\Extractors\Code\CppExtractor.cs" />
     <Compile Include="TextAnalyses\Extractors\TextExtractor.cs" />
     <Compile Include="TextAnalyses\Extractors\Code\VbExtractor.cs" />

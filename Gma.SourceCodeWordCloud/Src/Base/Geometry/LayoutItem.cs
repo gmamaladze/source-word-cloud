@@ -1,4 +1,4 @@
-﻿using Gma.CodeCloud.Base.Portability;
+﻿using Gma.CodeCloud.Base.Geometry.Portability;
 using Gma.CodeCloud.Base.TextAnalyses.Processing;
 
 namespace Gma.CodeCloud.Base.Geometry
